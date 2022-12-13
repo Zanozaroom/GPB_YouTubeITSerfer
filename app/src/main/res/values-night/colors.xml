@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#212121</color>
+    <color name="color_primary_variant">#000000</color>
+    <color name="color_secondary">#56435A</color>
+    <color name="color_secondary_variant">#ba68c8</color>
+    <color name="color_on_primary">#929292</color>
+    <color name="color_on_secondary">#929292</color>
+    <color name="color_windows_background">#0F0F0F</color>
+    <color name="color_toolbar_mode_day_night">#CDDC39</color>
+</resources>

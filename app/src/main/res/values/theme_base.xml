@@ -1,0 +1,60 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--custom attr!-->
+    <!-- Base application theme. -->
+    <style name="Theme.OtusProject_Ermoshina" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <!-- Add custom attributes. -->
+        <item name="color_windowBackground">@color/color_windows_background</item>
+        <item name="textAppearanceTextView">@style/CustomTextViewTextAppearance</item>
+        <item name="textAppearanceFillButton">@style/CustomButtonTextAppearance</item>
+        <item name="textAppearanceToolbar">@style/CustomToolbarTextAppearance</item>
+        <item name="textAppearanceTextDialogBody">@style/CustomDialogBodyTextAppearance</item>
+        <!-- Add custom styles. -->
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary.AllTheme</item>
+        <item name="textInputStyle">@style/EditTextStyle</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textAppearance">?attr/textAppearanceTextView</item>
+        <item name="customViewShowImage">@style/themeCustomViewShowImage</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.Toolbar.Primary.AllTheme">
+        <item name="titleTextAppearance">?attr/textAppearanceToolbar</item>
+    </style>
+
+    <style name="ButtonStyleIcon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="iconTint">?attr/colorOnPrimary</item>
+        <item name="android:minHeight">70dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
+    </style>
+
+    <style name="ButtonStyleOutline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconTint">?attr/colorPrimaryVariant</item>
+        <item name="android:minHeight">70dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="strokeColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">?attr/colorSecondaryVariant</item>
+        <item name="android:textColorHint">?attr/colorOnSecondary</item>
+    </style>
+    //set style for custom view
+    <style name="themeCustomViewShowImage">
+        <item name="buttonPositiveColorBack">?attr/colorPrimaryVariant</item>
+        <item name="buttonNegativeColorBack">?attr/colorPrimaryVariant</item>
+    </style>
+
+</resources>
