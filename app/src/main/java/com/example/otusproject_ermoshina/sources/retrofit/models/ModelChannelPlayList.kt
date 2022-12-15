@@ -1,8 +1,11 @@
 package com.example.otusproject_ermoshina.sources.retrofit.models
 
 
+import android.util.Log
+import com.example.otusproject_ermoshina.base.AppExceptionsBase
 import com.example.otusproject_ermoshina.base.ChannelAndListVideos
 import com.example.otusproject_ermoshina.base.PlayListOfChannel
+import com.example.otusproject_ermoshina.base.RetrofitBodyIsSuccessfulException
 import com.google.gson.annotations.SerializedName
 
 
@@ -56,13 +59,13 @@ data class ModelChannelPlayList(
         var titleChannel = ""
         val idChannel = items?.firstOrNull()?.snippet?.channelId ?:NULL_DATA
         val nextToken = nextPageToken ?: NULL_DATA
-        titleChannel = items?.firstOrNull()?.snippet?.channelTitle ?: TITLE_CHANNEL
+        titleChannel = items?.firstOrNull()?.snippet?.channelTitle ?: NULL_DATA
         val videoChannelAndListVideos =
                  items!!.map {
                     PlayListOfChannel(
                         idList = it.id ?: NULL_DATA,
-                        imageList = it.snippet?.thumbnails?.standard?.url ?: IMAGE,
-                        titleListVideo = it.snippet?.title ?: TITLE_LIST_VIDEO,
+                        imageList = it.snippet?.thumbnails?.standard?.url ?: NULL_DATA,
+                        titleListVideo = it.snippet?.title ?: NULL_DATA,
                         nextToken = nextToken
                     )
             }
@@ -70,9 +73,6 @@ data class ModelChannelPlayList(
     }
     companion object {
         private const val NULL_DATA = ""
-        private const val IMAGE = ""
-        private const val TITLE_CHANNEL = "Not title, sorry"
-        private const val TITLE_LIST_VIDEO = "Not title, sorry"
     }
 }
 

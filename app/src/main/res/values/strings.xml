@@ -4,4 +4,6 @@
     <string name="btmMenu_person_page">my page</string>
     <string name="btmMenu_settings">settings</string>
     <string name="buttunAllChannelVideo">все видео канала</string>
+    <string name="loadErrorText">Ошибка загрузки.\nПопробовать снова</string>
+    <string name="loadErrorButton">Загрузить</string>
 </resources>

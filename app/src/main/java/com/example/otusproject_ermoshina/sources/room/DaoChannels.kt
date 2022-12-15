@@ -12,5 +12,5 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DaoChannels {
     @Query("SELECT * FROM channels")
-    fun loadChannels(): Flow<List<EntityChannels>>
+    suspend fun loadChannels(): List<EntityChannels>
 }

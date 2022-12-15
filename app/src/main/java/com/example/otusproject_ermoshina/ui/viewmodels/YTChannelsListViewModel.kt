@@ -4,54 +4,75 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.otusproject_ermoshina.RepositoriesBase
-import com.example.otusproject_ermoshina.base.Channel
-import com.example.otusproject_ermoshina.base.ChannelAndListVideos
+import com.example.otusproject_ermoshina.base.*
 import com.example.otusproject_ermoshina.sources.repositories.RepositoryYouTubeRoom
 import com.example.otusproject_ermoshina.sources.repositories.RepositoryYouTube
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+
+sealed class ChannelsListScreenState {
+    data class Success(val data: List<ChannelAndListVideos>) : ChannelsListScreenState()
+    data class Error(val message: String) : ChannelsListScreenState()
+    object Loading : ChannelsListScreenState()
+}
 
 class YTChannelsListViewModel(
     private val repoYouTubeRoom: RepositoryYouTubeRoom,
     private val repoYouTube: RepositoryYouTube
 ) : ViewModel() {
-    private val listPlayList = mutableListOf<ChannelAndListVideos>()
-    private val _listETChannels = MutableLiveData<List<Channel>>()
-    val listETChannels: LiveData<List<Channel>> = _listETChannels
+    private var _listPlayList = mutableListOf<ChannelAndListVideos>()
+    private var _listRoomBase = mutableListOf<Channel>()
+    private val _screenState = MutableLiveData<ChannelsListScreenState>()
+    val screenState: LiveData<ChannelsListScreenState> = _screenState
 
-    private val _listChannelsLoad = MutableLiveData<List<ChannelAndListVideos>>()
-    val listChannelsLoad: LiveData<List<ChannelAndListVideos>> = _listChannelsLoad
-    init {
-        //получила список каналов
-        viewModelScope.launch {
-             launch {
-                repoYouTubeRoom.loadListChannels().collect {
-                    _listETChannels.value = it
-                        launch() {
-                            //теперь нужно для этого списка подгрузить список плейлистов
-                            var i = 0
-                            listETChannels.value!!.forEach {
-                                val ch = (repoYouTube.loadChannelPlayLists(it.idChannel))
-                                if(ch.listVideos.isEmpty() == false){
-                                    listPlayList.add(ch)
-                                    Log.i("AAA", "listPlayList "+listPlayList[i].toString())
-                                    i+=1
-                                    Log.i("AAA", "idChannel "+it.idChannel)
-                                }
-                             else{
-                                    Log.i("AAA", " ПУСТОЙ idChannel "+it.idChannel)
-                             }
-
-                                //  listPlayList.add(repoYouTube.loadChannelPlayLists(it.idChannel))
-                            }
-                            _listChannelsLoad.value = listPlayList
-                        }
-
-                }
-            }
-        }
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Log.i("AppExceptionsBase", "Handle $exception in CoroutineExceptionHandler")
     }
 
+    init {
+        loadStart()
+    }
+        fun loadStart(){
+           viewModelScope.launch(coroutineExceptionHandler) {
+               _screenState.value = ChannelsListScreenState.Loading
+               supervisorScope {
+                   val jobRoom = launch {
+                       try {
+                           _listRoomBase.addAll(repoYouTubeRoom.loadListChannels())
+                       } catch (e: AppExceptionsBase) {
+                           Log.i("AppExceptionsBase", e.sayException())
+                           viewModelScope.cancel()
+                           _screenState.value =
+                               ChannelsListScreenState.Error("Ошибка загрузки, попробуйте еще раз")
+                       }
+                   }
+                   val jobRetrofit = launch {
+                       jobRoom.join()
+                       Log.i("AppExceptionsBase", "launch(job0)")
+                       _listRoomBase.forEach {
+                           try {
+                               Log.i("AppExceptionsBase", "launch(job0) try")
+                               val channelPlayList = repoYouTube.loadChannelPlayLists(it.idChannel)
+                               Log.i("AppExceptionsBase", "channelPlayList $channelPlayList")
+                               if (!channelPlayList.listVideos.isEmpty()) {
+                                   _listPlayList = ArrayList(_listPlayList)
+                                   _listPlayList.add(channelPlayList)
+                                   _screenState.value =
+                                       ChannelsListScreenState.Success(_listPlayList)
+                                   // _listChannelsLoad.postValue(listPlayList)
+                               }
+                           } catch (e: AppExceptionsBase) {
+                               Log.i("AppExceptionsBase", e.sayException())
+                               if (e is RetrofitAbsoluteLoadException) {
+                                   _screenState.value =
+                                       ChannelsListScreenState.Error("Ошибка загрузки, попробуйте еще раз")
+                                   viewModelScope.cancel()
+                               } else Log.i("AppExceptionsBase", "Strange Exception jobRetrofit $e")
+                           }
+                       }
+                   }
+               }
+           }
+        }
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
@@ -78,7 +99,5 @@ class YTChannelsListViewModel(
                 ) as T
             }
         }
-
     }
 }
-

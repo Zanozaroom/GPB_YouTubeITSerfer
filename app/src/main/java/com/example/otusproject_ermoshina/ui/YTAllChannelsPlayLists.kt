@@ -1,6 +1,7 @@
 package com.example.otusproject_ermoshina.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.otusproject_ermoshina.databinding.FragmentYtChannelsListBinding
+import com.example.otusproject_ermoshina.ui.viewmodels.ChannelsListScreenState
 import com.example.otusproject_ermoshina.ui.viewmodels.YTChannelsListViewModel
 import com.example.otusproject_ermoshina.utill.DecoratorParentChannels
 import com.example.otusproject_ermoshina.utill.YTAdapterChannelsParent
@@ -34,8 +36,27 @@ class YTAllChannelsPlayLists : Fragment(), OnClickButtonsChannel {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentYtChannelsListBinding.inflate(inflater, container, false)
-        viewModel.listChannelsLoad.observe(viewLifecycleOwner) {
-            adapterChannel.submitList(it)
+        viewModel.screenState.observe(viewLifecycleOwner) {
+            when(it){
+                is ChannelsListScreenState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerChannelsKotlin.visibility = View.GONE
+                    binding.buttonErrorLoad.visibility = View.VISIBLE
+                    binding.messageErrorLoad.visibility = View.VISIBLE
+                }
+                is ChannelsListScreenState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.recyclerChannelsKotlin.visibility = View.GONE
+                    binding.buttonErrorLoad.visibility = View.GONE
+                    binding.messageErrorLoad.visibility = View.GONE
+                }
+                is ChannelsListScreenState.Success -> {
+                    adapterChannel.submitList(it.data)
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerChannelsKotlin.visibility = View.VISIBLE
+                }
+            }
+
         }
         val recView = binding.recyclerChannelsKotlin
         recView.apply {
@@ -44,9 +65,10 @@ class YTAllChannelsPlayLists : Fragment(), OnClickButtonsChannel {
         }
         recView.layoutManager = LinearLayoutManager(requireContext()).apply {
             this.orientation = LinearLayoutManager.VERTICAL
-
         }
-
+        binding.buttonErrorLoad.setOnClickListener {
+            viewModel.loadStart()
+        }
         return binding.root
     }
 
