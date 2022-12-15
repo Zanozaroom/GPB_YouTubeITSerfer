@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/YTAllChannelsPlayLists"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.YTAllChannelsPlayLists">
+
+    <TextView
+        android:id="@+id/textChannel"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+
+        android:ellipsize="end"
+        android:gravity="start|center_vertical"
+        android:lines="1"
+        android:paddingHorizontal="5dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Kotlin" />
+
+    <Button
+        android:id="@+id/findMoreChannels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Найти подобные каналы"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textChannel" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/childRW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/findMoreChannels"
+        tools:listitem="@layout/item_yt_channels"
+        tools:scrollbars="horizontal" />
+
+    <Button
+        android:id="@+id/openPageThisChannel"
+        style="@style/ButtonStyleOutline"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="end"
+        android:text="@string/buttunAllChannelVideo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/childRW"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,9 +3,16 @@
         <attr name="textAppearanceFillButton" format="reference" />
         <attr name="textAppearanceToolbar" format="reference" />
         <attr name="textAppearanceTextView" format="reference"/>
+
+
+
         <attr name="textAppearanceTextDialogBody" format="reference"/>
+
+
+
         <attr name="color_windowBackground" format="color" />
         <attr name="customViewShowImage" format="reference"/>
+
         <declare-styleable name="CustomViewShowImage">
                 <attr name="buttonPositiveText" format="string"/>
                 <attr name="buttonPositiveColorBack" format="color"/>

@@ -25,25 +25,30 @@
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary.AllTheme</item>
         <item name="textInputStyle">@style/EditTextStyle</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
-        <item name="android:textAppearance">?attr/textAppearanceTextView</item>
+
+        <item name="android:textViewStyle">?attr/textAppearanceTextView</item>
         <item name="customViewShowImage">@style/themeCustomViewShowImage</item>
     </style>
 
     <style name="Widget.MaterialComponents.Toolbar.Primary.AllTheme">
         <item name="titleTextAppearance">?attr/textAppearanceToolbar</item>
     </style>
-
     <style name="ButtonStyleIcon" parent="Widget.MaterialComponents.Button.Icon">
         <item name="iconTint">?attr/colorOnPrimary</item>
         <item name="android:minHeight">70dp</item>
         <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
     </style>
-
     <style name="ButtonStyleOutline" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconTint">?attr/colorPrimaryVariant</item>
         <item name="android:minHeight">70dp</item>
         <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="strokeColor">?attr/colorSecondary</item>
+    </style>
+    <style name="ButtonStyleOutline.OnChildRecycler" >
+        <item name="iconTint">?attr/colorPrimaryVariant</item>
+
+        <item name="android:minHeight">70dp</item>
         <item name="strokeColor">?attr/colorSecondary</item>
     </style>
 
@@ -56,5 +61,4 @@
         <item name="buttonPositiveColorBack">?attr/colorPrimaryVariant</item>
         <item name="buttonNegativeColorBack">?attr/colorPrimaryVariant</item>
     </style>
-
 </resources>

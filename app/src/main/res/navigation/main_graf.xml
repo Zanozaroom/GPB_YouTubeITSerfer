@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graf"
+    app:startDestination="@id/YTChannelsList">
+
+    <fragment
+        android:id="@+id/YTChannelsList"
+        android:name="com.example.otusproject_ermoshina.ui.YTAllChannelsPlayLists"
+        android:label="YTChannelsList" >
+        <action
+            android:id="@+id/action_YTChannelsList_to_YTChannelPlayLists"
+            app:destination="@id/YTChannelPlayLists" />
+    </fragment>
+    <fragment
+        android:id="@+id/YTChannelPlayLists"
+        android:name="com.example.otusproject_ermoshina.ui.YTChannelPlayLists"
+        android:label="fragment_yt_channel_playlists"
+        tools:layout="@layout/fragment_yt_channel_playlists" >
+        <argument
+            android:name="idChannel"
+            app:argType="string" />
+    </fragment>
+</navigation>

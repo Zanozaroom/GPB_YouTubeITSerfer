@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OtusProject_Ermoshina</string>
+    <string name="btmMenu_home">home</string>
+    <string name="btmMenu_person_page">my page</string>
+    <string name="btmMenu_settings">settings</string>
+    <string name="buttunAllChannelVideo">все видео канала</string>
 </resources>
