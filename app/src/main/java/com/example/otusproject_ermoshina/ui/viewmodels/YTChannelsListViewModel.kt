@@ -2,20 +2,21 @@ package com.example.otusproject_ermoshina.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.otusproject_ermoshina.RepositoriesBase
+//import com.example.otusproject_ermoshina.RepositoriesBase
 import com.example.otusproject_ermoshina.base.*
 import com.example.otusproject_ermoshina.sources.repositories.RepositoryYouTubeRoom
 import com.example.otusproject_ermoshina.sources.repositories.RepositoryYouTube
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 sealed class ChannelsListScreenState {
     data class Success(val data: List<ChannelAndListVideos>) : ChannelsListScreenState()
     data class Error(val message: String) : ChannelsListScreenState()
     object Loading : ChannelsListScreenState()
 }
-
-class YTChannelsListViewModel(
+@HiltViewModel
+class YTChannelsListViewModel @Inject constructor(
     private val repoYouTubeRoom: RepositoryYouTubeRoom,
     private val repoYouTube: RepositoryYouTube
 ) : ViewModel() {
@@ -74,30 +75,4 @@ class YTChannelsListViewModel(
            }
         }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                //get application
-                val application =
-                    checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
-                //initial database
-                RepositoriesBase.init(application.applicationContext)
-                //get repository of Exercise
-                val repoYT = RepositoriesBase.youtubeRepoRoom
-                val repoYTRetr = RepositoriesBase.youtubeRepo
-                //
-                // Create a SavedStateHandle for this ViewModel from extras
-                //  val savedStateHandle = extras.createSavedStateHandle()
-
-                return YTChannelsListViewModel(
-                    repoYT, repoYTRetr,
-                    // savedStateHandle
-                ) as T
-            }
-        }
-    }
 }

@@ -16,10 +16,12 @@ import com.example.otusproject_ermoshina.ui.viewmodels.YTListIdViewModel
 import com.example.otusproject_ermoshina.utill.SwipeToFavoriteList
 import com.example.otusproject_ermoshina.utill.YTAdapterVideoIdList
 import com.example.otusproject_ermoshina.utill.base.Move
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class YTChannelPlayLists : Fragment() {
     private val args: YTChannelPlayListsArgs by navArgs()
-    private val viewModel: YTListIdViewModel by viewModels { YTListIdViewModel.Factory }
+    private val viewModel: YTListIdViewModel by viewModels ()
     lateinit var binding: FragmentYtChannelPlaylistsBinding
     private val adapterVideoIdList: YTAdapterVideoIdList by lazy {
         YTAdapterVideoIdList() {
@@ -30,10 +32,8 @@ class YTChannelPlayLists : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if(savedInstanceState == null){
-            viewModel.loadPlayLists(args.idChannel)
-        }
-        binding = FragmentYtChannelPlaylistsBinding.inflate(inflater, container, false)
+
+      binding = FragmentYtChannelPlaylistsBinding.inflate(inflater, container, false)
       viewModel.listYouTube.observe(viewLifecycleOwner) {
           adapterVideoIdList.submitList(it)
            }

@@ -4,8 +4,11 @@ import com.example.otusproject_ermoshina.sources.retrofit.models.ModelLoadListVi
 import com.example.otusproject_ermoshina.sources.retrofit.models.ModelLoadVideo
 import com.example.otusproject_ermoshina.sources.retrofit.models.ModelChannelPlayList
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BaseYouTubeHelper(private val retrofit: YTApi) {
+@Singleton
+class BaseYouTubeHelper @Inject constructor(private val retrofit: YTApi) {
 
     suspend fun getOneVideo(
         part: String,

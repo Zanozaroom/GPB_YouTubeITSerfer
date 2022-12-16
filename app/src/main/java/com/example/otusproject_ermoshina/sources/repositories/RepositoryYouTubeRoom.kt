@@ -6,8 +6,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RepositoryYouTubeRoom(private val channelsDao: DaoChannels) {
+@Singleton
+class RepositoryYouTubeRoom @Inject constructor(private val channelsDao: DaoChannels) {
 
    suspend fun loadListChannels(): List<Channel> =
             channelsDao.loadChannels().map { entityChannel ->

@@ -15,6 +15,7 @@ import com.example.otusproject_ermoshina.ui.viewmodels.ChannelsListScreenState
 import com.example.otusproject_ermoshina.ui.viewmodels.YTChannelsListViewModel
 import com.example.otusproject_ermoshina.utill.DecoratorParentChannels
 import com.example.otusproject_ermoshina.utill.YTAdapterChannelsParent
+import dagger.hilt.android.AndroidEntryPoint
 
 
 interface OnClickButtonsChannel{
@@ -23,9 +24,10 @@ interface OnClickButtonsChannel{
     fun onClickOnImage(idPlayList:String)
 }
 
+@AndroidEntryPoint
 class YTAllChannelsPlayLists : Fragment(), OnClickButtonsChannel {
 
-    private val viewModel: YTChannelsListViewModel by viewModels { YTChannelsListViewModel.Factory }
+    private val viewModel: YTChannelsListViewModel by viewModels()
     lateinit var binding: FragmentYtChannelsListBinding
     private val adapterChannel: YTAdapterChannelsParent by lazy {
         YTAdapterChannelsParent( this)
@@ -54,6 +56,8 @@ class YTAllChannelsPlayLists : Fragment(), OnClickButtonsChannel {
                     adapterChannel.submitList(it.data)
                     binding.progressBar.visibility = View.GONE
                     binding.recyclerChannelsKotlin.visibility = View.VISIBLE
+                    binding.buttonErrorLoad.visibility = View.GONE
+                    binding.messageErrorLoad.visibility = View.GONE
                 }
             }
 
