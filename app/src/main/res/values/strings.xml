@@ -3,7 +3,21 @@
     <string name="btmMenu_home">home</string>
     <string name="btmMenu_person_page">my page</string>
     <string name="btmMenu_settings">settings</string>
-    <string name="buttunAllChannelVideo">все видео канала</string>
     <string name="loadErrorText">Ошибка загрузки.\nПопробовать снова</string>
     <string name="loadErrorButton">Загрузить</string>
+    <string name="toastAddSeeLaterPlayList">Плейлист добавлен в Хочу посмотреть</string>
+    <string name="messageRoomLoadException">Повреждены файлы приложения, требуется переустановка</string>
+    <string name="messageNetworkLoadException">Не удалось загрузить часть файлов с сервера</string>
+    <string name="toastAllVideoLoad">Загружены все видео</string>
+    <string name="toastPlayListNotPublic">К сожалению, плейлист недоступен для показа</string>
+    <string name="btnOpenPageChannel">На страницу канала</string>
+    <string name="btnFindMoreChannels">Найти похожие видео</string>
+    <string name="btnFindMoreVideoTheme">Другие видео по теме</string>
+    <string name="btnLoadMore">Открыть все видео</string>
+    <string name="btnGoToChannel">перейти</string>
+    <string name="imgBtnAddtoFavorite">Добавить в любимые</string>
+    <string name="imgPreviewVideo">Превью видео</string>
+    <string name="DescrAddToFavorite">Добавить в закладки</string>
+    <string name="btnFloatPlayList">плейлист</string>
+    <string name="messageStrangeException">Непредвиденная ошибка, попробуйте позже</string>
 </resources>

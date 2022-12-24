@@ -5,7 +5,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.otusproject_ermoshina.R
-import com.example.otusproject_ermoshina.utill.base.BaseDecorator
+import com.example.otusproject_ermoshina.ui.base.BaseDecorator
 
 class DecoratorChildChannels(private val sizelist: Int, private val context: Context) :
     BaseDecorator(sizelist) {

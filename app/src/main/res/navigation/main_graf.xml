@@ -3,23 +3,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graf"
-    app:startDestination="@id/YTChannelsList">
+    app:startDestination="@id/mhome">
 
     <fragment
-        android:id="@+id/YTChannelsList"
-        android:name="com.example.otusproject_ermoshina.ui.YTAllChannelsPlayLists"
-        android:label="YTChannelsList" >
+        android:id="@+id/pageOfVideo"
+        android:name="com.example.otusproject_ermoshina.ui.video.PageOfVideo"
+        android:label="PageOfVideo"
+        tools:layout="@layout/fragment_page_video">
+        <argument
+            android:name="idVideo"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.otusproject_ermoshina.ui.search.SearchFragment"
+        android:label="fragment_result_search"
+        tools:layout="@layout/fragment_result_search" >
         <action
-            android:id="@+id/action_YTChannelsList_to_YTChannelPlayLists"
-            app:destination="@id/YTChannelPlayLists" />
+            android:id="@+id/action_searchFragment_to_pageOfVideo"
+            app:destination="@id/pageOfVideo" />
+        <argument
+            android:name="querty"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_playLists"
+            app:destination="@id/playLists" />
     </fragment>
     <fragment
-        android:id="@+id/YTChannelPlayLists"
-        android:name="com.example.otusproject_ermoshina.ui.YTChannelPlayLists"
+        android:id="@+id/playLists"
+        android:name="com.example.otusproject_ermoshina.ui.playlist.PlayLists"
         android:label="fragment_yt_channel_playlists"
         tools:layout="@layout/fragment_yt_channel_playlists" >
-        <argument
-            android:name="idChannel"
+        <action
+            android:id="@+id/action_playLists_to_videoList"
+            app:destination="@id/videoList" />
+        <argument android:name="idChannel"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoList"
+        android:name="com.example.otusproject_ermoshina.ui.videolist.VideoList"
+        android:label="fragment_videolist"
+        tools:layout="@layout/fragment_videolist" >
+        <action
+            android:id="@+id/action_videoList_to_pageOfVideo"
+            app:destination="@id/pageOfVideo" />
+        <argument android:name="idPlayList" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myvideos"
+        android:label="Страница пользователя"
+        android:name="com.example.otusproject_ermoshina.ui.WantWatchPlayList" />
+    <fragment
+        android:id="@+id/mhome"
+        android:name="com.example.otusproject_ermoshina.ui.main.FragmentMain"
+        android:label="IT safer"
+        tools:layout="@layout/item_main_fragment">
+        <action
+            android:id="@+id/action_fragmentMain_to_pageOfVideo"
+            app:destination="@id/pageOfVideo" />
+        <action
+            android:id="@+id/action_fragmentMain_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_fragmentMain_to_playLists"
+            app:destination="@id/playLists" />
     </fragment>
 </navigation>

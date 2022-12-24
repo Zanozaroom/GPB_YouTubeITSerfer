@@ -1,29 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@drawable/shape_rect_round">
 
     <ImageView
-        android:id="@+id/imageChannel"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:id="@+id/image"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal|center_vertical"
+        android:paddingHorizontal="7dp"
+        android:paddingVertical="7dp"
+        app:layout_constraintDimensionRatio="H,1:0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/shape_rect_round"
         tools:src="@drawable/ic_settings" />
 
     <TextView
-        android:id="@+id/nameChannel"
-        android:layout_width="200dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:textColor="@color/color_primary"
+        android:id="@+id/textTitle"
+        style="?attr/TA_TextViewTitleScrollLittle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:ellipsize="end"
         android:gravity="start"
         android:lines="1"
-        tools:text="Название видео листа" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="Заголовок"
+        android:textColor="@color/color_fragment_background"/>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btnOpenChannel"
+        style="@style/ButtonStyleIcon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:lines="1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/btnOpenPageChannel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image" />
+</androidx.constraintlayout.widget.ConstraintLayout>

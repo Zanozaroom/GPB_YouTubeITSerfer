@@ -1,11 +1,8 @@
 package com.example.otusproject_ermoshina.sources.retrofit.models
 
 
-import android.util.Log
-import com.example.otusproject_ermoshina.base.AppExceptionsBase
-import com.example.otusproject_ermoshina.base.ChannelAndListVideos
-import com.example.otusproject_ermoshina.base.PlayListOfChannel
-import com.example.otusproject_ermoshina.base.RetrofitBodyIsSuccessfulException
+import com.example.otusproject_ermoshina.base.YTChannelAndListVideos
+import com.example.otusproject_ermoshina.base.YTPlayListOfChannel
 import com.google.gson.annotations.SerializedName
 
 
@@ -55,22 +52,21 @@ data class ModelChannelPlayList(
         var url: String? = null
     )
 
-    fun toChannelAndListVideos(): ChannelAndListVideos {
-        var titleChannel = ""
-        val idChannel = items?.firstOrNull()?.snippet?.channelId ?:NULL_DATA
-        val nextToken = nextPageToken ?: NULL_DATA
-        titleChannel = items?.firstOrNull()?.snippet?.channelTitle ?: NULL_DATA
-        val videoChannelAndListVideos =
-                 items!!.map {
-                    PlayListOfChannel(
-                        idList = it.id ?: NULL_DATA,
-                        imageList = it.snippet?.thumbnails?.standard?.url ?: NULL_DATA,
-                        titleListVideo = it.snippet?.title ?: NULL_DATA,
-                        nextToken = nextToken
-                    )
-            }
-        return ChannelAndListVideos(idChannel, titleChannel,nextToken,videoChannelAndListVideos)
-    }
+    fun toChannelAndListVideos() = YTChannelAndListVideos(
+        idChannel = items?.firstOrNull()?.snippet?.channelId ?:NULL_DATA,
+        titleChannel = items?.firstOrNull()?.snippet?.channelTitle ?: NULL_DATA,
+        nextToken = nextPageToken ?: NULL_DATA,
+        listVideos =  items!!.map {
+            YTPlayListOfChannel(
+                idChannel = items?.firstOrNull()?.snippet?.channelId ?:NULL_DATA,
+                idList = it.id ?: NULL_DATA,
+                imageList = it.snippet?.thumbnails?.standard?.url ?: NULL_DATA,
+                titleListVideo = it.snippet?.title ?: NULL_DATA,
+                titleChannel = items?.firstOrNull()?.snippet?.channelTitle ?: NULL_DATA
+            )
+        }
+    )
+
     companion object {
         private const val NULL_DATA = ""
     }

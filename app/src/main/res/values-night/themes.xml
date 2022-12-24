@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.OtusProject_Ermoshina.LightNight">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">?attr/color_windowBackground</item>
+        <item name="android:windowBackground">@color/color_windows_background</item>
         <item name="materialButtonStyle">@style/ButtonStyleOutline</item>
     </style>
     //set style for custom view

@@ -16,49 +16,38 @@
         <!-- Customize your theme here. -->
 
         <!-- Add custom attributes. -->
-        <item name="color_windowBackground">@color/color_windows_background</item>
+        <item name="CA_color_on_primary_variant">@color/color_on_primary_variant</item>
         <item name="textAppearanceTextView">@style/CustomTextViewTextAppearance</item>
+        <item name="TA_TextViewTitleHead">@style/CustomTextViewTextAppearance.HeadTitle</item>
+        <item name="TA_TextViewTitleLittle">@style/CustomTextViewTextAppearance.TitleLittle</item>
+        <item name="TA_TextViewTitleScrollLittle">@style/CustomTextViewTextAppearance.ScrollLittle
+        </item>
+        <item name="TA_TextViewBodyInfo">@style/CustomTextViewTextAppearance.BodyInfo</item>
+        <item name="TA_TextViewTitleHeadBig">@style/CustomTextViewTextAppearance.HeadTitle.Big
+        </item>
+
+
         <item name="textAppearanceFillButton">@style/CustomButtonTextAppearance</item>
         <item name="textAppearanceToolbar">@style/CustomToolbarTextAppearance</item>
         <item name="textAppearanceTextDialogBody">@style/CustomDialogBodyTextAppearance</item>
+        <item name="ButtonStyleOutline.Search">@style/ButtonStyleOutline.OnSearch</item>
         <!-- Add custom styles. -->
-        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary.AllTheme</item>
+        <item name="toolbarStyle">@style/MyToolbar</item>
         <item name="textInputStyle">@style/EditTextStyle</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
 
-        <item name="android:textViewStyle">?attr/textAppearanceTextView</item>
-        <item name="customViewShowImage">@style/themeCustomViewShowImage</item>
     </style>
 
-    <style name="Widget.MaterialComponents.Toolbar.Primary.AllTheme">
+    <style name="MyToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
         <item name="titleTextAppearance">?attr/textAppearanceToolbar</item>
     </style>
-    <style name="ButtonStyleIcon" parent="Widget.MaterialComponents.Button.Icon">
-        <item name="iconTint">?attr/colorOnPrimary</item>
-        <item name="android:minHeight">70dp</item>
-        <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
-    </style>
-    <style name="ButtonStyleOutline" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconTint">?attr/colorPrimaryVariant</item>
-        <item name="android:minHeight">70dp</item>
-        <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="strokeColor">?attr/colorSecondary</item>
-    </style>
-    <style name="ButtonStyleOutline.OnChildRecycler" >
-        <item name="iconTint">?attr/colorPrimaryVariant</item>
 
-        <item name="android:minHeight">70dp</item>
-        <item name="strokeColor">?attr/colorSecondary</item>
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/color_primary_variant</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="tintNavigationIcon">@color/white</item>
     </style>
 
-    <style name="EditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="hintTextColor">?attr/colorSecondaryVariant</item>
-        <item name="android:textColorHint">?attr/colorOnSecondary</item>
-    </style>
-    //set style for custom view
-    <style name="themeCustomViewShowImage">
-        <item name="buttonPositiveColorBack">?attr/colorPrimaryVariant</item>
-        <item name="buttonNegativeColorBack">?attr/colorPrimaryVariant</item>
-    </style>
 </resources>

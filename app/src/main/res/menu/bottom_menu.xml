@@ -8,8 +8,5 @@
         android:title="@string/btmMenu_person_page"
         android:id="@+id/myvideos"
         android:icon="@drawable/ic_person"/>
-    <item
-        android:title="@string/btmMenu_settings"
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings"/>
+
 </menu>

@@ -1,26 +1,25 @@
 package com.example.otusproject_ermoshina.sources.retrofit.models
 
-import com.example.otusproject_ermoshina.base.Video
+import com.example.otusproject_ermoshina.base.YTVideo
 import com.google.gson.annotations.SerializedName
 
 data class ModelLoadVideo(
+    @SerializedName("kind")
+    var kind: String? = null,
+    @SerializedName("etag")
+    var etag: String? = null,
     @SerializedName("items")
     var items: List<Item>? = null
 ) {
-    data class Item(
-        @SerializedName("kind")
-        var kind: String? = null,
-        @SerializedName("etag")
-        var etag: String? = null,
-        @SerializedName("id")
-        var id: String? = null,
-        @SerializedName("snippet")
-        var snippet: Snippet? = null,
-        @SerializedName("contentDetails")
-        var contentDetails: ContentDetails? = null
+    data class Item (
+    @SerializedName("id")
+    var id: String? = null,
+    @SerializedName("snippet")
+    var snippet: Snippet? = null,
+    @SerializedName("statistics")
+    var statistics: Statistics? = null
     )
-
-    data class Snippet(
+    data class Snippet (
         @SerializedName("publishedAt")
         var publishedAt: String? = null,
         @SerializedName("channelId")
@@ -28,49 +27,47 @@ data class ModelLoadVideo(
         @SerializedName("title")
         var title: String? = null,
         @SerializedName("description")
-        val description: String? = null,
+        var description: String? = null,
         @SerializedName("thumbnails")
         var thumbnails: Thumbnails? = null,
         @SerializedName("channelTitle")
-        var channelTitle: String? = null
+        var channelTitle: String? = null,
+        @SerializedName("tags")
+        var tags: List<String>? = null,
+        @SerializedName("categoryId")
+        var categoryId: String? = null
     )
-
-    data class Thumbnails(
-        @SerializedName("medium")
-        var medium: Medium? = null
+    data class Thumbnails (
+        @SerializedName("standard")
+        var standard: Standard? = null
     )
-
-    data class ContentDetails(
-        @SerializedName("duration")
-        var duration: String? = null,
-        @SerializedName("dimension")
-        var dimension: String? = null,
-        @SerializedName("definition")
-        var definition: String? = null,
-        @SerializedName("caption")
-        var caption: String? = null,
-        @SerializedName("licensedContent")
-        var licensedContent: Boolean = false,
-        @SerializedName("projection")
-        var projection: String? = null
-    )
-
-    data class Medium(
+    data class Standard (
         @SerializedName("url")
-        var url: String? = null,
-        @SerializedName("width")
-        var width: Int = 0,
-        @SerializedName("height")
-        var height: Int = 0,
+        var url: String? = null
+    )
+    data class Statistics (
+        @SerializedName("viewCount")
+        var viewCount: String? = null,
+        @SerializedName("likeCount")
+        var likeCount: String? = null,
+        @SerializedName("favoriteCount")
+        var favoriteCount: String? = null
     )
 
-    fun toVideo() =
-        items?.map {
-            Video(
-                id = it.id!!,
-                title = it.snippet!!.title!!,
-                description = it.snippet!!.description
-            )
-        }
+   fun toVideo():YTVideo =
+       items?.first().let {
+           YTVideo(
+               idVideo = it?.id ?:NULL_DATA,
+               title = it?.snippet?.title ?: NULL_DATA,
+               description = it?.snippet?.description ?: NULL_DATA,
+               channelTitle = it?.snippet?.channelTitle ?: NULL_DATA,
+               viewCount = it?.statistics?.viewCount?.toInt() ?: NULL_INT,
+               likeCount = it?.statistics?.likeCount?.toInt() ?: NULL_INT
+           )
+       }
 
+companion object {
+    private const val NULL_DATA = ""
+    private const val NULL_INT = 0
+}
 }

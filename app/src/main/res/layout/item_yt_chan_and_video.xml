@@ -6,15 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".ui.YTAllChannelsPlayLists">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textChannel"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-
         android:ellipsize="end"
         android:gravity="start|center_vertical"
         android:lines="1"
@@ -52,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="end"
-        android:text="@string/buttunAllChannelVideo"
+        android:text="@string/btnGoToChannel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/childRW"

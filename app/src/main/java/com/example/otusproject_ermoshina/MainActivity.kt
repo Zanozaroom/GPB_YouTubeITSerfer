@@ -18,33 +18,24 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var binding: ActivityMainBinding
-    @Inject lateinit var repositoryYouTube_1: RepositoryYouTube
-    @Inject lateinit var repositoryYouTube_2: RepositoryYouTube
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.i("AAAAAA",repositoryYouTube_1.toString() )
-        Log.i("AAAAAA",repositoryYouTube_2.toString() )
         //нахожу хост графа навигации
         val navHost =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         //устанавливаю основной контроллер
         navController = navHost.navController
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.mhome,
-             /*   R.id.user,
-                R.id.mcats,
-                R.id.myoutube,
-                R.id.mPage*/
-            ))
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.mhome, R.id.myvideos
+        ))
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.my_toolbar).setNavigationOnClickListener {
+        binding.myToolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

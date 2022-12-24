@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+        <attr name="TA_TextViewTitleHead" format="reference" />
+        <attr name="TA_TextViewTitleHeadBig" format="reference" />
+        <attr name="TA_TextViewTitleLittle" format="reference" />
+        <attr name="TA_TextViewTitleScrollLittle" format="reference" />
+        <attr name="TA_TextViewBodyInfo" format="reference" />
+        <attr name="CA_color_on_primary_variant" format="reference" />
         <attr name="textAppearanceFillButton" format="reference" />
         <attr name="textAppearanceToolbar" format="reference" />
         <attr name="textAppearanceTextView" format="reference"/>
-
+        <attr name="ButtonStyleOutline.Search" format="reference"/>
 
 
         <attr name="textAppearanceTextDialogBody" format="reference"/>
 
 
-
-        <attr name="color_windowBackground" format="color" />
-        <attr name="customViewShowImage" format="reference"/>
-
-        <declare-styleable name="CustomViewShowImage">
-                <attr name="buttonPositiveText" format="string"/>
-                <attr name="buttonPositiveColorBack" format="color"/>
-                <attr name="buttonPositiveIsEnabled" format="boolean"/>
-
-                <attr name="customViewTitleText" format="string"/>
-                <attr name="customViewDescriptionText" format="string"/>
-
-                <attr name="buttonNegativeText" format="string"/>
-                <attr name="buttonNegativeColorBack" format="color"/>
-        </declare-styleable>
 
 </resources>

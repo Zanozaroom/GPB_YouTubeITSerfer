@@ -1,71 +1,81 @@
 package com.example.otusproject_ermoshina.sources.retrofit.models
 
-import android.graphics.pdf.PdfDocument
-import com.example.otusproject_ermoshina.base.VideoList
-import com.google.gson.annotations.Expose
+import com.example.otusproject_ermoshina.base.YTVideoList
 import com.google.gson.annotations.SerializedName
 
-data class ModelLoadListVideos (@SerializedName("kind")
-val kind: String? = null,
-                                @SerializedName("etag")
-val etag: String? = null,
-                                @SerializedName("nextPageToken")
-val nextPageToken: String? = null,
-                                @SerializedName("items")
-val items: List<Item>? = null,
-                                @SerializedName("pageInfo")
-val pageInfo: PdfDocument.PageInfo? = null
-) {
-    data class Item(
-        @SerializedName("id")
-        val id: String? = null,
-        @SerializedName("snippet")
-        val snippet: Snippet? = null
-    )
-
-    data class Snippet(
-        @SerializedName("publishedAt")
-        val publishedAt: String? = null,
-        @SerializedName("channelId")
-        val channelId: String? = null,
-        @SerializedName("title")
-        val title: String? = null,
-        @SerializedName("description")
-        val description: String? = null,
-        @SerializedName("thumbnails")
-        val thumbnails: Thumbnails? = null,
-        @SerializedName("resourceId")
-        val resourceId: ResourceId? = null,
-    )
-
-    data class Thumbnails(
-        @SerializedName("standard")
-        val standard: Standard? = null
-    )
-
-    data class Standard(
-        @SerializedName("url")
-        val url: String? = null,
-        @SerializedName("width")
-        val width: Int?,
-        @SerializedName("height")
-        @Expose
-        val height: Int?,
-    )
-
-    data class ResourceId(
+data class ModelLoadListVideos(
+    @SerializedName("kind")
+    var kind: String? = null,
+    @SerializedName("etag")
+    var etag: String? = null,
+    @SerializedName("nextPageToken")
+    var nextPageToken: String? = null,
+    @SerializedName("items")
+    var items: List<Item>? = null,
+    @SerializedName("pageInfo")
+    var pageInfo: PageInfo? = null
+)
+{
+    data class Item (
         @SerializedName("kind")
-        val kind: String? = null,
+        var kind: String? = null,
+        @SerializedName("snippet")
+        var snippet: Snippet? = null,
+        @SerializedName("contentDetails")
+        var contentDetails: ContentDetails? = null
+    )
+    data class ContentDetails (
         @SerializedName("videoId")
-        val videoId: String? = null
+        var videoId: String? = null,
+        @SerializedName("videoPublishedAt")
+        var videoPublishedAt: String? = null
+    )
+    data class PageInfo (
+        @SerializedName("totalResults")
+        var totalResults:Int? = 0,
+        @SerializedName("resultsPerPage")
+        var resultsPerPage:Int? = 0
+    )
+    data class Snippet (
+        @SerializedName("channelId")
+        var channelId: String? = null,
+        @SerializedName("title")
+        var title: String? = null,
+        @SerializedName("description")
+        var description: String? = null,
+        @SerializedName("thumbnails")
+        var thumbnails: Thumbnails? = null,
+        @SerializedName("channelTitle")
+        var channelTitle: String? = null,
+        @SerializedName("playlistId")
+        var playlistId: String? = null,
+        @SerializedName("videoOwnerChannelTitle")
+        var videoOwnerChannelTitle: String? = null,
+        @SerializedName("videoOwnerChannelId")
+        var videoOwnerChannelId: String? = null
+    )
+    data class Thumbnails (
+        @SerializedName("standard")
+        var standard: Standard? = null
+    )
+    data class Standard (
+        @SerializedName("url")
+        var url: String? = null
     )
 
     fun toVideoList() = items?.map {
-        VideoList(
-        idVideo = it.snippet?.resourceId?.videoId,
-        title = it.snippet?.title,
-        description = it.snippet?.description,
-        image = it.snippet?.thumbnails?.standard?.url
-    )
+        YTVideoList(
+            id = items.hashCode(),
+            idVideo = it.contentDetails?.videoId ?: "",
+            title = it.snippet?.title ?: "",
+            description = it.snippet?.description ?: "",
+            image = it.snippet?.thumbnails?.standard?.url ?: "",
+            channelTitle = it.snippet?.channelTitle ?: "",
+            videoPublishedAt = it.contentDetails?.videoPublishedAt ?: "",
+            channelId = it.snippet?.channelId ?: ""
+        )
     }
+
 }
+
+

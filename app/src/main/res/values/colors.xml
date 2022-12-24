@@ -9,12 +9,15 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="color_primary">#dcc9ff</color>
-    <color name="color_primary_variant">#918ab0</color>
-    <color name="color_secondary">#607d8b</color>
-    <color name="color_secondary_variant">#811ACA</color>
-    <color name="color_on_primary">#26282B</color>
-    <color name="color_on_secondary">#424242</color>
-    <color name="color_windows_background">#FFFFFF</color>
-    <color name="color_toolbar_mode_day_night">#10108E</color>
+    <color name="color_primary">#610E0E</color>
+    <color name="color_primary_variant">#113137</color>
+    <color name="color_secondary">#F57F17</color>
+    <color name="color_secondary_variant">#FF1744</color>
+    <color name="color_on_primary">#000000</color>
+    <color name="color_on_primary_variant">#000000</color>
+    <color name="color_on_secondary">#1C1C1C</color>
+    <color name="color_fragment_background">#FFFFFF</color>
+    <color name="color_scroll_background">#DDDDDD</color>
+
+
 </resources>

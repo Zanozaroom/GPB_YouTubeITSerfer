@@ -1,66 +1,78 @@
 package com.example.otusproject_ermoshina.sources.repositories
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.otusproject_ermoshina.base.*
-import com.example.otusproject_ermoshina.sources.retrofit.BaseYouTubeHelper
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.otusproject_ermoshina.sources.RepositoryNetwork
+import com.example.otusproject_ermoshina.sources.retrofit.YTApi
+import com.example.otusproject_ermoshina.sources.retrofit.models.ModelLoadListVideos
+import com.example.otusproject_ermoshina.sources.retrofit.models.ModelLoadVideo
+import com.example.otusproject_ermoshina.sources.retrofit.models.ModelSearch
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RepositoryYouTube @Inject constructor(
-    private val retrofitHelper: BaseYouTubeHelper
-) {
+    private val retrofit: YTApi
+): RepositoryNetwork {
 
-    lateinit var channelAndListVideos: ChannelAndListVideos
-    suspend fun loadVideoList() = withContext(Dispatchers.IO) {
-        val response = retrofitHelper.getListVideos(PART, MAXRESULT, PLAY_LIST_ID, KEY)
-
-        Log.i("AAA", "Start !")
-        if (response.isSuccessful) {
-            Log.i("AAA", "Start")
-            response.body()?.toVideoList()
-        } else {
-            throw Exception("Result")
-        }
-    }
-
-    //ChannelAndListVideos
-    suspend fun loadChannelPlayLists(
+    override suspend fun loadChannelList(
         channelId: String,
-        nextTokenL: String = NEXT_TOKEN
-    ): ChannelAndListVideos {
-
+        token: String
+    ): YTChannelAndListVideos =
         withContext(Dispatchers.IO) {
-
             val response =
-                retrofitHelper.getListChannels(PART, MAXRESULT, nextTokenL, channelId, KEY)
-         //   Log.i("AAAAAA", retrofitYT_RepositoryYouTube.toString())
+                retrofit.getListChannels(PART_CHANNEL, MAXRESULT, token, channelId, KEY)
             if (response.isSuccessful) {
-                try{channelAndListVideos = response.body()!!.toChannelAndListVideos()
-                }catch (e:Exception){
-                    throw RetrofitBodyIsSuccessfulException("RetrofitBodyIsSuccessfulException $e")
-                }
+                response.body()!!.toChannelAndListVideos()
             } else {
-            throw RetrofitAbsoluteLoadException("RetrofitAbsoluteLoadException" +response.code().toString())
+                throw NetworkLoadException("RetrofitAbsoluteLoadException" + response.code())
             }
         }
-        return channelAndListVideos
-    }
 
+    override suspend fun getListVideos(playListId: String, token: String): ModelLoadListVideos? =
+        withContext(Dispatchers.IO) {
+            val response = retrofit.getListVideos(PART_VIDEO_LIST, token, MAXRESULT, playListId,KEY)
+            if (response.isSuccessful) {
+               response.body()
+            } else {
+                throw NetworkLoadException("RetrofitAbsoluteLoadException " +response.code().toString())
+            }
+        }
+
+    override suspend fun loadOneVideo(idVideo: String): ModelLoadVideo =
+        withContext(Dispatchers.IO) {
+            val response =  retrofit.getOneVideo(PART_ONE_VIDEO, idVideo, KEY)
+            if(response.isSuccessful){
+                response.body()!!
+            } else{
+                throw NetworkLoadException("RetrofitAbsoluteLoadException " +response.code().toString())
+            }
+        }
+
+    override suspend fun getResultSearch(query: String, maxResult: Int?, token: String, safeSearch:String?): ModelSearch =
+        withContext(Dispatchers.IO) {
+            val response =  retrofit.getResultSearch(PART_SEARCH, maxResult?: MAXRESULT,token,query, KEY, safeSearch?:PART_SEARCH_SAFE)
+            if(response.isSuccessful){
+                response.body()!!
+            } else{
+                throw NetworkLoadException("RetrofitAbsoluteLoadException " +response.code().toString())
+            }
+        }
 
     companion object {
-        const val KEY = "AIzaSyCbZT5ncVXel3T2mCW4MqjzGwPZIvojc_I"
+        const val KEY = "AIzaSyAhlilBBY7H_BDJTIGVPMZWvj5YumhkMFU"
+       // AIzaSyCcEh8owwysnTVNNCGqlGv4ezIkGPEy1bo
+        const val PART_CHANNEL = "snippet"
+        const val PART_VIDEO_LIST = "snippet,ContentDetails"
+        const val PART_ONE_VIDEO = "snippet,statistics"
+        const val PART_SEARCH = "snippet"
+        const val PART_SEARCH_SAFE = "strict"
 
-        const val PART = "snippet"
-        const val ID = "Ks-_Mh1QhMc"
 
-        const val MAXRESULT = 7
-        const val PLAY_LIST_ID = "PLxizNdMtXgxo0y4n-jK_YrQNrI4sPoDFo"
-        const val NEXT_TOKEN = ""
+        const val MAXRESULT = 3
 
     }
+
+
 }

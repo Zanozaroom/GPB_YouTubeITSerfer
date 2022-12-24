@@ -16,16 +16,27 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideYourDatabase(
+    fun provideDatabase(
         @ApplicationContext app: Context
     ) = Room.databaseBuilder(
         app,
         MyDataBase::class.java,
         "room_database"
-    ).createFromAsset("otus_db.db").build() // The reason we can construct a database for the repo
+    ).createFromAsset("db_project.db").build() // The reason we can construct a database for the repo
 
     @Singleton
     @Provides
-    fun provideYourDao(db: MyDataBase) = db.getChannelsDAO() // The reason we can implement a Dao for the database
+    fun provideChannelsDao(db: MyDataBase) = db.getChannelsDAO() // The reason we can implement a Dao for the database
 
+    @Singleton
+    @Provides
+    fun providePlayListDao(db: MyDataBase) = db.getPlayListDao()
+
+    @Singleton
+    @Provides
+    fun provideQueryDao(db: MyDataBase) = db.getQueryDao()
+
+    @Singleton
+    @Provides
+    fun provideVideoDao(db: MyDataBase) = db.getVideoDao()
 }
