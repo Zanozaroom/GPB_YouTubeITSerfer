@@ -10,14 +10,25 @@
     <string name="messageNetworkLoadException">Не удалось загрузить часть файлов с сервера</string>
     <string name="toastAllVideoLoad">Загружены все видео</string>
     <string name="toastPlayListNotPublic">К сожалению, плейлист недоступен для показа</string>
-    <string name="btnOpenPageChannel">На страницу канала</string>
+    <string name="btnOpenPageChannel">На канал</string>
     <string name="btnFindMoreChannels">Найти похожие видео</string>
     <string name="btnFindMoreVideoTheme">Другие видео по теме</string>
     <string name="btnLoadMore">Открыть все видео</string>
     <string name="btnGoToChannel">перейти</string>
+    <string name="btnOpen">Открыть</string>
     <string name="imgBtnAddtoFavorite">Добавить в любимые</string>
     <string name="imgPreviewVideo">Превью видео</string>
-    <string name="DescrAddToFavorite">Добавить в закладки</string>
-    <string name="btnFloatPlayList">плейлист</string>
+    <string name="DescrAddToFavorite">Добавить в любимые</string>
+    <string name="DescrOpenPayList">Открыть плейлист</string>
+    <string name="DescrRemoveFromFavorite">Удалить из избранного</string>
+    <string name="btnActionPlayList">плейлист</string>
+    <string name="btnActionVideo">видео</string>
     <string name="messageStrangeException">Непредвиденная ошибка, попробуйте позже</string>
+    <string name="iconNameTabPlayList">Плейлисты</string>
+    <string name="iconNameTabVideo">Видео</string>
+    <string name="messageErrorDataBaseSave">Не удалось добавить в избранное</string>
+    <string name="DscrBackgroundIconOnImage">backgroundPlay</string>
+    <string name="DscrIconPlayVideo">IconPlayVideo</string>
+
+
 </resources>

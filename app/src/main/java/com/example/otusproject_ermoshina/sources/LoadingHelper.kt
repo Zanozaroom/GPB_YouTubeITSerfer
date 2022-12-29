@@ -3,7 +3,7 @@ package com.example.otusproject_ermoshina.sources
 
 import javax.inject.Inject
 
-class LoadingHelper @Inject constructor(
+class LoadingHelper (
     private val network: RepositoryNetwork,
     private val dataBase: RepositoryDataBase
 ) {

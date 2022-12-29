@@ -61,7 +61,7 @@
 
     <Button
         android:id="@+id/btnOpenChannel"
-        style="@style/ButtonStyleOutline.OnSearch.MediumColor"
+        style="?attr/BS_OutlineOnSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/btnOpenPageChannel"

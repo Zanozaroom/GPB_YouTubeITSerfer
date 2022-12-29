@@ -58,9 +58,12 @@ data class ModelLoadVideo(
        items?.first().let {
            YTVideo(
                idVideo = it?.id ?:NULL_DATA,
+               image = it?.snippet?.thumbnails?.standard?.url ?: NULL_DATA,
                title = it?.snippet?.title ?: NULL_DATA,
+               publishedAt = it?.snippet?.publishedAt ?: NULL_DATA,
                description = it?.snippet?.description ?: NULL_DATA,
                channelTitle = it?.snippet?.channelTitle ?: NULL_DATA,
+               channelId =it?.snippet?.channelId ?: NULL_DATA,
                viewCount = it?.statistics?.viewCount?.toInt() ?: NULL_INT,
                likeCount = it?.statistics?.likeCount?.toInt() ?: NULL_INT
            )

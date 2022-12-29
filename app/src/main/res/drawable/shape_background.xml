@@ -3,5 +3,5 @@
     android:id="@+id/fragment_background_shape">
     <corners android:topLeftRadius="20dp"
         android:topRightRadius="20dp" />
-    <solid android:color="@color/color_fragment_background" />
+    <solid android:color="?attr/CLR_white" />
 </shape>

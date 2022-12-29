@@ -21,12 +21,10 @@ object RoomModule {
     ) = Room.databaseBuilder(
         app,
         MyDataBase::class.java,
-        "room_database"
-    ).createFromAsset("db_project.db").build() // The reason we can construct a database for the repo
 
-    @Singleton
-    @Provides
-    fun provideChannelsDao(db: MyDataBase) = db.getChannelsDAO() // The reason we can implement a Dao for the database
+        "room_database"
+    )
+        .createFromAsset("prjct.db").build() // The reason we can construct a database for the repo
 
     @Singleton
     @Provides

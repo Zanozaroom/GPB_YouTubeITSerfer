@@ -1,6 +1,6 @@
 package com.example.otusproject_ermoshina.sources.room.model
 
-import com.example.otusproject_ermoshina.base.YTPlayListOfChannel
+import com.example.otusproject_ermoshina.base.YTPlayList
 
 data class RoomPlayList(
     val id: Int,
@@ -10,7 +10,7 @@ data class RoomPlayList(
     val titleListVideo: String,
     val titleChannel: String
 ) {
-    fun toYTPlayList() = YTPlayListOfChannel(
+    fun toYTPlayList() = YTPlayList(
         idChannel = idChannel,
         idList = idPlayList,
         imageList = imageList,

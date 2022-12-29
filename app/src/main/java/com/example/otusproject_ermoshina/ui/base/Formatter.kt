@@ -9,7 +9,7 @@ class Formatter {
          * Extension метод для парсинга входящей даты в нормальный формат
          */
         @JvmName("parse1")
-        fun String.parse(): String{
+        fun String.dataFormatter(): String{
             val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
             val date = dateFormat.parse(this)
             val formatter =

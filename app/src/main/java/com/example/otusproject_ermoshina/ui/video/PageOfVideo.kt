@@ -76,7 +76,8 @@ class PageOfVideo : Fragment() {
                     progressBar.visibility = View.GONE
                 }
             }
-            LoadingResult.Empty -> TODO()
+            LoadingResult.Empty -> {}//не используется
+            LoadingResult.LoadingMore -> {}//не используется
         }
     }
 }

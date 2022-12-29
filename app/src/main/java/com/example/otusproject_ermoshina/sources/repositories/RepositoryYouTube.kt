@@ -1,6 +1,5 @@
 package com.example.otusproject_ermoshina.sources.repositories
 
-import android.util.Log
 import com.example.otusproject_ermoshina.base.*
 import com.example.otusproject_ermoshina.sources.RepositoryNetwork
 import com.example.otusproject_ermoshina.sources.retrofit.YTApi
@@ -18,11 +17,12 @@ class RepositoryYouTube @Inject constructor(
 
     override suspend fun loadChannelList(
         channelId: String,
-        token: String
-    ): YTChannelAndListVideos =
+        token: String,
+        maxResult: Int,
+    ): YTChannelAndPlayList =
         withContext(Dispatchers.IO) {
             val response =
-                retrofit.getListChannels(PART_CHANNEL, MAXRESULT, token, channelId, KEY)
+                retrofit.getListChannels(PART_CHANNEL, maxResult, token, channelId, KEY)
             if (response.isSuccessful) {
                 response.body()!!.toChannelAndListVideos()
             } else {
@@ -30,9 +30,9 @@ class RepositoryYouTube @Inject constructor(
             }
         }
 
-    override suspend fun getListVideos(playListId: String, token: String): ModelLoadListVideos? =
+    override suspend fun getListVideos(playListId: String, token: String, maxResult: Int): ModelLoadListVideos? =
         withContext(Dispatchers.IO) {
-            val response = retrofit.getListVideos(PART_VIDEO_LIST, token, MAXRESULT, playListId,KEY)
+            val response = retrofit.getListVideos(PART_VIDEO_LIST, token, maxResult, playListId,KEY)
             if (response.isSuccessful) {
                response.body()
             } else {
@@ -50,9 +50,9 @@ class RepositoryYouTube @Inject constructor(
             }
         }
 
-    override suspend fun getResultSearch(query: String, maxResult: Int?, token: String, safeSearch:String?): ModelSearch =
+    override suspend fun getResultSearch(query: String, maxResult: Int, token: String, safeSearch:String?): ModelSearch =
         withContext(Dispatchers.IO) {
-            val response =  retrofit.getResultSearch(PART_SEARCH, maxResult?: MAXRESULT,token,query, KEY, safeSearch?:PART_SEARCH_SAFE)
+            val response =  retrofit.getResultSearch(PART_SEARCH, maxResult,token,query, KEY, safeSearch?:PART_SEARCH_SAFE)
             if(response.isSuccessful){
                 response.body()!!
             } else{
@@ -61,16 +61,12 @@ class RepositoryYouTube @Inject constructor(
         }
 
     companion object {
-        const val KEY = "AIzaSyAhlilBBY7H_BDJTIGVPMZWvj5YumhkMFU"
-       // AIzaSyCcEh8owwysnTVNNCGqlGv4ezIkGPEy1bo
+        const val KEY = "AIzaSyCi4u78_AT3dcVbonADzVCJLq1__P5_FeI"
         const val PART_CHANNEL = "snippet"
         const val PART_VIDEO_LIST = "snippet,ContentDetails"
         const val PART_ONE_VIDEO = "snippet,statistics"
         const val PART_SEARCH = "snippet"
         const val PART_SEARCH_SAFE = "strict"
-
-
-        const val MAXRESULT = 3
 
     }
 

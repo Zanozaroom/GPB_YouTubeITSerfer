@@ -7,9 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:background="@drawable/shape_rect_round"
-    tools:backgroundTint="@color/color_scroll_background"
-    android:orientation="vertical"
-    tools:context=".ui.channels.Channels">
+    tools:backgroundTint="?attr/CLR_white"
+    android:orientation="vertical">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideStart"
         android:layout_width="0dp"
@@ -49,7 +48,8 @@
 
     <Button
         android:id="@+id/openMore"
-        style="@style/ButtonStyleOutline.OnSearch.MediumColor"
+        style="?attr/BS_Outline"
+        android:textColor="?attr/colorSecondaryVariant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

@@ -17,7 +17,7 @@ class DecoratorParentChannels (private val sizelist: Int, private val context: C
 
     init {
         myPaintStroke.color = context.getColor(R.color.color_on_primary)
-        myPaintFill.color = context.getColor(R.color.color_scroll_background)
+        myPaintFill.color = context.getColor(R.color.color_on_image)
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
@@ -25,7 +25,6 @@ class DecoratorParentChannels (private val sizelist: Int, private val context: C
             val child = parent.getChildAt(it)
 
             val childAdapterPosition = parent.getChildAdapterPosition(child)
-            Log.i("AAA","$childAdapterPosition")
             if (childAdapterPosition % 2 == 0) {
                 val childView = parent.getChildAt(it)
 

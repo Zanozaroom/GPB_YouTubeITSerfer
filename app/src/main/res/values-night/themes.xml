@@ -6,17 +6,5 @@
         <item name="materialButtonStyle">@style/ButtonStyleOutline</item>
     </style>
     //set style for custom view
-    <style name="customButtonCancel" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
-        <item name="strokeColor">?attr/colorPrimaryVariant</item>
-        <item name="android:paddingVertical">8dp</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
-    </style>
-    <style name="customButtonOk" parent="@style/Widget.MaterialComponents.Button.Icon">
-        <item name="backgroundTint">?attr/colorPrimaryVariant</item>
-        <item name="android:textColor">@color/color_secondary</item>
-        <item name="iconTint">?attr/colorPrimary</item>
-        <item name="android:paddingVertical">8dp</item>
-        <item name="android:textAppearance">?attr/textAppearanceFillButton</item>
-    </style>
+
 </resources>

@@ -14,10 +14,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
         <!-- Add custom attributes. -->
-        <item name="CA_color_on_primary_variant">@color/color_on_primary_variant</item>
-        <item name="textAppearanceTextView">@style/CustomTextViewTextAppearance</item>
+        <item name="TA_TextView">@style/CustomTextViewTextAppearance</item>
         <item name="TA_TextViewTitleHead">@style/CustomTextViewTextAppearance.HeadTitle</item>
         <item name="TA_TextViewTitleLittle">@style/CustomTextViewTextAppearance.TitleLittle</item>
         <item name="TA_TextViewTitleScrollLittle">@style/CustomTextViewTextAppearance.ScrollLittle
@@ -25,22 +23,31 @@
         <item name="TA_TextViewBodyInfo">@style/CustomTextViewTextAppearance.BodyInfo</item>
         <item name="TA_TextViewTitleHeadBig">@style/CustomTextViewTextAppearance.HeadTitle.Big
         </item>
-
-
-        <item name="textAppearanceFillButton">@style/CustomButtonTextAppearance</item>
-        <item name="textAppearanceToolbar">@style/CustomToolbarTextAppearance</item>
-        <item name="textAppearanceTextDialogBody">@style/CustomDialogBodyTextAppearance</item>
-        <item name="ButtonStyleOutline.Search">@style/ButtonStyleOutline.OnSearch</item>
+        <item name="TA_IconButtonMedium">@style/CustomButtonTextAppearance.Medium</item>
+        <item name="TA_IconButtonNormal">@style/CustomButtonTextAppearance</item>
+        <item name="TA_IconButtonBig">@style/CustomButtonTextAppearance.Big</item>
+        <item name="TA_Toolbar">@style/CustomToolbarTextAppearance</item>
+        <item name="BS_Fill">@style/CustomFillButtonStyleIcon</item>
+        <item name="BS_FillMinimal">@style/CustomFillButtonStyleIcon.Minimal</item>
+        <item name="BS_Outline">@style/ButtonStyleOutline</item>
+        <item name="BS_OutlineMinimal">@style/ButtonStyleOutline.Minimal</item>
+        <item name="BS_OutlineOnSearch">@style/ButtonStyleOutline.OnSearch</item>
+        <item name="CLR_white">@color/white</item>
+        <item name="CLR_shapeOnImage">@color/color_on_image</item>
         <!-- Add custom styles. -->
         <item name="toolbarStyle">@style/MyToolbar</item>
         <item name="textInputStyle">@style/EditTextStyle</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
 
+    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="MyToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
-        <item name="titleTextAppearance">?attr/textAppearanceToolbar</item>
+        <item name="titleTextAppearance">?attr/TA_Toolbar</item>
     </style>
 
     <style name="ThemeOverlay.App.Toolbar" parent="">

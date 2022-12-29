@@ -10,6 +10,7 @@ open class BaseViewModel:ViewModel() {
         object Empty : LoadingResult<Nothing>()
         object Error : LoadingResult<Nothing>()
         object Loading : LoadingResult<Nothing>()
+        object LoadingMore: LoadingResult<Nothing>()
     }
 
     protected val _toastEvent = MutableLiveEvent<Int>()

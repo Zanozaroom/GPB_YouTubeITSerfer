@@ -47,13 +47,12 @@ object  NetworkModule {
     fun getApiClient(retrofit: Retrofit): YTApi {
         return retrofit.create(YTApi::class.java)
     }
+
     @Provides
     @Singleton
     fun createInterceptor(): HttpLoggingInterceptor{
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
-      private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
-
+    private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
     }
-//.baseUrl(BuildConfig.BASE_URL)

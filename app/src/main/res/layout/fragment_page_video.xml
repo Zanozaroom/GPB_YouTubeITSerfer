@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,163 +8,168 @@
     android:layout_marginHorizontal="6dp"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/gropeData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="textAllWatched,iconAllWatched, iconLiked, textAllLiked, video, titleChannel,titleVideo,scroll "/>
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/gropeError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="messageErrorLoad, buttonErrorLoad"/>
-
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/video"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:transitionName="Video"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginVertical="6dp"
+        android:layout_marginHorizontal="6dp">
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrierStatistic"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:constraint_referenced_ids="iconAllWatched, textAllWatched"
-        app:barrierDirection="end"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideStart"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideEnd"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintGuide_end="16dp"
-        android:orientation="vertical"/>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/gropeData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="textAllWatched,iconAllWatched, iconLiked, textAllLiked, video, titleChannel,titleVideo, descriptionVideo"/>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/gropeError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="messageErrorLoad, buttonErrorLoad"/>
 
-    <ImageView
-        android:id="@+id/iconAllWatched"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_watch"
-        app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/video" />
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:transitionName="Video"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iconAdd"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_add"
-        app:layout_constraintEnd_toEndOf="@id/guideEnd"
-        app:layout_constraintTop_toBottomOf="@id/video" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierStatistic"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="iconAllWatched, textAllWatched"
+            app:barrierDirection="end"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideStart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideEnd"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintGuide_end="16dp"
+            android:orientation="vertical"/>
 
-    <ImageView
-        android:id="@+id/iconLiked"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_likes"
-        app:layout_constraintStart_toEndOf="@id/barrierStatistic"
-        app:layout_constraintTop_toBottomOf="@id/video" />
-    <TextView
-        android:id="@+id/textAllWatched"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="1236dd8"
-        app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/iconAllWatched" />
+        <ImageView
+            android:id="@+id/iconAllWatched"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_watch"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintTop_toBottomOf="@id/video" />
 
-    <TextView
-        android:id="@+id/textAllLiked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="1236548"
-        app:layout_constraintStart_toStartOf="@id/iconLiked"
-        app:layout_constraintTop_toBottomOf="@id/iconAllWatched" />
-    <Button
-        android:id="@+id/addChannelToFavorite"
-        style="@style/ButtonStyleOutline.OnSearch.MediumColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnGoToChannel"
-        app:layout_constraintStart_toEndOf="@id/titleChannel"
-        app:layout_constraintTop_toTopOf="@id/titleChannel"
-        app:layout_constraintWidth_percent="0.8"/>
-    <TextView
-        android:id="@+id/titleChannel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Это название канала"
-        android:layout_marginTop="20dp"
-       style="?attr/TA_TextViewTitleHeadBig"
-        app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/textAllLiked"/>
+        <Button
+            android:id="@+id/iconAdd"
+            style="@style/CustomFillButtonStyleIcon.Minimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:icon="@drawable/ic_add"
+            android:text="@string/btnActionVideo"
+            app:layout_constraintEnd_toEndOf="@id/video"
+            app:layout_constraintTop_toBottomOf="@id/video" />
 
-      <TextView
-        android:id="@+id/titleVideo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:text="Это название видео"
-        style="?attr/TA_TextViewTitleHead"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintEnd_toEndOf="@id/guideEnd"
-        app:layout_constraintTop_toBottomOf="@id/titleChannel"/>
-   <ScrollView
-       android:id="@+id/scroll"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/titleVideo"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintVertical_bias="0">
-       <TextView
-           android:id="@+id/descriptionVideo"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           tools:text="Это описание канала"
-           android:layout_marginTop="6dp"
-           />
-   </ScrollView>
+        <ImageView
+            android:id="@+id/iconLiked"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_likes"
+            app:layout_constraintStart_toEndOf="@id/barrierStatistic"
+            app:layout_constraintTop_toBottomOf="@id/video" />
+        <TextView
+            android:id="@+id/textAllWatched"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1236dd8"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintTop_toBottomOf="@id/iconAllWatched" />
 
-    <TextView
-        android:id="@+id/messageErrorLoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/loadErrorText" />
+        <TextView
+            android:id="@+id/textAllLiked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1236548"
+            app:layout_constraintStart_toStartOf="@id/iconLiked"
+            app:layout_constraintTop_toBottomOf="@id/iconAllWatched" />
+        <Button
+            android:id="@+id/addChannelToFavorite"
+            style="?attr/BS_OutlineMinimal"
+            android:textSize="14sp"
+            android:textColor="?attr/colorSecondaryVariant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnGoToChannel"
+            app:layout_constraintBaseline_toBaselineOf="@id/titleChannel"
+            app:layout_constraintStart_toEndOf="@id/titleChannel"
+            app:layout_constraintTop_toTopOf="@id/titleChannel" />
+        <TextView
+            android:id="@+id/titleChannel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Это название канала"
+            android:layout_marginTop="20dp"
+            style="?attr/TA_TextViewTitleHeadBig"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintTop_toBottomOf="@id/textAllLiked"/>
 
-    <Button
-        android:id="@+id/buttonErrorLoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:text="@string/loadErrorButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/messageErrorLoad" />
+        <TextView
+            android:id="@+id/titleVideo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Это название видео"
+            style="?attr/TA_TextViewTitleHead"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintEnd_toEndOf="@id/guideEnd"
+            app:layout_constraintTop_toBottomOf="@id/titleChannel"/>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/descriptionVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Это описание канала"
+                android:layout_marginTop="6dp"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintEnd_toEndOf="@id/guideEnd"
+                app:layout_constraintTop_toBottomOf="@id/titleVideo"
+                />
+
+        <TextView
+            android:id="@+id/messageErrorLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/loadErrorText" />
+
+        <Button
+            android:id="@+id/buttonErrorLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="@string/loadErrorButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/messageErrorLoad" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

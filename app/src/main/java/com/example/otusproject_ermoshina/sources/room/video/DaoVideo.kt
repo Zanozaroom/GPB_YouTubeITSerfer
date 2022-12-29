@@ -1,7 +1,7 @@
 package com.example.otusproject_ermoshina.sources.room.video
 
 import androidx.room.*
-import com.example.otusproject_ermoshina.sources.room.playlist.EntityPlayList
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DaoVideo {
@@ -12,5 +12,5 @@ interface DaoVideo {
     fun deleteVideo(videoId: EntityVideo)
 
     @Query("SELECT * FROM video")
-    suspend fun loadVideo(): List<EntityVideo>
+    fun loadVideo(): Flow<List<EntityVideo>>
 }

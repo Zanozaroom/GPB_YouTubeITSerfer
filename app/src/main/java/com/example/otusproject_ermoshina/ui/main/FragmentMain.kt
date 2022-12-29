@@ -1,17 +1,16 @@
 package com.example.otusproject_ermoshina.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.otusproject_ermoshina.R
-import com.example.otusproject_ermoshina.base.YTChannelAndListVideos
 import com.example.otusproject_ermoshina.base.YTSearchAndTitle
 import com.example.otusproject_ermoshina.databinding.FragmentMainBinding
 import com.example.otusproject_ermoshina.utill.DecoratorParentChannels
@@ -65,25 +64,26 @@ class FragmentMain: Fragment(), OnClickYTListener  {
     private fun stateScreen(state: LoadingResult<List<YTSearchAndTitle>>){
         when(state){
             is LoadingResult.Error -> {
+                Log.i("AAA", "stateScreen LoadingResult.Error")
                 binding.progressBar.visibility = View.GONE
                 binding.recyclerVideoList.visibility = View.GONE
-                binding.buttonErrorLoad.visibility = View.VISIBLE
-                binding.messageErrorLoad.visibility = View.VISIBLE
+               binding.gropeError.visibility = View.VISIBLE
             }
             is LoadingResult.Loading -> {
+                Log.i("AAA", "stateScreen LoadingResult.Loading")
                 binding.progressBar.visibility = View.VISIBLE
                 binding.recyclerVideoList.visibility = View.GONE
-                binding.buttonErrorLoad.visibility = View.GONE
-                binding.messageErrorLoad.visibility = View.GONE
+                binding.gropeError.visibility = View.GONE
             }
             is LoadingResult.Success -> {
+                Log.i("AAA", "stateScreen LoadingResult.Success")
                 adapterMainSearch.submitList(state.dataList)
                 binding.progressBar.visibility = View.GONE
                 binding.recyclerVideoList.visibility = View.VISIBLE
-                binding.buttonErrorLoad.visibility = View.GONE
-                binding.messageErrorLoad.visibility = View.GONE
+                binding.gropeError.visibility = View.GONE
             }
-            LoadingResult.Empty -> TODO()
+            LoadingResult.Empty ->{} //не активно в этом фрагменте
+            LoadingResult.LoadingMore -> {}//не активно в этом фрагменте
         }
     }
 

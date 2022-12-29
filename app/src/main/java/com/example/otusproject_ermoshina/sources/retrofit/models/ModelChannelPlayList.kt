@@ -1,8 +1,8 @@
 package com.example.otusproject_ermoshina.sources.retrofit.models
 
 
-import com.example.otusproject_ermoshina.base.YTChannelAndListVideos
-import com.example.otusproject_ermoshina.base.YTPlayListOfChannel
+import com.example.otusproject_ermoshina.base.YTChannelAndPlayList
+import com.example.otusproject_ermoshina.base.YTPlayList
 import com.google.gson.annotations.SerializedName
 
 
@@ -52,12 +52,12 @@ data class ModelChannelPlayList(
         var url: String? = null
     )
 
-    fun toChannelAndListVideos() = YTChannelAndListVideos(
+    fun toChannelAndListVideos() = YTChannelAndPlayList(
         idChannel = items?.firstOrNull()?.snippet?.channelId ?:NULL_DATA,
         titleChannel = items?.firstOrNull()?.snippet?.channelTitle ?: NULL_DATA,
         nextToken = nextPageToken ?: NULL_DATA,
         listVideos =  items!!.map {
-            YTPlayListOfChannel(
+            YTPlayList(
                 idChannel = items?.firstOrNull()?.snippet?.channelId ?:NULL_DATA,
                 idList = it.id ?: NULL_DATA,
                 imageList = it.snippet?.thumbnails?.standard?.url ?: NULL_DATA,

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="15dp"
     android:orientation="vertical"
-    tools:context=".ui.videolist.VideoList">
+    tools:context=".ui.videolist.YTVideoList">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerVideoList"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="10"
-        tools:listitem="@layout/item_playlist"
+        tools:listitem="@layout/item_videolist"
         tools:scrollbars="horizontal" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

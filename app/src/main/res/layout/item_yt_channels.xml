@@ -18,8 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@drawable/shape_rect_round"
-        tools:src="@drawable/ic_settings" />
+        tools:background="@drawable/shape_rect_round"/>
 
     <TextView
         android:id="@+id/textTitle"
@@ -33,13 +32,14 @@
         android:paddingEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image"
         tools:text="Заголовок"
-        android:textColor="@color/color_fragment_background"/>
+        android:textColor="?attr/CLR_white"/>
 
     <Button
         android:id="@+id/btnOpenChannel"
-        style="@style/ButtonStyleIcon"
+        style="?attr/BS_Outline"
+        android:textColor="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"

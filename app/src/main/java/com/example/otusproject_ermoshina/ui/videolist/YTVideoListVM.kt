@@ -9,8 +9,6 @@ import com.example.otusproject_ermoshina.base.YTVideoList
 import com.example.otusproject_ermoshina.sources.helpers.VideoListLoad
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,33 +17,16 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class VideoListVM @Inject constructor(
+class YTVideoListVM @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val helper: VideoListLoad
 ) : BaseViewModel() {
     private val _screenState = MutableLiveData<LoadingResult<List<YTVideoList>>>()
     val screenState: LiveData<LoadingResult<List<YTVideoList>>> = _screenState
 
-    private val navArgs: VideoListArgs =
-        VideoListArgs.fromSavedStateHandle(savedStateHandle)
+    private val navArgs: YTVideoListArgs =
+        YTVideoListArgs.fromSavedStateHandle(savedStateHandle)
     private val idVideoList = navArgs.idPlayList
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        when (exception) {
-            is DataBaseLoadException -> {
-                viewModelScope.cancel()
-                Log.i("AppExceptionsBase", "Handle ${exception.sayException()}")
-                _screenState.value =
-                    LoadingResult.Error
-            }
-            is NetworkLoadException -> {
-                viewModelScope.cancel()
-                Log.i("AppExceptionsBase", "Handle ${exception.sayException()}")
-                _screenState.value =
-                    LoadingResult.Error
-            }
-        }
-    }
 
     init {
         _screenState.value = LoadingResult.Loading
@@ -53,20 +34,24 @@ class VideoListVM @Inject constructor(
     }
 
     fun addSeeLater(idVideo: String) {
-        viewModelScope.launch(coroutineExceptionHandler) {
-            //TODO добавить в рум таблицу с видео на потом
-            // repoRoomYouTube.addPlayListSeeLater(idPlayList)
+        viewModelScope.launch() {
+
             showToast(R.string.toastAddSeeLaterPlayList)
         }
     }
 
     fun loadMore() {
-        viewModelScope.launch(coroutineExceptionHandler) {
-            val result = helper.getLoadMoreVideoList(idVideoList)
-            if (result == null) {
-                showToast(R.string.toastAllVideoLoad)
-            } else {
-                _screenState.value = LoadingResult.Success(result)
+        viewModelScope.launch{
+            try{
+                _screenState.value = LoadingResult.LoadingMore
+                val result = helper.getLoadMoreVideoList(idVideoList)
+                if (result == null) {
+                    showToast(R.string.toastAllVideoLoad)
+                } else {
+                    _screenState.value = LoadingResult.Success(result)
+                }
+            }catch (e: Exception){
+                catchException(e)
             }
         }
     }
@@ -74,12 +59,34 @@ class VideoListVM @Inject constructor(
         loadVideoLists(idVideoList)
     }
     private fun loadVideoLists(idPlayList: String){
-        viewModelScope.launch(coroutineExceptionHandler) {
-            val result = helper.getListVideoByIdPlayList(idPlayList)
+        viewModelScope.launch{
+            try{
+            val result = helper.getVideoList(idPlayList)
             if(result == null) {
                 showToast(R.string.toastPlayListNotPublic)
                 _screenState.value = LoadingResult.Error
             } else  _screenState.value = LoadingResult.Success(result)
+        }catch (e:Exception){
+                catchException(e)
+        }}
         }
+
+    private fun catchException(e:Exception){
+        when(e){
+            is NetworkLoadException -> {
+                _screenState.value = LoadingResult.Error
+                showToast(R.string.messageNetworkLoadException)
+                Log.i("AAA", e.sayException())
+            }
+            is DataBaseLoadException -> {
+                _screenState.value = LoadingResult.Error
+                showToast(R.string.messageNetworkLoadException)
+                Log.i("AAA", e.sayException())
+            }
+            else -> {
+                _screenState.value = LoadingResult.Error
+                Log.i("AAA", "Какая-то херобура")
+            }
         }
+    }
     }

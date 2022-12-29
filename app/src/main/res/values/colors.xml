@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+    <attr name="CLR_white" format="color"/>
+    <attr name="CLR_shapeOnImage" format="color"/>
+
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -9,15 +14,13 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="color_primary">#610E0E</color>
+    <color name="color_primary">#E53935</color>
     <color name="color_primary_variant">#113137</color>
     <color name="color_secondary">#F57F17</color>
     <color name="color_secondary_variant">#FF1744</color>
     <color name="color_on_primary">#000000</color>
     <color name="color_on_primary_variant">#000000</color>
     <color name="color_on_secondary">#1C1C1C</color>
-    <color name="color_fragment_background">#FFFFFF</color>
-    <color name="color_scroll_background">#DDDDDD</color>
-
+    <color name="color_on_image">#5CFFFFFF</color>
 
 </resources>

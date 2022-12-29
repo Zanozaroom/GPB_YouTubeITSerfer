@@ -22,26 +22,6 @@ class SearchFragmentVM @Inject constructor(
     private val helper: SearchLoad,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        when (exception) {
-            is DataBaseLoadException -> {
-                viewModelScope.cancel()
-                Log.i("AppExceptionsBase", "Handle ${exception.sayException()}")
-                _state.value = LoadingResult.Error
-                showToast(R.string.messageRoomLoadException)
-            }
-            is NetworkLoadException -> {
-                Log.i("AppExceptionsBase", "Handle ${exception.sayException()}")
-                showToast(R.string.messageNetworkLoadException)
-            }
-            else -> {
-                viewModelScope.cancel()
-                Log.i("AppExceptionsBase", "Handle - другая ошибка ${exception}")
-                _state.value = LoadingResult.Error
-                showToast(R.string.messageNetworkLoadException)
-            }
-        }
-    }
 
     private val navArgs: SearchFragmentArgs =
         SearchFragmentArgs.fromSavedStateHandle(savedStateHandle)
@@ -51,28 +31,52 @@ class SearchFragmentVM @Inject constructor(
     val state: LiveData<LoadingResult<List<YTSearch>>> = _state
 
     init {
-        _state.value = LoadingResult.Loading
-        viewModelScope.launch(coroutineExceptionHandler) {
-            _state.value =
-                LoadingResult.Success(helper.getResultSearch(query, maxResult = 3))
-        }
+     load()
     }
 
-    fun excLoad() {
+    fun load() {
         _state.value = LoadingResult.Loading
-        viewModelScope.launch(coroutineExceptionHandler) {
-            _state.value =
-                LoadingResult.Success(helper.getResultSearch(query, maxResult = 3))
+        viewModelScope.launch() {
+            try {
+                _state.value =
+                    LoadingResult.Success(helper.getResultSearch(query, maxResult = 5))
+            } catch (e: Exception) {
+                catchException(e)
+            }
         }
     }
-    fun loadMore(){
-        _state.value = LoadingResult.Loading
-        viewModelScope.launch(coroutineExceptionHandler) {
-            val result = helper.getLoadMoreResultSearch(query)
-            if(result.isNullOrEmpty()){
-                showToast(R.string.toastAllVideoLoad)
-            } else _state.value =
-                LoadingResult.Success(result)
+        fun loadMore() {
+            viewModelScope.launch() {
+                try {
+                    _state.value = LoadingResult.LoadingMore
+                    val result = helper.getLoadMoreResultSearch(query)
+                    if (result.isNullOrEmpty()) {
+                        showToast(R.string.toastAllVideoLoad)
+                    } else _state.value =
+                        LoadingResult.Success(result)
+                } catch (e: Exception) {
+                 catchException(e)
+                }
+
+            }
+        }
+
+    private fun catchException(e: Exception) {
+        when (e) {
+            is NetworkLoadException -> {
+                _state.value = LoadingResult.Error
+                showToast(R.string.messageNetworkLoadException)
+                Log.i("AAA", e.sayException())
+            }
+            is DataBaseLoadException -> {
+                _state.value = LoadingResult.Error
+                showToast(R.string.messageNetworkLoadException)
+                Log.i("AAA", e.sayException())
+            }
+            else -> {
+                _state.value = LoadingResult.Error
+                Log.i("AAA", "Непонятная ошибка, все сломалось в PlayListsVM $e")
+            }
         }
     }
 }

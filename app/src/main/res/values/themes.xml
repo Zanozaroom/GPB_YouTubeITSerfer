@@ -4,6 +4,5 @@
     <!-- Base application theme. -->
     <style name="Theme.OtusProject_Ermoshina.LightNight">
         <!-- Customize your theme here. -->
-        <item name="materialButtonStyle">@style/ButtonStyleIcon</item>
     </style>
     </resources>

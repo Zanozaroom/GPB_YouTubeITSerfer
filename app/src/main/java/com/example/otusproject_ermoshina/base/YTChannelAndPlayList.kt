@@ -1,26 +1,17 @@
 package com.example.otusproject_ermoshina.base
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 
-data class YTPlayListOfChannel(
-    val idChannel: String,
-    val idList: String,
-    val imageList: String,
-    val titleListVideo: String,
-    val titleChannel:String
-)
 
-data class YTChannelAndListVideos(
+data class YTChannelAndPlayList(
     val idChannel: String,
     val titleChannel: String,
     val nextToken: String,
-    val listVideos: List<YTPlayListOfChannel>
+    val listVideos: List<YTPlayList>
 )
 {
-    fun toVideosChannel(): List<YTPlayListOfChannel> {
+    fun toVideosChannel(): List<YTPlayList> {
         return listVideos.map {
-            YTPlayListOfChannel(
+            YTPlayList(
                 idChannel = idChannel,
                 idList = it.idList,
                 imageList = it.imageList,

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.otusproject_ermoshina.base.YTSearch
 import com.example.otusproject_ermoshina.databinding.ItemSearchBinding
-import com.example.otusproject_ermoshina.ui.base.Formatter.Companion.parse
+import com.example.otusproject_ermoshina.ui.base.Formatter.Companion.dataFormatter
 
 class ExDiffUtilSearchMain: DiffUtil.ItemCallback<YTSearch>() {
     override fun areItemsTheSame(oldItem: YTSearch, newItem: YTSearch): Boolean = oldItem.id == newItem.id
@@ -41,7 +41,7 @@ class AdapterSearch(private val itemClickListener: OnClickSearch):
         ) {
             binding.titleVideo.text = positionVideo.title
             binding.titleChannel.text = positionVideo.channelTitle
-            binding.publishedAt.text = positionVideo.publishedAt.parse()
+            binding.publishedAt.text = positionVideo.publishedAt.dataFormatter()
             if(positionVideo.description.isBlank()){
                 binding.description.visibility = View.GONE
             }else{

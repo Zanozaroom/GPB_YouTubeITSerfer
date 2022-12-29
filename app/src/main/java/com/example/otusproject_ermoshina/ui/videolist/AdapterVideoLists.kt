@@ -1,4 +1,4 @@
-package com.example.otusproject_ermoshina.utill
+package com.example.otusproject_ermoshina.ui.videolist
 
 
 import android.view.LayoutInflater
@@ -10,26 +10,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.otusproject_ermoshina.base.YTVideoList
 import com.example.otusproject_ermoshina.databinding.ItemVideolistBinding
-import com.example.otusproject_ermoshina.ui.base.Formatter.Companion.parse
+import com.example.otusproject_ermoshina.ui.base.Formatter.Companion.dataFormatter
 
 typealias OnClickImageVideoList = (item: String) -> Unit
 
 class AdapterVideoLists(
     private val onClickYTListener: OnClickImageVideoList
 ):
-    ListAdapter<YTVideoList, AdapterVideoLists.VideoListByIdListViewHolder>(
+    ListAdapter<YTVideoList, AdapterVideoLists.VideoListViewHolder>(
         ExDiffUtilVideoListByIdList()
     ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListByIdListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
         val binding = ItemVideolistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return VideoListByIdListViewHolder(binding)
+        return VideoListViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: VideoListByIdListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VideoListViewHolder, position: Int) {
         holder.populate(currentList[holder.absoluteAdapterPosition], onClickYTListener)
     }
 
-    class VideoListByIdListViewHolder(private val binding: ItemVideolistBinding) : RecyclerView.ViewHolder(binding.root) {
+    class VideoListViewHolder(private val binding: ItemVideolistBinding) : RecyclerView.ViewHolder(binding.root) {
         fun populate(positionVideo: YTVideoList,
                      onClickImageVideoList: OnClickImageVideoList) {
 
@@ -42,7 +42,7 @@ class AdapterVideoLists(
                 }else{
                     description.visibility = View.GONE
                 }
-                publishedAt.text = positionVideo.videoPublishedAt.parse()
+                publishedAt.text = positionVideo.videoPublishedAt.dataFormatter()
                 binding.imageVideo.setOnClickListener{
                     onClickImageVideoList(positionVideo.idVideo)
                 }

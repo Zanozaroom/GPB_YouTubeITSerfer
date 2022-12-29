@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingHorizontal="10dp"
     android:paddingVertical="10dp"
-    tools:background="@color/white">
+    tools:background="?attr/CLR_white">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideStart"
@@ -42,18 +42,44 @@
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:background="@drawable/shape_rect_round"
-        android:layout_marginTop="16dp"
-        android:paddingVertical="10dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toTopOf="@id/titleChannel"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintTop_toBottomOf="@id/titleVideo" />
+    <ImageView
+        android:id="@+id/imageOnVideo"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="@drawable/shape_image_on_video"
+        android:paddingVertical="10dp"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="@id/imageVideo"
+        app:layout_constraintBottom_toBottomOf="@id/imageVideo"
+        app:layout_constraintEnd_toEndOf="@id/imageVideo"
+        app:layout_constraintTop_toTopOf="@id/imageVideo" />
+
+    <ImageButton
+        android:id="@+id/btnOpenThisPL"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/DescrOpenPayList"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_open_in_new"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageVideo"
+        app:layout_constraintEnd_toEndOf="@id/imageVideo" />
 
     <TextView
         android:id="@+id/titleChannel"
         style="?attr/TA_TextViewTitleHead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="3dp"
         android:ellipsize="end"
         android:gravity="start"
         android:lines="1"
@@ -63,15 +89,30 @@
         tools:text="Название канала" />
 
     <Button
-        android:id="@+id/btnAddPlaylist"
-        style="@style/ButtonStyleIcon"
+        android:id="@+id/btnPositiveActionPlaylist"
+        style="?attr/BS_OutlineMinimal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="3dp"
         android:contentDescription="@string/DescrAddToFavorite"
-        android:text="@string/btnFloatPlayList"
+        android:text="@string/btnActionPlayList"
+        android:visibility="visible"
         app:icon="@drawable/ic_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleChannel" />
+
+    <Button
+        android:id="@+id/btnNegativeActionPlaylist"
+        style="?attr/BS_Outline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="3dp"
+        android:contentDescription="@string/DescrRemoveFromFavorite"
+        android:text="@string/btnActionPlayList"
+        android:visibility="gone"
+        app:icon="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleChannel" />
 

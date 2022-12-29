@@ -32,9 +32,9 @@
     </fragment>
     <fragment
         android:id="@+id/playLists"
-        android:name="com.example.otusproject_ermoshina.ui.playlist.PlayLists"
+        android:name="com.example.otusproject_ermoshina.ui.playlist.YTPlayListFragment"
         android:label="fragment_yt_channel_playlists"
-        tools:layout="@layout/fragment_yt_channel_playlists" >
+        tools:layout="@layout/fragment_playlist" >
         <action
             android:id="@+id/action_playLists_to_videoList"
             app:destination="@id/videoList" />
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoList"
-        android:name="com.example.otusproject_ermoshina.ui.videolist.VideoList"
+        android:name="com.example.otusproject_ermoshina.ui.videolist.YTVideoList"
         android:label="fragment_videolist"
         tools:layout="@layout/fragment_videolist" >
         <action
@@ -51,11 +51,10 @@
             app:destination="@id/pageOfVideo" />
         <argument android:name="idPlayList" />
     </fragment>
-
     <fragment
         android:id="@+id/myvideos"
         android:label="Страница пользователя"
-        android:name="com.example.otusproject_ermoshina.ui.WantWatchPlayList" />
+        android:name="com.example.otusproject_ermoshina.ui.user_pageview.UserViewPage" />
     <fragment
         android:id="@+id/mhome"
         android:name="com.example.otusproject_ermoshina.ui.main.FragmentMain"
@@ -71,4 +70,7 @@
             android:id="@+id/action_fragmentMain_to_playLists"
             app:destination="@id/playLists" />
     </fragment>
+
+
+
 </navigation>

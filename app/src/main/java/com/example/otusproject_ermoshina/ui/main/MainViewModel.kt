@@ -19,11 +19,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val helper: SearchLoad
 ) : BaseViewModel() {
-    lateinit var  job :Job
-
-
-
-
 
     private val _state = MutableLiveData<LoadingResult<List<YTSearchAndTitle>>>()
     val state: LiveData<LoadingResult<List<YTSearchAndTitle>>> = _state
@@ -42,11 +37,13 @@ class MainViewModel @Inject constructor(
         } catch (e:Exception){
             when(e){
                 is NetworkLoadException -> {
+                    Log.i("AAA", "NetworkLoadException первый")
                     _state.value = LoadingResult.Error
                     showToast(R.string.messageNetworkLoadException)
                     Log.i("AAA", e.sayException())
                 }
                 is DataBaseLoadException -> {
+                    Log.i("AAA", "NetworkLoadException второй")
                     _state.value = LoadingResult.Error
                     showToast(R.string.messageNetworkLoadException)
                     Log.i("AAA", e.sayException())
@@ -54,7 +51,7 @@ class MainViewModel @Inject constructor(
                 else -> {
                     _state.value = LoadingResult.Error
 
-                    Log.i("AAA", "Какая-то херобура")
+                    Log.i("AAA", "Все сломалось в MainViewModel $e")
                 }
             }
 

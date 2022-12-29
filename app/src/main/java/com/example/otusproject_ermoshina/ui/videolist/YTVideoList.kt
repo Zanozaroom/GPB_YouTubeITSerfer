@@ -8,25 +8,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.otusproject_ermoshina.base.YTVideoList
 import com.example.otusproject_ermoshina.databinding.FragmentVideolistBinding
-import com.example.otusproject_ermoshina.ui.base.Move
-import com.example.otusproject_ermoshina.utill.AdapterVideoLists
-import com.example.otusproject_ermoshina.utill.SwipeToFavoriteList
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.LoadingResult
 import com.example.otusproject_ermoshina.ui.base.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class VideoList: Fragment() {
-    private val viewModel: VideoListVM by viewModels()
+class YTVideoList: Fragment() {
+    private val viewModel: YTVideoListVM by viewModels()
     lateinit var binding: FragmentVideolistBinding
+    private var isLoading = true
     private val adapterVideoIdList: AdapterVideoLists by lazy {
         AdapterVideoLists{
-           val action = VideoListDirections.actionVideoListToPageOfVideo(it)
+           val action = YTVideoListDirections.actionVideoListToPageOfVideo(it)
             findNavController().navigate(action)
         }
     }
@@ -44,7 +41,6 @@ class VideoList: Fragment() {
         }
 
         initAdapterSetting()
-        initSwipeCallBack()
         binding.buttonErrorLoad.setOnClickListener {
             viewModel.tryLoad()
         }
@@ -62,6 +58,7 @@ class VideoList: Fragment() {
                     val totalItemCount = recyclerView.layoutManager!!.itemCount
                     if (totalItemCount ==
                         adapterLayoutManager.findLastCompletelyVisibleItemPosition() + 1
+                        && !isLoading
                     ) {
                         viewModel.loadMore()
                     }
@@ -69,30 +66,7 @@ class VideoList: Fragment() {
             })
         }
     }
-    private fun initSwipeCallBack(){
-        val  swipeCallBack = SwipeToFavoriteList(requireContext()){ move, position1, _ ->
-            when(move) {
-                //удаляем
-                Move.START -> {
-                    //в этом фрагменте не используем
-                }
-                //добавляем в избранное
-                Move.END -> {
-                    viewModel.addSeeLater(adapterVideoIdList.currentList[position1].idVideo!!)
-                    /* viewModel.addToListFavoriteArt(adapterListArt.currentList[position1])*/
-                    adapterVideoIdList.notifyItemChanged(position1)
-                    //     Toast.makeText(requireContext(), "R.string.toast_add_art", Toast.LENGTH_SHORT).show()
-
-                }
-                Move.MOVED ->{
-                    //в этом фрагменте не используем
-                }
-            }
-        }
-        val itemCallBack = ItemTouchHelper(swipeCallBack)
-        itemCallBack.attachToRecyclerView(binding.recyclerVideoList)
-    }
-    fun stateScreen(state: LoadingResult<List<YTVideoList>>){
+    private fun stateScreen(state: LoadingResult<List<YTVideoList>>){
         when(state){
             is LoadingResult.Error -> {
                 binding.progressBar.visibility = View.GONE
@@ -112,8 +86,10 @@ class VideoList: Fragment() {
                 binding.recyclerVideoList.visibility = View.VISIBLE
                 binding.buttonErrorLoad.visibility = View.GONE
                 binding.messageErrorLoad.visibility = View.GONE
+                isLoading = false
             }
-            LoadingResult.Empty -> TODO()
+            LoadingResult.Empty -> {}//не испозьуем
+            LoadingResult.LoadingMore -> isLoading = true
         }
     }
 
