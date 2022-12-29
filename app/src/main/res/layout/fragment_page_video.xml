@@ -64,7 +64,7 @@
             app:layout_constraintTop_toBottomOf="@id/video" />
 
         <Button
-            android:id="@+id/iconAdd"
+            android:id="@+id/addVideoToFavorite"
             style="@style/CustomFillButtonStyleIcon.Minimal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
             app:layout_constraintStart_toStartOf="@id/iconLiked"
             app:layout_constraintTop_toBottomOf="@id/iconAllWatched" />
         <Button
-            android:id="@+id/addChannelToFavorite"
+            android:id="@+id/openChannelPage"
             style="?attr/BS_OutlineMinimal"
             android:textSize="14sp"
             android:textColor="?attr/colorSecondaryVariant"

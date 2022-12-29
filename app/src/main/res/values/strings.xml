@@ -5,7 +5,10 @@
     <string name="btmMenu_settings">settings</string>
     <string name="loadErrorText">Ошибка загрузки.\nПопробовать снова</string>
     <string name="loadErrorButton">Загрузить</string>
-    <string name="toastAddSeeLaterPlayList">Плейлист добавлен в Хочу посмотреть</string>
+    <string name="toastAddFavoritePlayList">Плейлист добавлен в избранное</string>
+    <string name="toastAddFavoriteVideo">Видео добавлено в избранное</string>
+    <string name="toastRemoveFromFavorite">Удалено из избранного</string>
+    <string name="toastAddFavoriteFail">Не удалось добавить в избранное</string>
     <string name="messageRoomLoadException">Повреждены файлы приложения, требуется переустановка</string>
     <string name="messageNetworkLoadException">Не удалось загрузить часть файлов с сервера</string>
     <string name="toastAllVideoLoad">Загружены все видео</string>

@@ -1,6 +1,6 @@
 package com.example.otusproject_ermoshina.di
 
-import com.example.otusproject_ermoshina.sources.retrofit.YTApi
+import com.example.otusproject_ermoshina.servise.retrofit.YTApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="15dp"
     android:orientation="vertical"
-    tools:context=".ui.videolist.YTVideoList">
+    tools:context=".ui.fragment.videolist.YTVideoListFragment">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/gropeError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="messageErrorLoad,buttonErrorLoad" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerVideoList"
@@ -26,28 +32,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/messageErrorLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/loadErrorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/loadErrorText"
-        android:gravity="center_horizontal"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/buttonErrorLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/loadErrorButton"
         android:layout_marginVertical="10dp"
+        android:text="@string/loadErrorButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/messageErrorLoad"/>
+        app:layout_constraintTop_toBottomOf="@id/messageErrorLoad" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

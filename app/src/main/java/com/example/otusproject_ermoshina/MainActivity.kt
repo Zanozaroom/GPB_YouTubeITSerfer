@@ -2,17 +2,13 @@ package com.example.otusproject_ermoshina
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.otusproject_ermoshina.databinding.ActivityMainBinding
-import com.example.otusproject_ermoshina.sources.repositories.RepositoryYouTube
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Retrofit
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

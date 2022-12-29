@@ -105,6 +105,7 @@
         app:layout_constraintHorizontal_bias="1"
         android:contentDescription="@string/DscrBackgroundIconOnImage" />
     <ImageView
+        android:id="@+id/iconGoWatch"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
         android:layout_width="0dp"

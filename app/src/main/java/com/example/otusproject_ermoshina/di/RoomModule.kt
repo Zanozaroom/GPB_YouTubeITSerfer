@@ -2,7 +2,7 @@ package com.example.otusproject_ermoshina.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.otusproject_ermoshina.sources.room.MyDataBase
+import com.example.otusproject_ermoshina.servise.room.MyDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

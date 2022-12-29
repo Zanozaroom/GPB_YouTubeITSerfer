@@ -1,9 +1,10 @@
 package com.example.otusproject_ermoshina.di
 
-import com.example.otusproject_ermoshina.sources.*
-import com.example.otusproject_ermoshina.sources.helpers.*
-import com.example.otusproject_ermoshina.sources.repositories.RepositoryRoom
-import com.example.otusproject_ermoshina.sources.repositories.RepositoryYouTube
+import com.example.otusproject_ermoshina.domain.helpers.*
+import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
+import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
+import com.example.otusproject_ermoshina.domain.repositories.RepositoryRoom
+import com.example.otusproject_ermoshina.domain.repositories.RepositoryYouTube
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
