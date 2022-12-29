@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 
 open class BaseViewModel:ViewModel() {
 
-    sealed class LoadingResult<out T> {
-        data class Success<out R>(val dataList: R) : LoadingResult<R>()
-        object Empty : LoadingResult<Nothing>()
-        object Error : LoadingResult<Nothing>()
-        object Loading : LoadingResult<Nothing>()
-        object LoadingMore: LoadingResult<Nothing>()
-    }
+    sealed class ViewModelResult<out T>
+    data class SuccessViewModel<out R>(val dataViewModelResult: R) : ViewModelResult<R>()
+    object EmptyResultViewModel : ViewModelResult<Nothing>()
+    object ErrorLoadingViewModel : ViewModelResult<Nothing>()
+    object LoadingViewModel : ViewModelResult<Nothing>()
+    object NotMoreLoadingViewModel: ViewModelResult<Nothing>()
+
 
     protected val _toastEvent = MutableLiveEvent<Int>()
     val toastEvent = _toastEvent.share()
