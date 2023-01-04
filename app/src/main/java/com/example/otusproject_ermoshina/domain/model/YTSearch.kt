@@ -1,7 +1,6 @@
 package com.example.otusproject_ermoshina.domain.model
 
-data class YTSearch (
-    val id:Int,
+data class YTSearch(
     val videoId: String,
     val channelId: String,
     val title: String,

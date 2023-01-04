@@ -13,6 +13,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,7 +33,7 @@ interface RepositoryModule {
 interface Helpers {
 
     @Binds
-    fun bindSearchLoader(helper: SearchLoadImp): SearchLoad
+    fun bindSearchLoader(helper: SearchLoadImpl): SearchLoad
     @Binds
     fun bindHelperPlayListLoader(helper: PlayListLoadImpl): PlayListLoad
     @Binds
@@ -46,5 +47,10 @@ interface Helpers {
 @InstallIn(SingletonComponent::class)
 object ProviderRepository{
     @Provides
-    fun provideCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
+    @Named("Dispatchers.IO")
+    fun provideCoroutineDispatcherIO(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Named("Dispatchers.Default")
+    fun provideCoroutineDispatcherDefault(): CoroutineDispatcher = Dispatchers.Default
 }

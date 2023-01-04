@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="15dp"
     android:orientation="vertical"
-    tools:context=".ui.fragment.videolist.YTVideoListFragment">
+    tools:context=".ui.screen.videolist.YTVideoListFragment">
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/gropeError"

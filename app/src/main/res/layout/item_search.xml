@@ -22,19 +22,17 @@
         app:layout_constraintGuide_end="4dp" />
 
     <TextView
-        android:id="@+id/titleVideo"
+        android:id="@+id/titleChannel"
         style="?attr/TA_TextViewTitleHeadBig"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:ellipsize="end"
         android:gravity="start"
         android:lines="1"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Заголовок" />
+        tools:text="Название канала" />
 
     <ImageView
         android:id="@+id/imageVideo"
@@ -44,21 +42,37 @@
         android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/titleVideo" />
+        app:layout_constraintTop_toBottomOf="@id/titleChannel" />
+    <ImageButton
+        android:id="@+id/buttonShowVideo"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_play"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/DscrIconPlayVideo"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintBottom_toBottomOf="@id/imageVideo"
+        app:layout_constraintEnd_toEndOf="@id/imageVideo"
+        app:layout_constraintTop_toTopOf="@id/imageVideo"
+        app:layout_constraintStart_toStartOf="@id/imageVideo"/>
 
     <TextView
-        android:id="@+id/titleChannel"
+        android:id="@+id/titleVideo"
         style="?attr/TA_TextViewTitleHead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:ellipsize="end"
         android:gravity="start"
         android:lines="2"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintTop_toBottomOf="@+id/publishedAt"
-        tools:text="Название канала" />
-
+        tools:text="Название видео" />
     <Button
         android:id="@+id/btnOpenChannel"
         style="?attr/BS_OutlineOnSearch"
@@ -77,7 +91,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintTop_toBottomOf="@+id/imageVideo"
-        app:layout_constraintBottom_toTopOf="@id/titleChannel"
         tools:text="Дата: " />
     <TextView
         android:id="@+id/description"
@@ -91,7 +104,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/titleChannel"
+        app:layout_constraintTop_toBottomOf="@id/titleVideo"
         tools:text="Описание" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

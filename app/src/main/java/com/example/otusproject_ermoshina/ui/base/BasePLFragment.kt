@@ -2,17 +2,12 @@ package com.example.otusproject_ermoshina.ui.base
 
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.databinding.FragmentPlaylistBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-interface ActionPL {
-    fun openPlayList(idPlayList: String)
-    fun deleteFromFavorite(idPlayList:String)
-    fun addToFavoritePL(list: YTPlayList)
-}
+
 @AndroidEntryPoint
-abstract class BasePLFragment : Fragment(), ActionPL {
+abstract class BasePLFragment : Fragment() {
     abstract var binding: FragmentPlaylistBinding
 
     fun showError() {

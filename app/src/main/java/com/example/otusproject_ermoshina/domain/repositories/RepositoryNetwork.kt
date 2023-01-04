@@ -1,28 +1,28 @@
 package com.example.otusproject_ermoshina.domain.repositories
 
-import com.example.otusproject_ermoshina.domain.model.YTChannelAndPlayList
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideos
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideo
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearch
+import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideoResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearchResponse
 
 interface RepositoryNetwork {
     suspend fun loadChannelList(
         channelId: String,
         token: String,
         maxResult: Int
-    ): NetworkResult<YTChannelAndPlayList>
+    ): NetworkResult<YTPlayListPaging>
 
     suspend fun getListVideos(
         playListId: String,
         token: String,
         maxResult: Int
-    ): ModelLoadListVideos?
+    ): NetworkResult<ModelLoadListVideosResponse>
 
-    suspend fun loadOneVideo(idVideo: String): ModelLoadVideo
+    suspend fun loadOneVideo(idVideo: String): NetworkResult<ModelLoadVideoResponse>
     suspend fun getResultSearch(
         query: String,
         maxResult: Int,
         token: String,
         safeSearch: String?
-    ): ModelSearch
+    ): NetworkResult<ModelSearchResponse>
 }

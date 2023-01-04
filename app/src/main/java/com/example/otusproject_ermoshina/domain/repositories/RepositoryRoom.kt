@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
@@ -23,7 +24,7 @@ class RepositoryRoom @Inject constructor(
     private val playListDao: DaoPlayList,
     private val queryDao: DaoQuery,
     private val videoDao: DaoVideo,
-    private val coroutineDispatcher: CoroutineDispatcher
+    @Named("Dispatchers.IO")val coroutineDispatcher: CoroutineDispatcher
 ) : RepositoryDataBase {
 
 

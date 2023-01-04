@@ -20,10 +20,26 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_end="4dp" />
+    <Button
+        android:id="@+id/titleChannel"
+        style="?attr/BS_Fill"
+        android:layout_width="wrap_content"
+        app:icon ="@drawable/ic_open_in_new"
+        app:layout_goneMarginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:lines="1"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/guideEnd"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        tools:text="Название канала" />
 
     <TextView
         android:id="@+id/titleVideo"
-        style="?attr/TA_TextViewTitleHeadBig"
+        style="?attr/TA_TextViewTitleScrollLittle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -33,16 +49,15 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleChannel"
         tools:text="Заголовок" />
 
     <ImageView
         android:id="@+id/imageVideo"
         android:layout_width="0dp"
         android:layout_height="250dp"
-        android:background="@drawable/shape_rect_round"
+        tools:background="@drawable/shape_rect_round"
         android:contentDescription="@string/imgPreviewVideo"
-        android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintTop_toBottomOf="@id/titleVideo" />
@@ -54,18 +69,6 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="actionPositiveButton" />
 
-    <TextView
-        android:id="@+id/titleChannel"
-        style="?attr/TA_TextViewTitleHead"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:lines="2"
-        app:layout_constraintEnd_toStartOf="@id/guideEnd"
-        app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/barrier"
-        tools:text="Название канала" />
 
     <TextView
         android:id="@+id/description"
@@ -79,7 +82,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/titleChannel"
+        app:layout_constraintTop_toBottomOf="@id/publishedAt"
         tools:text="Описание" />
 
     <TextView
@@ -93,18 +96,6 @@
         tools:text="Дата: " />
 
     <ImageView
-        android:id="@+id/backgroundIconGo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/shape_image_on_video"
-        app:layout_constraintBottom_toBottomOf="@id/imageVideo"
-        app:layout_constraintEnd_toEndOf="@id/imageVideo"
-        app:layout_constraintStart_toStartOf="@id/imageVideo"
-        app:layout_constraintTop_toTopOf="@id/imageVideo"
-        app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHorizontal_bias="1"
-        android:contentDescription="@string/DscrBackgroundIconOnImage" />
-    <ImageView
         android:id="@+id/iconGoWatch"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
@@ -114,10 +105,10 @@
         android:contentDescription="@string/DscrIconPlayVideo"
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintWidth_percent="0.2"
-        app:layout_constraintBottom_toBottomOf="@id/backgroundIconGo"
-        app:layout_constraintEnd_toEndOf="@id/backgroundIconGo"
-        app:layout_constraintTop_toTopOf="@id/backgroundIconGo"
-        app:layout_constraintStart_toStartOf="@id/backgroundIconGo"/>
+        app:layout_constraintBottom_toBottomOf="@id/imageVideo"
+        app:layout_constraintEnd_toEndOf="@id/imageVideo"
+        app:layout_constraintTop_toTopOf="@id/imageVideo"
+        app:layout_constraintStart_toStartOf="@id/imageVideo"/>
     <Button
         android:id="@+id/actionPositiveButton"
         style="?attr/BS_OutlineMinimal"
@@ -125,7 +116,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btnActionVideo"
         app:icon="@drawable/ic_add"
-        app:layout_constraintEnd_toEndOf="@id/imageVideo"
-        app:layout_constraintTop_toBottomOf="@id/imageVideo" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

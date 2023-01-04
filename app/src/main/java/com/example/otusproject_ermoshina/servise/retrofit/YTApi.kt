@@ -1,9 +1,9 @@
 package com.example.otusproject_ermoshina.servise.retrofit
 
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideos
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideo
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelChannelPlayList
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearch
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideoResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ChannelPlayListResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearchResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,7 +14,7 @@ interface YTApi {
         @Query("part") part: String,
         @Query("id") id: String,
         @Query("key") key: String
-    ): Response<ModelLoadVideo>
+    ): Response<ModelLoadVideoResponse>
 
     /**
      * Запрос возвращает список всех видео из плейлиста
@@ -27,7 +27,7 @@ interface YTApi {
         @Query("maxResults") maxRes: Int,
         @Query("playlistId") playlistId: String,
         @Query("key") key: String
-    ): Response<ModelLoadListVideos>
+    ): Response<ModelLoadListVideosResponse>
 
     /**
      * Запрос возвращает список всех плейлистов канала.
@@ -40,7 +40,7 @@ interface YTApi {
         @Query("pageToken") nextToken: String,
         @Query("channelId") channelId: String,
         @Query("key") key: String
-    ): Response<ModelChannelPlayList>
+    ): Response<ChannelPlayListResponse>
 
     /**
      * Запрос возвращает список видео по поисковому запросу.
@@ -54,5 +54,5 @@ interface YTApi {
         @Query("q") query: String,
         @Query("key") key: String,
         @Query("safesearch") safeSearch:String
-    ): Response<ModelSearch>
+    ): Response<ModelSearchResponse>
 }

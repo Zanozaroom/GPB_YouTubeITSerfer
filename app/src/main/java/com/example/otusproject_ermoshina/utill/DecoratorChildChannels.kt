@@ -13,22 +13,33 @@ class DecoratorChildChannels(private val sizelist: Int, private val context: Con
      ****** This paints can draw background. You can change color
      */
 
-    init {
-        myPaintStroke.color = context.getColor(R.color.color_on_primary)
-    }
 
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {
         //add padding
         with(outRect) {
-            right = MARGIN_START
-            left = MARGIN_START
-            top = MARGIN_TOP
-            bottom = MARGIN_BOTTOM
+            if (parent.getChildAdapterPosition(view) == 0) {
+                left = MARGIN_START_FIRST
+                right = MARGIN_START
+                top = MARGIN_TOP
+                bottom = MARGIN_BOTTOM
+            }
+            else if(parent.getChildAdapterPosition(view) == sizelist-1){
+                right = MARGIN_START_FIRST
+                left = MARGIN_START
+                top = MARGIN_TOP
+                bottom = MARGIN_BOTTOM
+            }else{
+                right = MARGIN_START
+                left = MARGIN_START
+                top = MARGIN_TOP
+                bottom = MARGIN_BOTTOM
+            }
         }
     }
     companion object{
        const val MARGIN_TOP = 20
+        const val MARGIN_START_FIRST = 1
     }
 }

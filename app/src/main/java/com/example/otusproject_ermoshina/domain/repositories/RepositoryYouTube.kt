@@ -1,29 +1,27 @@
 package com.example.otusproject_ermoshina.domain.repositories
 
-import com.example.otusproject_ermoshina.domain.NetworkLoadException
-import com.example.otusproject_ermoshina.domain.model.YTChannelAndPlayList
+import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.servise.retrofit.YTApi
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideos
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideo
-import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearch
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideoResponse
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearchResponse
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
-sealed class NetworkResult<out T>
-data class SuccessNetworkResult<out R>(val dataNetworkResult: R) : NetworkResult<R>()
-object ErrorNetworkResult : NetworkResult<Nothing>()
 
 @Singleton
 class RepositoryYouTube @Inject constructor(
-    private val retrofit: YTApi
-): RepositoryNetwork {
+    private val retrofit: YTApi,
+    @Named("Dispatchers.IO") private val dispatcher: CoroutineDispatcher
+) : RepositoryNetwork {
 
     override suspend fun loadChannelList(
         channelId: String,
         token: String,
         maxResult: Int,
-    ): NetworkResult<YTChannelAndPlayList> =
-        withContext(Dispatchers.IO) {
+    ): NetworkResult<YTPlayListPaging> =
+        withContext(dispatcher) {
             val response =
                 retrofit.getListChannels(PART_CHANNEL, maxResult, token, channelId, KEY)
             if (response.isSuccessful) {
@@ -33,41 +31,55 @@ class RepositoryYouTube @Inject constructor(
             }
         }
 
-    override suspend fun getListVideos(playListId: String, token: String, maxResult: Int): ModelLoadListVideos? =
-        withContext(Dispatchers.IO) {
+    override suspend fun getListVideos(
+        playListId: String, token: String, maxResult: Int
+    ): NetworkResult<ModelLoadListVideosResponse> =
+        withContext(dispatcher) {
             val response = retrofit.getListVideos(
-                PART_VIDEO_LIST, token, maxResult, playListId,
-                KEY
+                PART_VIDEO_LIST, token, maxResult, playListId, KEY
+            )
+
+            if (response.isSuccessful) {
+                SuccessNetworkResult(response.body()!!)
+            } else {
+                ErrorNetworkResult
+            }
+        }
+
+    override suspend fun loadOneVideo(idVideo: String): NetworkResult<ModelLoadVideoResponse> =
+        withContext(dispatcher) {
+            val response = retrofit.getOneVideo(PART_ONE_VIDEO, idVideo, KEY)
+            if (response.isSuccessful) {
+                SuccessNetworkResult(response.body()!!)
+            } else {
+                ErrorNetworkResult
+            }
+        }
+
+    override suspend fun getResultSearch(
+        query: String,
+        maxResult: Int,
+        token: String,
+        safeSearch: String?
+    ): NetworkResult<ModelSearchResponse> =
+        withContext(dispatcher) {
+            val response = retrofit.getResultSearch(
+                PART_SEARCH,
+                maxResult,
+                token,
+                query,
+                KEY,
+                safeSearch ?: PART_SEARCH_SAFE
             )
             if (response.isSuccessful) {
-               response.body()
+                SuccessNetworkResult(response.body()!!)
             } else {
-                throw NetworkLoadException("RetrofitAbsoluteLoadException " +response.code().toString())
-            }
-        }
-
-    override suspend fun loadOneVideo(idVideo: String): ModelLoadVideo =
-        withContext(Dispatchers.IO) {
-            val response =  retrofit.getOneVideo(PART_ONE_VIDEO, idVideo, KEY)
-            if(response.isSuccessful){
-                response.body()!!
-            } else{
-                throw NetworkLoadException("RetrofitAbsoluteLoadException " +response.code().toString())
-            }
-        }
-
-    override suspend fun getResultSearch(query: String, maxResult: Int, token: String, safeSearch:String?): ModelSearch =
-        withContext(Dispatchers.IO) {
-            val response =  retrofit.getResultSearch(PART_SEARCH, maxResult,token,query, KEY, safeSearch?: PART_SEARCH_SAFE)
-            if(response.isSuccessful){
-                response.body()!!
-            } else{
-                throw NetworkLoadException("RetrofitAbsoluteLoadException " +response.code().toString())
+                ErrorNetworkResult
             }
         }
 
     companion object {
-        const val KEY = "AIzaSyCi4u78_AT3dcVbonADzVCJLq1__P5_FeI"
+        const val KEY = "AIzaSyDAgcGjXUNHjjNC4zQgpIgL16Wm2HNxr1I"
         const val PART_CHANNEL = "snippet"
         const val PART_VIDEO_LIST = "snippet,ContentDetails"
         const val PART_ONE_VIDEO = "snippet,statistics"

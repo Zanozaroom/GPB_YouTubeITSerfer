@@ -1,25 +1,21 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
-import com.example.otusproject_ermoshina.domain.model.YTSearch
-import com.example.otusproject_ermoshina.domain.model.YTSearchAndTitle
+import com.example.otusproject_ermoshina.domain.model.YTMainFragmentData
+import com.example.otusproject_ermoshina.domain.model.YTSearchPaging
+import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
 
 interface SearchLoad {
-    suspend fun getLoadMoreResultSearch(query: String, maxResult: Int = MAXRESULT_LOADMORE): List<YTSearch>?
-    suspend fun getResultSearch(query: String,
-                                token: String = TOKEN_NULL,
-                                maxResult: Int = MAXRESULT
-    ): List<YTSearch>
-    suspend fun getResultSearchAndTitleFirstStart(maxResult: Int = 2): List<YTSearchAndTitle>
+    suspend fun getLoadMoreResultSearch(
+        ytSearchPaging: YTSearchPaging,
+        maxResult: Int
+    ): ViewModelResult<YTSearchPaging>
 
-companion object{
-        const val MAXRESULT = 6
-        const val MAXRESULT_LOADMORE = 3
-        const val TOKEN_NULL = ""
+    suspend fun getResultSearch(
+        query: String,
+        token: String,
+        maxResult: Int
+    ): ViewModelResult<YTSearchPaging>
 
-        data class ObjectYTSearch(
-            var token: String = TOKEN_NULL,
-            var listYTSearch: List<YTSearch> = emptyList()
-        )
-    }
+    suspend fun getMainFragmentPage(maxResult: Int): ViewModelResult<List<YTMainFragmentData>>
+
 }
-

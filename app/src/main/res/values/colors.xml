@@ -16,11 +16,11 @@
 
     <color name="color_primary">#E53935</color>
     <color name="color_primary_variant">#113137</color>
-    <color name="color_secondary">#F57F17</color>
+    <color name="color_secondary">#820C80</color>
     <color name="color_secondary_variant">#FF1744</color>
     <color name="color_on_primary">#000000</color>
     <color name="color_on_primary_variant">#000000</color>
     <color name="color_on_secondary">#1C1C1C</color>
-    <color name="color_on_image">#5CFFFFFF</color>
+    <color name="color_parent_decorator">#FFFFFF</color>
 
 </resources>

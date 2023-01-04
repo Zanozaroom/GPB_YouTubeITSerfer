@@ -23,8 +23,24 @@
         app:layout_constraintGuide_end="4dp" />
 
     <TextView
+        android:id="@+id/titleChannel"
+        style="?attr/TA_TextViewTitleHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:lines="1"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd"
+        app:layout_constraintBottom_toTopOf="@id/imageVideo"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Название канала" />
+
+    <TextView
         android:id="@+id/titleVideo"
-        style="?attr/TA_TextViewTitleHeadBig"
+        style="?attr/TA_TextViewTitleLittle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -32,61 +48,39 @@
         android:gravity="start"
         android:lines="1"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/guideEnd"
+        app:layout_constraintEnd_toStartOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageVideo"
         tools:text="Заголовок" />
 
     <ImageView
         android:id="@+id/imageVideo"
         android:layout_width="0dp"
         android:layout_height="250dp"
-        android:background="@drawable/shape_rect_round"
         android:paddingVertical="5dp"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintBottom_toTopOf="@id/titleChannel"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/titleVideo"
         app:layout_constraintEnd_toEndOf="@id/guideEnd"
         app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/titleVideo" />
-    <ImageView
-        android:id="@+id/imageOnVideo"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
-        android:background="@drawable/shape_image_on_video"
-        android:paddingVertical="10dp"
-        app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toStartOf="@id/imageVideo"
-        app:layout_constraintBottom_toBottomOf="@id/imageVideo"
-        app:layout_constraintEnd_toEndOf="@id/imageVideo"
-        app:layout_constraintTop_toTopOf="@id/imageVideo" />
+        app:layout_constraintTop_toBottomOf="@id/titleChannel"
+        app:layout_constraintVertical_bias="0"
+        tools:background="@drawable/shape_rect_round" />
 
     <ImageButton
         android:id="@+id/btnOpenThisPL"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="1dp"
         android:background="?android:selectableItemBackground"
         android:contentDescription="@string/DescrOpenPayList"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_open_in_new"
-        android:layout_marginBottom="10dp"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintEnd_toEndOf="@id/imageVideo"
+        app:layout_constraintStart_toStartOf="@id/imageVideo"
         app:layout_constraintBottom_toBottomOf="@id/imageVideo"
-        app:layout_constraintEnd_toEndOf="@id/imageVideo" />
-
-    <TextView
-        android:id="@+id/titleChannel"
-        style="?attr/TA_TextViewTitleHead"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:lines="1"
-        app:layout_constraintEnd_toStartOf="@id/guideEnd"
-        app:layout_constraintStart_toStartOf="@id/guideStart"
-        app:layout_constraintTop_toBottomOf="@id/imageVideo"
-        tools:text="Название канала" />
+        app:layout_constraintTop_toTopOf="@id/imageVideo" />
 
     <Button
         android:id="@+id/btnPositiveActionPlaylist"
@@ -100,20 +94,7 @@
         android:visibility="visible"
         app:icon="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleChannel" />
+        app:layout_constraintTop_toBottomOf="@id/titleVideo" />
 
-    <Button
-        android:id="@+id/btnNegativeActionPlaylist"
-        style="?attr/BS_Outline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="3dp"
-        android:contentDescription="@string/DescrRemoveFromFavorite"
-        android:text="@string/btnActionPlayList"
-        android:visibility="gone"
-        app:icon="@drawable/ic_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleChannel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

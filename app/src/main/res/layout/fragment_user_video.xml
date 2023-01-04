@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="15dp"
     android:orientation="vertical"
-    tools:context=".ui.fragment.user.UserVideoFragment">
+    tools:context=".ui.screen.user.UserVideoFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerVideoList"

@@ -3,50 +3,92 @@ package com.example.otusproject_ermoshina.domain.helpers
 import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.domain.model.YTVideoList
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
-import com.example.otusproject_ermoshina.domain.helpers.VideoListLoad.Companion.ObjectYTVideoList
-import com.example.otusproject_ermoshina.domain.helpers.VideoListLoad.Companion.TOKEN_NULL
+import com.example.otusproject_ermoshina.domain.model.YTVideoListPaging
+import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
+import com.example.otusproject_ermoshina.domain.repositories.SuccessNetworkResult
+import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
+import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
+import javax.inject.Named
 
 class VideoListLoadImpl@Inject constructor(
     private val network: RepositoryNetwork,
-    private val videoHelper: VideoLoad
+    private val videoHelper: VideoLoad,
+    @Named("Dispatchers.Default") val coroutineDispatcher: CoroutineDispatcher
 ): VideoListLoad {
-    private var objectYTVideoList = ObjectYTVideoList()
-    private var _listYTVideoListByPlayList = mutableListOf<YTVideoList>()
 
     override suspend fun getVideoList(
         playListId: String,
         token: String,
-        maxResult:Int
-    ): List<YTVideoList>? {
+        maxResult: Int
+    ): ViewModelResult<YTVideoListPaging> {
         val result = network.getListVideos(playListId, token, maxResult)
-        if (result?.items.isNullOrEmpty()) return null
-        objectYTVideoList.token = result?.nextPageToken ?: TOKEN_NULL
-
-        _listYTVideoListByPlayList = ArrayList(_listYTVideoListByPlayList)
-        _listYTVideoListByPlayList.addAll(result?.toVideoList()!!)
-
-        objectYTVideoList.listYTVideoList = _listYTVideoListByPlayList
-
-        return objectYTVideoList.listYTVideoList
+        return when (result) {
+            ErrorNetworkResult -> ErrorLoadingViewModel
+            is SuccessNetworkResult -> {
+                when {
+                    result.dataNetworkResult.contentConteiner.isNullOrEmpty() -> EmptyResultViewModel
+                    else -> SuccessViewModel(createYTVideoList(result.dataNetworkResult))
+                }
+            }
+        }
     }
 
     override suspend fun getLoadMoreVideoList(
-        playListId: String,
+        playList: YTVideoListPaging,
         maxResult: Int
-    ): List<YTVideoList>? {
-        if (objectYTVideoList.token.isBlank()) return null
-        else return getVideoList(playListId, objectYTVideoList.token, maxResult)
+    ): ViewModelResult<YTVideoListPaging> {
+        val result = network.getListVideos(playList.idPlayList, playList.nextToken, maxResult)
+        return when (result) {
+            ErrorNetworkResult -> ErrorLoadingViewModel
+            is SuccessNetworkResult -> {
+                when {
+                    result.dataNetworkResult.contentConteiner.isNullOrEmpty() -> NotMoreLoadingViewModel
+                    else -> {
+                        val newYTVideoListPaging = createYTVideoListPaging(playList, result.dataNetworkResult)
+                        SuccessViewModel(newYTVideoListPaging)
+                    }
+                }
+            }
+        }
     }
 
-    override suspend fun loadVideo(idVideo: String):YTVideo {
-        return network.loadOneVideo(idVideo).toVideo()
+    override suspend fun loadVideoFromYouTubeForSave(idVideo: String): YTVideo? {
+        return videoHelper.loadingYTVideoForSaving(idVideo)
     }
 
     override suspend fun saveVideo(video: YTVideo) {
         videoHelper.saveVideo(video)
+    }
+
+    private suspend fun createYTVideoListPaging(
+        oldData: YTVideoListPaging, newData: ModelLoadListVideosResponse
+    ): YTVideoListPaging {
+        return withContext(coroutineDispatcher) {
+            val concatVideoList = mutableListOf<YTVideoList>()
+            concatVideoList.addAll(oldData.listVideoList)
+            concatVideoList.addAll(newData.toVideoList()!!)
+            YTVideoListPaging(
+                idPlayList = oldData.idPlayList,
+                nextToken = newData.nextPageToken ?: NULL_DATA,
+                listVideoList = concatVideoList
+            )
+        }
+    }
+
+    private suspend fun createYTVideoList(videoListResponse: ModelLoadListVideosResponse):YTVideoListPaging{
+        return  withContext(coroutineDispatcher){
+            val idPlayList = videoListResponse.contentConteiner!!.first().detailsVideoList!!.playlistId!!
+            YTVideoListPaging(
+                idPlayList = idPlayList,
+                nextToken = videoListResponse.nextPageToken ?: NULL_DATA,
+                listVideoList = videoListResponse.toVideoList()!!)
+        }
+    }
+    companion object{
+        private const val NULL_DATA = ""
     }
 
 }

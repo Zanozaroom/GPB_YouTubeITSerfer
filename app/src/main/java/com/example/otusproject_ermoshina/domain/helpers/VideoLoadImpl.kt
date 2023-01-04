@@ -1,8 +1,11 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
 import com.example.otusproject_ermoshina.domain.model.YTVideo
+import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
+import com.example.otusproject_ermoshina.domain.repositories.SuccessNetworkResult
+import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -10,8 +13,27 @@ class VideoLoadImpl @Inject constructor(
     private val network: RepositoryNetwork,
     private val dataBase: RepositoryDataBase
 ) : VideoLoad {
-    override suspend fun getLoadOneVideo(idVideo: String): YTVideo {
-        return network.loadOneVideo(idVideo).toVideo()
+    override suspend fun loadingYTVideo(idVideo: String): ViewModelResult<YTVideo> {
+        val resultRepository = network.loadOneVideo(idVideo)
+        return when(resultRepository){
+            ErrorNetworkResult -> ErrorLoadingViewModel
+            is SuccessNetworkResult -> {
+                SuccessViewModel(resultRepository.dataNetworkResult.toVideo())
+            }
+        }
+    }
+
+    override suspend fun loadingYTVideoForSaving(idVideo: String): YTVideo? {
+        val resultRepository = network.loadOneVideo(idVideo)
+        return when(resultRepository){
+            ErrorNetworkResult -> null
+            is SuccessNetworkResult -> {
+                when{
+                    resultRepository.dataNetworkResult.resultContentHeads.isNullOrEmpty() -> null
+                    else -> resultRepository.dataNetworkResult.toVideo()
+                }
+            }
+        }
     }
 
     override suspend fun saveVideo(video: YTVideo) {

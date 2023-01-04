@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/pageOfVideo"
-        android:name="com.example.otusproject_ermoshina.ui.fragment.video.PageOfVideoFragment"
+        android:name="com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment"
         android:label="PageOfVideo"
         tools:layout="@layout/fragment_page_video">
         <argument
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.otusproject_ermoshina.ui.fragment.search.SearchFragment"
+        android:name="com.example.otusproject_ermoshina.ui.screen.search.SearchFragment"
         android:label="fragment_result_search"
         tools:layout="@layout/fragment_result_search" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/playLists"
-        android:name="com.example.otusproject_ermoshina.ui.fragment.playlist.YTPlayListFragment"
+        android:name="com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment"
         android:label="fragment_yt_channel_playlists"
         tools:layout="@layout/fragment_playlist" >
         <action
@@ -46,21 +46,24 @@
     </fragment>
     <fragment
         android:id="@+id/videoList"
-        android:name="com.example.otusproject_ermoshina.ui.fragment.videolist.YTVideoListFragment"
+        android:name="com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment"
         android:label="fragment_videolist"
         tools:layout="@layout/fragment_videolist" >
         <action
             android:id="@+id/action_videoList_to_pageOfVideo"
             app:destination="@id/pageOfVideo" />
         <argument android:name="idPlayList" />
+        <action
+            android:id="@+id/action_videoList_to_playLists"
+            app:destination="@id/playLists" />
     </fragment>
     <fragment
         android:id="@+id/myvideos"
         android:label="Страница пользователя"
-        android:name="com.example.otusproject_ermoshina.ui.fragment.user.UserViewPage" />
+        android:name="com.example.otusproject_ermoshina.ui.screen.user.UserViewPage" />
     <fragment
         android:id="@+id/mhome"
-        android:name="com.example.otusproject_ermoshina.ui.fragment.main.FragmentMain"
+        android:name="com.example.otusproject_ermoshina.ui.screen.main.FragmentMain"
         android:label="IT safer"
         tools:layout="@layout/item_main_fragment">
         <action
@@ -73,6 +76,8 @@
             android:id="@+id/action_fragmentMain_to_playLists"
             app:destination="@id/playLists" />
     </fragment>
+    <action android:id="@+id/action_global_videoList" app:destination="@id/videoList" /><action android:id="@+id/action_global_pageOfVideo" app:destination="@id/pageOfVideo"/>
+    <action android:id="@+id/action_global_playLists" app:destination="@id/playLists" />
 
 
 

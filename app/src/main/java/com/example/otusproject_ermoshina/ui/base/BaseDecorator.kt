@@ -7,7 +7,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-open class BaseDecorator(private val sizelist: Int):
+open class BaseDecorator(private val sizeList: Int):
     RecyclerView.ItemDecoration() {
     open val myPaintStroke: Paint = Paint().apply {
         style = Paint.Style.STROKE
@@ -25,14 +25,14 @@ open class BaseDecorator(private val sizelist: Int):
             right = MARGIN_START
             left = MARGIN_START
             if (parent.getChildAdapterPosition(view) == 0) {
-                top = MARGIN_TOP
-                bottom = 0
-            } else if (parent.getChildAdapterPosition(view) == sizelist - 1) {
+                top = 1
                 bottom = MARGIN_BOTTOM
-                top = 0
+            } else if (parent.getChildAdapterPosition(view) == sizeList - 1) {
+                bottom = 1
+                top = MARGIN_BOTTOM
             } else {
                 bottom = MARGIN_BOTTOM
-                top = 0
+                top = MARGIN_BOTTOM
             }
         }
     }
@@ -87,7 +87,7 @@ open class BaseDecorator(private val sizelist: Int):
 
     companion object {
         const val MARGIN_TOP = 8
-        const val MARGIN_BOTTOM = 8
+        const val MARGIN_BOTTOM = 20
         const val MARGIN_START = 3
         const val PADDING_DRAW = 5
     }

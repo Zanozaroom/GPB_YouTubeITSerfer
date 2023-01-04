@@ -33,7 +33,7 @@
         <item name="BS_OutlineMinimal">@style/ButtonStyleOutline.Minimal</item>
         <item name="BS_OutlineOnSearch">@style/ButtonStyleOutline.OnSearch</item>
         <item name="CLR_white">@color/white</item>
-        <item name="CLR_shapeOnImage">@color/color_on_image</item>
+        <item name="CLR_shapeOnImage">@color/color_parent_decorator</item>
         <!-- Add custom styles. -->
         <item name="toolbarStyle">@style/MyToolbar</item>
         <item name="textInputStyle">@style/EditTextStyle</item>
@@ -51,8 +51,8 @@
     </style>
 
     <style name="ThemeOverlay.App.Toolbar" parent="">
-        <item name="colorPrimary">@color/color_primary_variant</item>
-        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorPrimary">@color/color_secondary</item>
+        <item name="colorPrimaryVariant">@color/color_secondary</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="tintNavigationIcon">@color/white</item>
     </style>
