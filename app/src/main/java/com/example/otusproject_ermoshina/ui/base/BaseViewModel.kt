@@ -1,7 +1,12 @@
 package com.example.otusproject_ermoshina.ui.base
 
+
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import com.example.otusproject_ermoshina.R
+import com.example.otusproject_ermoshina.domain.DataBaseLoadException
+import com.example.otusproject_ermoshina.domain.NetworkLoadException
 
 open class BaseViewModel:ViewModel() {
 
@@ -15,7 +20,21 @@ open class BaseViewModel:ViewModel() {
 
     protected val _toastEvent = MutableLiveEvent<Int>()
     val toastEvent = _toastEvent.share()
-    protected fun showToast(@StringRes messageRes: Int) {
+    fun showToast(@StringRes messageRes: Int) {
         _toastEvent.publishEvent(messageRes)
+    }
+
+    fun catchException(e: Exception){
+        when(e){
+            is NetworkLoadException -> {
+                showToast(R.string.messageNetworkLoadException)
+            }
+            is DataBaseLoadException -> {
+                showToast(R.string.messageRoomLoadException)
+            }
+            else -> {
+                showToast(R.string.messageStrangeLoadException)
+            }
+        }
     }
 }

@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_background_shape">
     <corners android:radius="20dp"/>
-    <solid android:color="?attr/CLR_white" />
+    <solid android:color="?attr/CLR_shapeBackground" />
 </shape>

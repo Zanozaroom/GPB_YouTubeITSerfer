@@ -1,5 +1,6 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
+import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
@@ -11,13 +12,13 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Rule
 
 import org.junit.Test
 
 class VideoLoadImplTest {
-
 
     @get: Rule
     val rule = MockKRule(this)
@@ -66,6 +67,47 @@ class VideoLoadImplTest {
     }
 
     @Test
+    fun `loadingYTVideo CallsNetWorkRepository GetException`() = runBlocking {
+        var exceptionThrown: Boolean = false
+
+        coEvery {
+            mockNetwork.loadOneVideo(any())
+        } throws NetworkLoadException("NetworkLoadException")
+
+        try {
+            testSearchLoadImp.loadingYTVideo("idVideo")
+        } catch (e: Exception) {
+            if (e is NetworkLoadException) {
+                exceptionThrown = true
+                print(e.toString())
+            }
+        }
+
+        Assert.assertTrue(exceptionThrown)
+    }
+
+
+    @Test
+    fun `loadingYTVideo CallsNetWorkRepository ThrowsException`() = runBlocking {
+        val ytVideoListPaging = CreatorVideoList.createFirstYTVideoListPaging()
+
+        coEvery {
+            mockNetwork.loadOneVideo(any())
+        } throws NetworkLoadException("NetworkLoadException")
+
+        val dataLoadException = Assert.assertThrows(NetworkLoadException::class.java) {
+            runBlocking {
+                testSearchLoadImp.loadingYTVideo("idVideo")
+            }
+        }
+
+        assertEquals(
+            "Ошибка загрузки данных NetworkLoadException",
+            dataLoadException.sayException()
+        )
+    }
+
+    @Test
     fun `loadingYTVideoForSaving CallsNetwork GetErrorResult`() = runBlocking {
         coEvery { mockNetwork.loadOneVideo(any())
         } returns ErrorNetworkResult
@@ -98,5 +140,46 @@ class VideoLoadImplTest {
         val result = testSearchLoadImp.loadingYTVideoForSaving("idVideo")
 
         assertEquals(null, result)
+    }
+
+    @Test
+    fun `loadingYTVideoForSaving CallsNetWorkRepository GetException`() = runBlocking {
+        var exceptionThrown: Boolean = false
+
+        coEvery {
+            mockNetwork.loadOneVideo(any())
+        } throws NetworkLoadException("NetworkLoadException")
+
+        try {
+            testSearchLoadImp.loadingYTVideoForSaving("idVideo")
+        } catch (e: Exception) {
+            if (e is NetworkLoadException) {
+                exceptionThrown = true
+                print(e.toString())
+            }
+        }
+
+        assertTrue(exceptionThrown)
+    }
+
+
+    @Test
+    fun `loadingYTVideoForSaving CallsNetWorkRepository ThrowsException`() = runBlocking {
+        val ytVideoListPaging = CreatorVideoList.createFirstYTVideoListPaging()
+
+        coEvery {
+            mockNetwork.loadOneVideo(any())
+        } throws NetworkLoadException("NetworkLoadException")
+
+        val dataLoadException = Assert.assertThrows(NetworkLoadException::class.java) {
+            runBlocking {
+                testSearchLoadImp.loadingYTVideo("idVideo")
+            }
+        }
+
+        assertEquals(
+            "Ошибка загрузки данных NetworkLoadException",
+            dataLoadException.sayException()
+        )
     }
 }

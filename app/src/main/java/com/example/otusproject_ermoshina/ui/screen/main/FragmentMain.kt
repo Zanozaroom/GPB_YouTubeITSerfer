@@ -1,21 +1,24 @@
 package com.example.otusproject_ermoshina.ui.screen.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.model.YTMainFragmentData
 import com.example.otusproject_ermoshina.databinding.FragmentMainBinding
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
+import com.example.otusproject_ermoshina.ui.base.navigator
 import com.example.otusproject_ermoshina.utill.DecoratorParent
 import com.example.otusproject_ermoshina.ui.base.observeEvent
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
+import com.example.otusproject_ermoshina.ui.screen.search.SearchFragment
+import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 interface OnClickYTListener{
@@ -25,13 +28,18 @@ interface OnClickYTListener{
 }
 @AndroidEntryPoint
 class FragmentMain: Fragment(), OnClickYTListener {
-    private val viewModel: MainViewModel by navGraphViewModels(R.id.mhome) {
-        defaultViewModelProviderFactory
-    }
+
+    private val viewModel: MainViewModel by viewModels()
     lateinit var binding: FragmentMainBinding
     private val adapterMainSearch: AdapterMainParent by lazy {
         AdapterMainParent( this)
     }
+
+    override fun onStart() {
+        super.onStart()
+        this.navigator().removeActionBarNavigateBack()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,6 +69,7 @@ class FragmentMain: Fragment(), OnClickYTListener {
         }
         return binding.root
     }
+
     private fun stateScreen(state: ViewModelResult<List<YTMainFragmentData>>){
         when(state){
             is BaseViewModel.LoadingViewModel -> {
@@ -79,26 +88,21 @@ class FragmentMain: Fragment(), OnClickYTListener {
                 binding.recyclerVideoList.visibility = View.VISIBLE
                 binding.gropeError.visibility = View.GONE
             }
-            else -> {}//иного быть не может
+            BaseViewModel.EmptyResultViewModel -> TODO()
+            BaseViewModel.NotMoreLoadingViewModel -> TODO()
         }
     }
 
-
-
     override fun onClickOpenChannel(idChannel: String) {
-        val actionNav = FragmentMainDirections.actionFragmentMainToPlayLists(idChannel)
-        findNavController().navigate(actionNav)
+        this.navigator().startFragmentMainStack(YTPlayListFragment.newInstance(idChannel))
     }
 
     override fun onClickOpenMore(action: String) {
-        val actionNav = FragmentMainDirections.actionFragmentMainToSearchFragment(action)
-        findNavController().navigate(actionNav)
+        this.navigator().startFragmentMainStack(SearchFragment.newInstance(action))
     }
 
     override fun onClickOnImage(action: String) {
-        val actionNav = FragmentMainDirections.actionFragmentMainToPageOfVideo(action)
-        findNavController().navigate(actionNav)
+        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(action))
     }
-
 
 }

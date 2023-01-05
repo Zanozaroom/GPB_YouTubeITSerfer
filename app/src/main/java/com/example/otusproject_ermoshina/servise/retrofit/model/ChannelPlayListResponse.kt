@@ -53,9 +53,7 @@ data class ChannelPlayListResponse(
                 titleListVideo = it.dataChannelAndPlayList?.title ?: NULL_DATA,
                 titleChannel = listPlayList?.firstOrNull()?.dataChannelAndPlayList?.channelTitle ?: NULL_DATA
             )
-        }
-    )
-
+        })
     companion object {
         private const val NULL_DATA = ""
     }

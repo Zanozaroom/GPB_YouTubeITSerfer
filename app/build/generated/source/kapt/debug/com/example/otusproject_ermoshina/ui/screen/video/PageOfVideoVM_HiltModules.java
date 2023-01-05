@@ -29,7 +29,7 @@ public final class PageOfVideoVM_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.example.otusproject_ermoshina.ui.fragment.video.PageOfVideoVM")
+    @StringKey("com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoVM")
     @HiltViewModelMap
     public abstract ViewModel binds(PageOfVideoVM vm);
   }
@@ -44,7 +44,7 @@ public final class PageOfVideoVM_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "com.example.otusproject_ermoshina.ui.fragment.video.PageOfVideoVM";
+      return "com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoVM";
     }
   }
 }

@@ -1,18 +1,20 @@
 package com.example.otusproject_ermoshina.ui.screen.video
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.databinding.FragmentPageVideoBinding
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
+import com.example.otusproject_ermoshina.ui.base.navigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +23,11 @@ class PageOfVideoFragment : Fragment() {
     lateinit var binding: FragmentPageVideoBinding
     private val viewModel: PageOfVideoVM by viewModels()
     private lateinit var ytVideo: YTVideo
-    private val args: PageOfVideoFragmentArgs by navArgs()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.navigator().setActionBarNavigateBack()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +38,7 @@ class PageOfVideoFragment : Fragment() {
         binding.video.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
-                val videoId = args.idVideo
+                val videoId = viewModel.idVideo!!
                 youTubePlayer.loadVideo(videoId, 0f)
             }
         })
@@ -43,8 +49,7 @@ class PageOfVideoFragment : Fragment() {
             stateUI(it)
         }
         binding.titleChannel.setOnClickListener {
-            val actionNav = PageOfVideoFragmentDirections.actionPageOfVideoToPlayLists(ytVideo.channelId)
-            findNavController().navigate(actionNav)
+            this.navigator().startFragmentMainStack(YTPlayListFragment.newInstance(ytVideo.channelId))
         }
         binding.addVideoToFavorite.setOnClickListener {
             viewModel.addVideoToFavorite(ytVideo)
@@ -94,5 +99,31 @@ class PageOfVideoFragment : Fragment() {
             else -> {}
         }
     }
+    companion object{
+        const val ARGS_ID_VIDEO = "idVideo"
+
+        fun newInstance(idVideo: String):PageOfVideoFragment {
+            val args = Bundle()
+            args.putString(ARGS_ID_VIDEO, idVideo)
+            val fragment = PageOfVideoFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        Log.i("AAA", "onStop PageOfVideoFragment")
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.i("AAA", "onStop PageOfVideoFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        super.onStop()
+        Log.i("AAA", "onStop PageOfVideoFragment")
+    }
+
 }
 

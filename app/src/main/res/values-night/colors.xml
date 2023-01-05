@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#212121</color>
+    <attr name="CLR_white" format="color"/>
+    <attr name="CLR_shapeOnImage" format="color"/>
+    <attr name="CLR_shapeBackground" format="color"/>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#777676</color>
+
+
+    <color name="color_primary">#3A3A3A</color>
+    <color name="color_primary_alternative">#241835</color>
     <color name="color_primary_variant">#000000</color>
-    <color name="color_secondary">#56435A</color>
-    <color name="color_secondary_variant">#ba68c8</color>
-    <color name="color_on_primary">#929292</color>
-    <color name="color_on_secondary">#929292</color>
-    <color name="color_windows_background">#0F0F0F</color>
-    <color name="color_toolbar_mode_day_night">#CDDC39</color>
+    <color name="color_secondary">#191519</color>
+    <color name="color_secondary_variant">#60373F</color>
+    <color name="color_on_primary">#686868</color>
+    <color name="color_on_primary_variant">#4A4949</color>
+    <color name="color_on_secondary">#656565</color>
+    <color name="color_parent_decorator">#171717</color>
+    <color name="color_shape_background">#270435</color>
 </resources>

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.DataBaseLoadException
+import com.example.otusproject_ermoshina.domain.helpers.VideoLoad
 import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.domain.helpers.VideoLoadImpl
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserVideoViewModel @Inject constructor(
-    private val helper: VideoLoadImpl
+    private val helper: VideoLoad
 ) : BaseViewModel() {
     private val _state = MutableLiveData<ViewModelResult<List<YTVideo>>>()
     val state: LiveData<ViewModelResult<List<YTVideo>>> = _state
@@ -38,22 +39,10 @@ class UserVideoViewModel @Inject constructor(
         viewModelScope.launch {
             try{
                 helper.deleteVideo(video)
+                showToast(R.string.toastRemoveFromFavorite)
             }catch (e:Exception){
-                catchException(e)
-            }
-        }
-    }
-
-    private fun catchException(e:Exception){
-        when (e) {
-            is DataBaseLoadException -> {
                 _state.value = ErrorLoadingViewModel
-                showToast(R.string.messageRoomLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            else -> {
-                _state.value = ErrorLoadingViewModel
-                Log.i("AAA", "Непонятная ошибка, все сломалось в UserVideoViewModel $e")
+                showToast(R.string.toastRemoveFromFavoriteFail)
             }
         }
     }

@@ -9,6 +9,7 @@ import com.example.otusproject_ermoshina.domain.DataBaseLoadException
 import com.example.otusproject_ermoshina.domain.helpers.PlayListLoad
 import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment.Companion.ARGS_ID_CHANNEL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,16 +21,16 @@ class YTPlayListsVM @Inject constructor(
     private val helper: PlayListLoad
 ) : BaseViewModel() {
 
-    private val navArgs: YTPlayListFragmentArgs =
-        YTPlayListFragmentArgs.fromSavedStateHandle(savedStateHandle)
-    val idChannel = navArgs.idChannel
+
+    private val agrs = savedStateHandle.get<String>(ARGS_ID_CHANNEL)
+    val idChannel = agrs
 
 
     private val _screenState = MutableLiveData<ViewModelResult<YTPlayListPaging>>()
     val screenState: LiveData<ViewModelResult<YTPlayListPaging>> = _screenState
 
     init {
-        firstLoadPlayList(idChannel)
+        firstLoadPlayList(idChannel!!)
     }
 
     fun loadMore(ytChannelAndPlayList: YTPlayListPaging) {
@@ -50,13 +51,13 @@ class YTPlayListsVM @Inject constructor(
             }
         }
     }
-
-    private fun firstLoadPlayList(idChannel: String) {
+    fun firstLoadPlayList(idChannel: String) {
         viewModelScope.launch() {
             _screenState.value = LoadingViewModel
             try {
                 _screenState.value = helper.firstLoadPlayList(idChannel, EMPTY_TOKEN, MAXRESULT)
             } catch (e: Exception) {
+                _screenState.value = ErrorLoadingViewModel
                 catchException(e)
             }
         }
@@ -73,24 +74,6 @@ class YTPlayListsVM @Inject constructor(
         }
     }
 
-    private fun catchException(e: Exception) {
-        when (e) {
-            is NetworkLoadException -> {
-                _screenState.value = ErrorLoadingViewModel
-                showToast(R.string.messageNetworkLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            is DataBaseLoadException -> {
-                _screenState.value = ErrorLoadingViewModel
-                showToast(R.string.messageRoomLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            else -> {
-                _screenState.value = ErrorLoadingViewModel
-                Log.i("AAA", "Непонятная ошибка, все сломалось в PlayListsVM $e")
-            }
-        }
-    }
 
     companion object {
         const val MAXRESULT = 6

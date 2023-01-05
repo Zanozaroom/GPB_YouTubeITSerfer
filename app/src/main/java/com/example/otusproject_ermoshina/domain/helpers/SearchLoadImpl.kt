@@ -1,10 +1,7 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
-import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
-import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
 import com.example.otusproject_ermoshina.domain.model.*
-import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
-import com.example.otusproject_ermoshina.domain.repositories.SuccessNetworkResult
+import com.example.otusproject_ermoshina.domain.repositories.*
 import com.example.otusproject_ermoshina.servise.retrofit.model.ModelSearchResponse
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -27,15 +24,11 @@ class SearchLoadImpl @Inject constructor(
         return when (searchNetworkResult) {
             is ErrorNetworkResult -> ErrorLoadingViewModel
             is SuccessNetworkResult -> {
-                if (searchNetworkResult.dataNetworkResult.resultSearchAllData.isNullOrEmpty()) {
-                    EmptyResultViewModel
-                } else {
-                    val ytSearchPaging =
-                        createYTSearchPaging(searchNetworkResult.dataNetworkResult, query)
-                    SuccessViewModel(ytSearchPaging)
-                }
-
+                val ytSearchPaging =
+                    createYTSearchPaging(searchNetworkResult.dataNetworkResult, query)
+                SuccessViewModel(ytSearchPaging)
             }
+            is EmptyNetworkResult -> EmptyResultViewModel
         }
     }
 
@@ -59,8 +52,10 @@ class SearchLoadImpl @Inject constructor(
                     )
                 SuccessViewModel(newYTSearchPaging)
             }
+            EmptyNetworkResult -> NotMoreLoadingViewModel
         }
     }
+
     /**
      * Формирует главную страницу
      */
@@ -70,17 +65,19 @@ class SearchLoadImpl @Inject constructor(
 
         listQuery.forEach { ytQuery ->
             val searchNetworkResult = network.getResultSearch(
-                ytQuery.query, maxResult, TOKEN_NULL, PART_SEARCH_SAFE)
+                ytQuery.query, maxResult, TOKEN_NULL, PART_SEARCH_SAFE
+            )
 
             when (searchNetworkResult) {
                 is ErrorNetworkResult -> {}
                 is SuccessNetworkResult -> {
-                    if(!searchNetworkResult.dataNetworkResult.resultSearchAllData.isNullOrEmpty()){
+                    if (!searchNetworkResult.dataNetworkResult.resultSearchAllData.isNullOrEmpty()) {
                         val ytMainFragmentData =
                             createYTMainFragmentData(ytQuery, searchNetworkResult.dataNetworkResult)
                         concatResponse.add(ytMainFragmentData)
                     }
                 }
+                EmptyNetworkResult -> EmptyResultViewModel
             }
         }
         return if (concatResponse.isEmpty()) ErrorLoadingViewModel
@@ -98,7 +95,7 @@ class SearchLoadImpl @Inject constructor(
     ): YTSearchPaging = withContext(coroutineDispatcher) {
         val concatYTSearch = mutableListOf<YTSearch>()
         concatYTSearch.addAll(oldData.listSearchVideo)
-        concatYTSearch.addAll(newData.toYTSearch())
+        concatYTSearch.addAll(filterSearchResponse(newData))
         YTSearchPaging(
             query = oldData.query,
             nextToken = newData.nextPageToken ?: "",
@@ -106,23 +103,30 @@ class SearchLoadImpl @Inject constructor(
         )
     }
 
-    private suspend fun createYTSearchPaging(getResponse: ModelSearchResponse, query: String) =
+    private suspend fun createYTSearchPaging(searchResponse: ModelSearchResponse, query: String) =
         withContext(coroutineDispatcher) {
             YTSearchPaging(
                 query = query,
-                nextToken = getResponse.nextPageToken ?: TOKEN_NULL,
-                listSearchVideo = getResponse.toYTSearch()
+                nextToken = searchResponse.nextPageToken ?: TOKEN_NULL,
+                listSearchVideo = filterSearchResponse(searchResponse)
             )
         }
 
-    private suspend fun createYTMainFragmentData(query: YTQuery, searchResponse: ModelSearchResponse)
+    private suspend fun createYTMainFragmentData(
+        query: YTQuery,
+        searchResponse: ModelSearchResponse
+    )
             : YTMainFragmentData = withContext(coroutineDispatcher) {
         YTMainFragmentData(
             id = searchResponse.hashCode(),
             query = query.query,
             title = query.titleQuery,
-            listResult = searchResponse.toYTSearch()
+            listResult = filterSearchResponse(searchResponse)
         )
+    }
+
+    private fun filterSearchResponse(searchResponse: ModelSearchResponse): List<YTSearch> {
+        return searchResponse.toYTSearch().filter { it.image.isNotBlank() }
     }
 
     companion object {

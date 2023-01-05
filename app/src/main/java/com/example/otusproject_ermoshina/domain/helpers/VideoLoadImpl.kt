@@ -1,10 +1,7 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
 import com.example.otusproject_ermoshina.domain.model.YTVideo
-import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
-import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
-import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
-import com.example.otusproject_ermoshina.domain.repositories.SuccessNetworkResult
+import com.example.otusproject_ermoshina.domain.repositories.*
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -20,6 +17,7 @@ class VideoLoadImpl @Inject constructor(
             is SuccessNetworkResult -> {
                 SuccessViewModel(resultRepository.dataNetworkResult.toVideo())
             }
+            EmptyNetworkResult -> ErrorLoadingViewModel
         }
     }
 
@@ -33,6 +31,7 @@ class VideoLoadImpl @Inject constructor(
                     else -> resultRepository.dataNetworkResult.toVideo()
                 }
             }
+            EmptyNetworkResult -> null
         }
     }
 

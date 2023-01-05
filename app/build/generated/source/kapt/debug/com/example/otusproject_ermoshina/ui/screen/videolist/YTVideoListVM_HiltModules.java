@@ -29,7 +29,7 @@ public final class YTVideoListVM_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.example.otusproject_ermoshina.ui.fragment.videolist.YTVideoListVM")
+    @StringKey("com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListVM")
     @HiltViewModelMap
     public abstract ViewModel binds(YTVideoListVM vm);
   }
@@ -44,7 +44,7 @@ public final class YTVideoListVM_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "com.example.otusproject_ermoshina.ui.fragment.videolist.YTVideoListVM";
+      return "com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListVM";
     }
   }
 }

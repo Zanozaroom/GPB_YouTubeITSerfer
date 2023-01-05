@@ -29,7 +29,7 @@ public final class UserVideoViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.example.otusproject_ermoshina.ui.fragment.user.UserVideoViewModel")
+    @StringKey("com.example.otusproject_ermoshina.ui.screen.user.UserVideoViewModel")
     @HiltViewModelMap
     public abstract ViewModel binds(UserVideoViewModel vm);
   }
@@ -44,7 +44,7 @@ public final class UserVideoViewModel_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "com.example.otusproject_ermoshina.ui.fragment.user.UserVideoViewModel";
+      return "com.example.otusproject_ermoshina.ui.screen.user.UserVideoViewModel";
     }
   }
 }

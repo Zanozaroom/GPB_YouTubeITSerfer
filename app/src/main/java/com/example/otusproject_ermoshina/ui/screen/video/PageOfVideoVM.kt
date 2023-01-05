@@ -11,6 +11,7 @@ import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.domain.helpers.VideoLoad
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
+import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment.Companion.ARGS_ID_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,16 +24,16 @@ class PageOfVideoVM @Inject constructor(
     private val _screenState = MutableLiveData<ViewModelResult<YTVideo>>()
     val screenState: LiveData<ViewModelResult<YTVideo>> = _screenState
 
-    private val navArgs: PageOfVideoFragmentArgs = PageOfVideoFragmentArgs.fromSavedStateHandle(savedStateHandle)
-    private val idVideo = navArgs.idVideo
+    private val args = savedStateHandle.get<String>(ARGS_ID_VIDEO)
+    val idVideo = args
 
 
     init {
-        loadVideo(idVideo)
+        loadVideo(idVideo!!)
 
     }
     fun tryLoad(){
-        loadVideo(idVideo)
+        loadVideo(idVideo!!)
     }
     fun addVideoToFavorite(video:YTVideo){
         viewModelScope.launch{
@@ -41,7 +42,6 @@ class PageOfVideoVM @Inject constructor(
                 showToast(R.string.toastAddFavoriteVideo)
             }
             catch (e:DataBaseLoadException){
-                Log.i("AppExceptionsBase", "addVideoToFavorite ${e.sayException()}")
                 showToast(R.string.toastAddFavoriteFail)
             }
         }
@@ -54,28 +54,9 @@ class PageOfVideoVM @Inject constructor(
             try{
             _screenState.value = helper.loadingYTVideo(idVideo)
         }catch (e:Exception){
+                _screenState.value = ErrorLoadingViewModel
                 catchException(e)
         }
-
-        }
-    }
-
-    private fun catchException(e:Exception){
-        when(e){
-            is NetworkLoadException -> {
-                _screenState.value = ErrorLoadingViewModel
-                showToast(R.string.messageNetworkLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            is DataBaseLoadException -> {
-                _screenState.value = ErrorLoadingViewModel
-                showToast(R.string.messageNetworkLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            else -> {
-                _screenState.value = ErrorLoadingViewModel
-                Log.i("AAA", "Какая-то херобура")
-            }
         }
     }
 }

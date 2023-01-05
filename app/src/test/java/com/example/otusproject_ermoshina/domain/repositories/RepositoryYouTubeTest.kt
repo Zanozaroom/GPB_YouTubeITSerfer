@@ -1,5 +1,6 @@
 package com.example.otusproject_ermoshina.domain.repositories
 
+import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.helpers.CreatorSearch
 import com.example.otusproject_ermoshina.domain.helpers.CreatorVideo
 import com.example.otusproject_ermoshina.domain.helpers.CreatorVideoList
@@ -15,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -41,7 +42,6 @@ class RepositoryYouTubeTest {
     @Test
     fun `loadChannelList CallsRetrofit GetSuccessResponse`() = runBlocking {
         val dataFromRetrofit = CreatorYouTubeRepository.createChannelPlayListResponse()
-        val dataFromRepository = dataFromRetrofit.toChannelAndListVideos()
 
         coEvery {
             retrofit.getListChannels(any(), any(), any(), any(), any())
@@ -49,7 +49,18 @@ class RepositoryYouTubeTest {
 
         val result = testRepositoryYouTube.loadChannelList("channelId", "token", 1)
 
-        assertEquals(SuccessNetworkResult(dataFromRepository), result)
+        assertEquals(SuccessNetworkResult(dataFromRetrofit), result)
+    }
+
+    @Test
+    fun `loadChannelList CallsRetrofit GetEmptyResponse`() = runBlocking {
+        coEvery {
+            retrofit.getListChannels(any(), any(), any(), any(), any())
+        } returns Response.success(null)
+
+        val result = testRepositoryYouTube.loadChannelList("channelId", "token", 1)
+
+        assertEquals(EmptyNetworkResult, result)
     }
 
     @Test
@@ -83,6 +94,17 @@ class RepositoryYouTubeTest {
     }
 
     @Test
+    fun `getListVideos CallsRetrofit GetEmptyResponse`() = runBlocking {
+        coEvery {
+            retrofit.getListVideos(any(), any(), any(), any(), any())
+        } returns Response.success(null)
+
+        val result = testRepositoryYouTube.getListVideos("playListId", "token", 1)
+
+        assertEquals(EmptyNetworkResult, result)
+    }
+
+    @Test
     fun `getListVideos CallsRetrofit GetErrorResponse`() = runBlocking {
         val errorBody = Response.error<ModelLoadListVideosResponse>(
             400,
@@ -110,6 +132,17 @@ class RepositoryYouTubeTest {
         val result = testRepositoryYouTube.loadOneVideo("idVideo")
 
         assertEquals(SuccessNetworkResult(dataFromRetrofit), result)
+    }
+
+    @Test
+    fun `loadOneVideo CallsRetrofit GetEmptyResponse`() = runBlocking {
+         coEvery {
+            retrofit.getOneVideo(any(), any(), any())
+        } returns Response.success(null)
+
+        val result = testRepositoryYouTube.loadOneVideo("idVideo")
+
+        assertEquals(EmptyNetworkResult, result)
     }
 
     @Test
@@ -157,5 +190,55 @@ class RepositoryYouTubeTest {
             "query", 1, "token", "safeSearch")
 
         assertEquals(ErrorNetworkResult, result)
+    }
+
+    @Test
+    fun `getResultSearch CatchException ThrowNeedUsException`() = runBlocking {
+        var isThrowsException = false
+        coEvery {
+            retrofit.getResultSearch(any(), any(), any(), any(), any(), any())
+        } throws Exception()
+
+        try {
+            testRepositoryYouTube.getResultSearch(
+                "query", 1, "token", "safeSearch")
+        }catch (e:Exception){
+            if(e is NetworkLoadException){
+                print(e.sayException())
+                isThrowsException = true
+            }
+        }
+        assertTrue(isThrowsException)
+    }
+
+    @Test
+    fun `getResultSearch CatchException NotThrowWrongException`() = runBlocking {
+        var isThrowsWrongException = false
+        coEvery {
+            retrofit.getResultSearch(any(), any(), any(), any(), any(), any())
+        } throws Exception()
+
+        try {
+            testRepositoryYouTube.getResultSearch(
+                "query", 1, "token", "safeSearch")
+        }catch (e:Exception){
+            if(e !is NetworkLoadException){
+                print(e)
+                isThrowsWrongException = true
+            } else isThrowsWrongException = false
+        }
+        assertFalse(isThrowsWrongException)
+    }
+    @Test
+    fun `getResultSearch CatchException ThrowsException`() = runBlocking {
+        coEvery {
+            retrofit.getResultSearch(any(), any(), any(), any(), any(), any())
+        } throws Exception()
+        val networkLoadException = assertThrows(NetworkLoadException ::class.java,){ runBlocking {
+                testRepositoryYouTube.getResultSearch("query", 1, "token", "safeSearch")
+            }
+        }
+
+        assertEquals("Ошибка загрузки данных нет подключения к серверу java.lang.Exception",networkLoadException.sayException())
     }
 }

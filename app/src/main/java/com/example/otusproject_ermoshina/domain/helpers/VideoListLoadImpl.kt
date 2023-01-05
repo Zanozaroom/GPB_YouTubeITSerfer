@@ -4,6 +4,7 @@ import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.domain.model.YTVideoList
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
 import com.example.otusproject_ermoshina.domain.model.YTVideoListPaging
+import com.example.otusproject_ermoshina.domain.repositories.EmptyNetworkResult
 import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
 import com.example.otusproject_ermoshina.domain.repositories.SuccessNetworkResult
 import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
@@ -27,10 +28,12 @@ class VideoListLoadImpl@Inject constructor(
         val result = network.getListVideos(playListId, token, maxResult)
         return when (result) {
             ErrorNetworkResult -> ErrorLoadingViewModel
+            is EmptyNetworkResult -> EmptyResultViewModel
             is SuccessNetworkResult -> {
-                when {
-                    result.dataNetworkResult.contentConteiner.isNullOrEmpty() -> EmptyResultViewModel
-                    else -> SuccessViewModel(createYTVideoList(result.dataNetworkResult))
+                val finishResult = createYTVideoList(result.dataNetworkResult)
+                when (finishResult) {
+                    null -> EmptyResultViewModel
+                    else -> SuccessViewModel(finishResult)
                 }
             }
         }
@@ -42,14 +45,13 @@ class VideoListLoadImpl@Inject constructor(
     ): ViewModelResult<YTVideoListPaging> {
         val result = network.getListVideos(playList.idPlayList, playList.nextToken, maxResult)
         return when (result) {
-            ErrorNetworkResult -> ErrorLoadingViewModel
+            is ErrorNetworkResult -> ErrorLoadingViewModel
+            is EmptyNetworkResult -> NotMoreLoadingViewModel
             is SuccessNetworkResult -> {
-                when {
-                    result.dataNetworkResult.contentConteiner.isNullOrEmpty() -> NotMoreLoadingViewModel
-                    else -> {
-                        val newYTVideoListPaging = createYTVideoListPaging(playList, result.dataNetworkResult)
-                        SuccessViewModel(newYTVideoListPaging)
-                    }
+                val finishResult = createYTVideoListPaging(playList, result.dataNetworkResult)
+                when (finishResult) {
+                    null -> NotMoreLoadingViewModel
+                    else -> SuccessViewModel(finishResult)
                 }
             }
         }
@@ -65,28 +67,41 @@ class VideoListLoadImpl@Inject constructor(
 
     private suspend fun createYTVideoListPaging(
         oldData: YTVideoListPaging, newData: ModelLoadListVideosResponse
-    ): YTVideoListPaging {
+    ): YTVideoListPaging? {
         return withContext(coroutineDispatcher) {
-            val concatVideoList = mutableListOf<YTVideoList>()
-            concatVideoList.addAll(oldData.listVideoList)
-            concatVideoList.addAll(newData.toVideoList()!!)
-            YTVideoListPaging(
-                idPlayList = oldData.idPlayList,
-                nextToken = newData.nextPageToken ?: NULL_DATA,
-                listVideoList = concatVideoList
-            )
+            val filterList = filterYTVideoList(newData)
+            if(filterList.isEmpty()) null
+            else{
+                val concatVideoList = mutableListOf<YTVideoList>()
+                concatVideoList.addAll(oldData.listVideoList)
+                concatVideoList.addAll(filterList)
+                YTVideoListPaging(
+                    idPlayList = oldData.idPlayList,
+                    nextToken = newData.nextPageToken ?: NULL_DATA,
+                    listVideoList = concatVideoList
+                )
+            }
         }
     }
 
-    private suspend fun createYTVideoList(videoListResponse: ModelLoadListVideosResponse):YTVideoListPaging{
+    private suspend fun createYTVideoList(videoListResponse: ModelLoadListVideosResponse):YTVideoListPaging?{
         return  withContext(coroutineDispatcher){
-            val idPlayList = videoListResponse.contentConteiner!!.first().detailsVideoList!!.playlistId!!
-            YTVideoListPaging(
-                idPlayList = idPlayList,
-                nextToken = videoListResponse.nextPageToken ?: NULL_DATA,
-                listVideoList = videoListResponse.toVideoList()!!)
+            val filterList = filterYTVideoList(videoListResponse)
+            if(filterList.isEmpty()) null
+            else{
+                val idPlayList = videoListResponse.contentConteiner!!.first().detailsVideoList!!.playlistId!!
+                YTVideoListPaging(
+                    idPlayList = idPlayList,
+                    nextToken = videoListResponse.nextPageToken ?: NULL_DATA,
+                    listVideoList = filterList)
+            }
         }
     }
+
+    private fun filterYTVideoList(response: ModelLoadListVideosResponse): List<YTVideoList>{
+       return response.toVideoList()!!.filter { it.image.isNotBlank() }
+    }
+
     companion object{
         private const val NULL_DATA = ""
     }

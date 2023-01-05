@@ -2,10 +2,7 @@ package com.example.otusproject_ermoshina.domain.helpers
 
 import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.domain.model.YTPlayList
-import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
-import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
-import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
-import com.example.otusproject_ermoshina.domain.repositories.SuccessNetworkResult
+import com.example.otusproject_ermoshina.domain.repositories.*
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -28,10 +25,9 @@ class PlayListLoadImpl @Inject constructor(
         val result = network.loadChannelList(idChannel, token, maxResult)
         return when (result) {
             is ErrorNetworkResult -> ErrorLoadingViewModel
-            is SuccessNetworkResult -> {
-                if (result.dataNetworkResult.listPlayList.isEmpty()) return EmptyResultViewModel
-                else return SuccessViewModel(result.dataNetworkResult)
-            }
+            is SuccessNetworkResult -> filterYTPlayListPaging(result.dataNetworkResult.toChannelAndListVideos())
+                ?: EmptyResultViewModel
+            is EmptyNetworkResult -> EmptyResultViewModel
         }
     }
 
@@ -43,16 +39,22 @@ class PlayListLoadImpl @Inject constructor(
         val result = network.loadChannelList(channel.idChannel, token, maxResult)
         return when (result) {
             is ErrorNetworkResult -> ErrorLoadingViewModel
+            is EmptyNetworkResult -> NotMoreLoadingViewModel
             is SuccessNetworkResult -> {
-                    SuccessViewModel(createLoadMorePlayListAndChannel(channel,result.dataNetworkResult))
-                }
+                val matchedResult = result.dataNetworkResult.toChannelAndListVideos()
+                val finishResult = filterYTPlayListPaging(matchedResult)
+
+                if(finishResult == null) NotMoreLoadingViewModel
+                else SuccessViewModel(createLoadMorePlayListAndChannel(
+                    channel,finishResult.dataViewModelResult))
             }
+        }
     }
 
     private suspend fun createLoadMorePlayListAndChannel(
         oldData: YTPlayListPaging,
         newData: YTPlayListPaging
-    ): YTPlayListPaging = withContext(coroutineDispatcher){
+    ): YTPlayListPaging = withContext(coroutineDispatcher) {
         val concatPlayList = mutableListOf<YTPlayList>()
         concatPlayList.addAll(oldData.listPlayList)
         concatPlayList.addAll(newData.listPlayList)
@@ -80,6 +82,19 @@ class PlayListLoadImpl @Inject constructor(
         dataBase.deletePlayList(idPlayList)
     }
 
+    private fun filterYTPlayListPaging(responseData: YTPlayListPaging): SuccessViewModel<YTPlayListPaging>? {
+        val notEmptyImage = responseData.listPlayList.filter {
+            it.imageList.isNotBlank()
+        }
+        if (notEmptyImage.isEmpty()) return null
+        val resultNotEmpty = YTPlayListPaging(
+            idChannel = responseData.idChannel,
+            titleChannel = responseData.titleChannel,
+            nextToken = responseData.nextToken,
+            listPlayList = notEmptyImage
+        )
+        return SuccessViewModel(resultNotEmpty)
+    }
 }
 
 

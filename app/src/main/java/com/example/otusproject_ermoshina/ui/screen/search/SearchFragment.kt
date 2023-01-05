@@ -1,5 +1,6 @@
 package com.example.otusproject_ermoshina.ui.screen.search
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.otusproject_ermoshina.databinding.FragmentResultSearchBinding
 import com.example.otusproject_ermoshina.domain.model.YTSearchPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
+import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +32,11 @@ class SearchFragment: Fragment(), OnClickSearch {
     private val adapterMainSearch: AdapterSearch by lazy {
         AdapterSearch( this)
     }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.navigator().setActionBarNavigateBack()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,12 +110,36 @@ class SearchFragment: Fragment(), OnClickSearch {
 
 
     override fun openChannel(idChannel: String) {
-       val action = SearchFragmentDirections.actionSearchFragmentToPlayLists(idChannel)
-        findNavController().navigate(action)
+        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(idChannel))
     }
 
     override fun openVideo(idVideo: String) {
-        val action = SearchFragmentDirections.actionSearchFragmentToPageOfVideo(idVideo)
-        findNavController().navigate(action)
+        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(idVideo))
+    }
+
+    companion object{
+        const val ARGS_QUESTION = "question"
+
+        fun newInstance(question: String):SearchFragment {
+            val args = Bundle()
+            args.putString(ARGS_QUESTION, question)
+            val fragment = SearchFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        Log.i("AAA", "onStop SearchFragment")
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.i("AAA", "onStop SearchFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        super.onStop()
+        Log.i("AAA", "onStop SearchFragment")
     }
 }

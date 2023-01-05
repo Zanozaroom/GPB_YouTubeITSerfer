@@ -1,20 +1,21 @@
 package com.example.otusproject_ermoshina.ui.screen.user
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.otusproject_ermoshina.MainGrafDirections
 import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.databinding.FragmentPlaylistBinding
 import com.example.otusproject_ermoshina.ui.base.observeEvent
-import com.example.otusproject_ermoshina.ui.screen.playlist.AdapterPlayList
 import com.example.otusproject_ermoshina.ui.base.BasePLFragment
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
+import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
+import com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +39,7 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
     private val viewModel: UserPlayListViewModel by viewModels()
 
     override lateinit var binding: FragmentPlaylistBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,8 +56,7 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
     }
 
     override fun openPlayList(idPlayList: String) {
-        val globalActionOpenPlayList = MainGrafDirections.actionGlobalVideoList(idPlayList)
-        findNavController().navigate(globalActionOpenPlayList)
+       this.navigator().startFragmentUserStack(YTVideoListFragment.newInstance(idPlayList))
     }
 
     override fun deleteFromFavoritePL(idPlayList: String) {
@@ -63,8 +64,7 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
     }
 
     override fun openChannel(idChannel: String) {
-        val globalActionOpenChannel = MainGrafDirections.actionGlobalPlayLists(idChannel)
-        findNavController().navigate(globalActionOpenChannel)
+        this.navigator().startFragmentUserStack(YTPlayListFragment.newInstance(idChannel))
     }
 
     private fun initAdapterSetting() {
@@ -73,7 +73,6 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
             val adapterLayoutManager = GridLayoutManager(requireContext(), 2)
             addItemDecoration(DecoratorParentGrid(adapterVideoIdList.currentList.size,context))
             layoutManager = adapterLayoutManager
-
         }
     }
 

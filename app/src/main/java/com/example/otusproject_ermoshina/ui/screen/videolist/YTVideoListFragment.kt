@@ -1,5 +1,6 @@
 package com.example.otusproject_ermoshina.ui.screen.videolist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,21 +8,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.otusproject_ermoshina.MainGrafDirections
-import com.example.otusproject_ermoshina.domain.model.YTVideoList
 import com.example.otusproject_ermoshina.databinding.FragmentVideolistBinding
 import com.example.otusproject_ermoshina.domain.model.YTVideoListPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
+import com.example.otusproject_ermoshina.ui.base.navigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
+import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class YTVideoListFragment: Fragment(),OnClickVideoList {
+class YTVideoListFragment : Fragment(), OnClickVideoList {
     private val viewModel: YTVideoListVM by viewModels()
     lateinit var binding: FragmentVideolistBinding
     private lateinit var yTVideoListPaging: YTVideoListPaging
@@ -30,16 +31,21 @@ class YTVideoListFragment: Fragment(),OnClickVideoList {
         AdapterVideoLists(this)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.navigator().setActionBarNavigateBack()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVideolistBinding.inflate(inflater, container, false)
 
-        viewModel.toastEvent.observeEvent(this){
+        viewModel.toastEvent.observeEvent(this) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
-        viewModel.screenState.observe(viewLifecycleOwner){
+        viewModel.screenState.observe(viewLifecycleOwner) {
             stateScreen(it)
         }
 
@@ -49,12 +55,13 @@ class YTVideoListFragment: Fragment(),OnClickVideoList {
         }
         return binding.root
     }
-    private fun initAdapterSetting(){
+
+    private fun initAdapterSetting() {
         binding.recyclerVideoList.apply {
             adapter = adapterVideoIdList
             val adapterLayoutManager = LinearLayoutManager(requireContext())
             layoutManager = adapterLayoutManager
-            addItemDecoration(DecoratorParentGrid(adapterVideoIdList.currentList.size,context))
+            addItemDecoration(DecoratorParentGrid(adapterVideoIdList.currentList.size, context))
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -71,8 +78,9 @@ class YTVideoListFragment: Fragment(),OnClickVideoList {
             })
         }
     }
-    private fun stateScreen(state: ViewModelResult<YTVideoListPaging>){
-        when(state){
+
+    private fun stateScreen(state: ViewModelResult<YTVideoListPaging>) {
+        when (state) {
             BaseViewModel.ErrorLoadingViewModel -> {
                 binding.progressBar.visibility = View.GONE
                 binding.recyclerVideoList.visibility = View.GONE
@@ -97,8 +105,7 @@ class YTVideoListFragment: Fragment(),OnClickVideoList {
     }
 
     override fun onClickImage(idVideo: String) {
-        val action = YTVideoListFragmentDirections.actionVideoListToPageOfVideo(idVideo)
-        findNavController().navigate(action)
+        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(idVideo))
     }
 
     override fun onClickIconOpenVideo(idVideo: String) {
@@ -110,8 +117,19 @@ class YTVideoListFragment: Fragment(),OnClickVideoList {
     }
 
     override fun onClickOpenChannel(idChannel: String) {
-        val action = YTVideoListFragmentDirections.actionVideoListToPlayLists(idChannel)
-        findNavController().navigate(action)
+        this.navigator().startFragmentMainStack(YTPlayListFragment.newInstance(idChannel))
+    }
+
+    companion object {
+        const val ARGS_VIDEO_LIST_ID = "idVideoList"
+
+        fun newInstance(idVideoList: String): YTVideoListFragment {
+            val args = Bundle()
+            args.putString(ARGS_VIDEO_LIST_ID, idVideoList)
+            val fragment = YTVideoListFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

@@ -8,9 +8,11 @@
     <string name="toastAddFavoritePlayList">Плейлист добавлен в избранное</string>
     <string name="toastAddFavoriteVideo">Видео добавлено в избранное</string>
     <string name="toastRemoveFromFavorite">Удалено из избранного</string>
+    <string name="toastRemoveFromFavoriteFail">Не удалось удалить из избранного</string>
     <string name="toastAddFavoriteFail">Не удалось добавить в избранное</string>
+    <string name="messageStrangeLoadException">Ошибка соединения, попробуйте позже</string>
     <string name="messageRoomLoadException">Повреждены файлы приложения, требуется переустановка</string>
-    <string name="messageNetworkLoadException">Не удалось загрузить часть файлов с сервера</string>
+    <string name="messageNetworkLoadException">Не удалось подключиться к серверу</string>
     <string name="toastAllVideoLoad">Загружены все видео</string>
     <string name="toastPlayListNotPublic">К сожалению, плейлист недоступен для показа</string>
     <string name="btnOpenPageChannel">На канал</string>

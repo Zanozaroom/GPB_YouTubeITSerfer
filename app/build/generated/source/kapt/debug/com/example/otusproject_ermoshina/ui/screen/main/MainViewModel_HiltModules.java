@@ -29,7 +29,7 @@ public final class MainViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.example.otusproject_ermoshina.ui.fragment.main.MainViewModel")
+    @StringKey("com.example.otusproject_ermoshina.ui.screen.main.MainViewModel")
     @HiltViewModelMap
     public abstract ViewModel binds(MainViewModel vm);
   }
@@ -44,7 +44,7 @@ public final class MainViewModel_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "com.example.otusproject_ermoshina.ui.fragment.main.MainViewModel";
+      return "com.example.otusproject_ermoshina.ui.screen.main.MainViewModel";
     }
   }
 }

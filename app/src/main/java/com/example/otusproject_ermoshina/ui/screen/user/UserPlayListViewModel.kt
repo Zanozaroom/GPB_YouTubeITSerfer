@@ -1,11 +1,9 @@
 package com.example.otusproject_ermoshina.ui.screen.user
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.otusproject_ermoshina.R
-import com.example.otusproject_ermoshina.domain.DataBaseLoadException
 import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.domain.helpers.PlayListLoad
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
@@ -27,7 +25,6 @@ class UserPlayListViewModel @Inject constructor(
             helper.loadFavoritePlayList()
                 .catch { exception ->
                     _state.value = ErrorLoadingViewModel
-                    Log.i("AAA", " ошибка в loadFavoritePlayList $exception")
                     showToast(R.string.messageNetworkLoadException)
                 }
                 .collect{
@@ -42,23 +39,9 @@ class UserPlayListViewModel @Inject constructor(
                 helper.deletePlayListFromFavorite(idPlayList)
                 showToast(R.string.toastRemoveFromFavorite)
             }catch (e:Exception){
-                catchException(e)
+                showToast(R.string.toastAddFavoriteFail)
             }
         }
         }
-
-    private fun catchException(e:Exception){
-        when (e) {
-            is DataBaseLoadException -> {
-                _state.value = ErrorLoadingViewModel
-                showToast(R.string.messageRoomLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            else -> {
-                _state.value = ErrorLoadingViewModel
-                Log.i("AAA", "Непонятная ошибка, все сломалось в UserPlayListViewModel $e")
-            }
-        }
-    }
     }
 

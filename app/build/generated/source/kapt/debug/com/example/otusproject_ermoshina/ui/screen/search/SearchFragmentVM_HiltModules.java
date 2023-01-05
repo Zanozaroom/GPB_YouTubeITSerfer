@@ -29,7 +29,7 @@ public final class SearchFragmentVM_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.example.otusproject_ermoshina.ui.fragment.search.SearchFragmentVM")
+    @StringKey("com.example.otusproject_ermoshina.ui.screen.search.SearchFragmentVM")
     @HiltViewModelMap
     public abstract ViewModel binds(SearchFragmentVM vm);
   }
@@ -44,7 +44,7 @@ public final class SearchFragmentVM_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "com.example.otusproject_ermoshina.ui.fragment.search.SearchFragmentVM";
+      return "com.example.otusproject_ermoshina.ui.screen.search.SearchFragmentVM";
     }
   }
 }

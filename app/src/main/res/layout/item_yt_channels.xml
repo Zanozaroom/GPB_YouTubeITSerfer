@@ -26,7 +26,7 @@
         android:layout_marginHorizontal="6dp"
         android:padding="4dp"
         android:background="@drawable/shape_rect_round"
-        android:backgroundTint="?attr/CLR_white"
+        android:backgroundTint="?attr/CLR_shapeBackground"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"

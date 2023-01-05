@@ -29,7 +29,7 @@ public final class UserPlayListViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.example.otusproject_ermoshina.ui.fragment.user.UserPlayListViewModel")
+    @StringKey("com.example.otusproject_ermoshina.ui.screen.user.UserPlayListViewModel")
     @HiltViewModelMap
     public abstract ViewModel binds(UserPlayListViewModel vm);
   }
@@ -44,7 +44,7 @@ public final class UserPlayListViewModel_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "com.example.otusproject_ermoshina.ui.fragment.user.UserPlayListViewModel";
+      return "com.example.otusproject_ermoshina.ui.screen.user.UserPlayListViewModel";
     }
   }
 }

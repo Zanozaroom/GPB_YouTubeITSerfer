@@ -1,5 +1,6 @@
 package com.example.otusproject_ermoshina.ui.screen.user
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.otusproject_ermoshina.MainGrafDirections
 import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.databinding.FragmentUserVideoBinding
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
+import com.example.otusproject_ermoshina.ui.base.navigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
+import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,8 +86,7 @@ class UserVideoFragment : Fragment(), UserVideoAction {
         }
     }
     override fun openVideo(idVideo: String) {
-        val globalActionOpenVideo = MainGrafDirections.actionGlobalPageOfVideo(idVideo)
-      findNavController().navigate(globalActionOpenVideo)
+        this.navigator().startFragmentUserStack(PageOfVideoFragment.newInstance(idVideo))
     }
 
     override fun deleteVideo(video: YTVideo) {
@@ -93,11 +94,11 @@ class UserVideoFragment : Fragment(), UserVideoAction {
     }
 
     override fun openChannel(idChannel: String) {
-        val globalActionOpenChannel = MainGrafDirections.actionGlobalPlayLists(idChannel)
-        findNavController().navigate(globalActionOpenChannel)
+        this.navigator().startFragmentUserStack(YTPlayListFragment.newInstance(idChannel))
     }
 
     companion object {
         fun newInstance() = UserVideoFragment()
     }
+
 }

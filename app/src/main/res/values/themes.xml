@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--custom attr!-->
-
     <!-- Base application theme. -->
     <style name="Theme.OtusProject_Ermoshina.LightNight">
         <!-- Customize your theme here. -->

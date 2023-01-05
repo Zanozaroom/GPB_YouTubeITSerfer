@@ -34,11 +34,13 @@
         <item name="BS_OutlineOnSearch">@style/ButtonStyleOutline.OnSearch</item>
         <item name="CLR_white">@color/white</item>
         <item name="CLR_shapeOnImage">@color/color_parent_decorator</item>
+        <item name="CLR_shapeBackground">@color/color_shape_background</item>
+        <item name="CLR_windowSplashScreenBackground">@color/window_splash_background</item>
         <!-- Add custom styles. -->
         <item name="toolbarStyle">@style/MyToolbar</item>
         <item name="textInputStyle">@style/EditTextStyle</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
-    </style>
+     </style>
 
     <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="fontFamily">@font/roboto_regular</item>

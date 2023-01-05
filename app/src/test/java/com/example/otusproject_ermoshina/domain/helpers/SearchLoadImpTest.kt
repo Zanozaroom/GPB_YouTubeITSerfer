@@ -1,5 +1,7 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
+import com.example.otusproject_ermoshina.domain.DataBaseLoadException
+import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.repositories.ErrorNetworkResult
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryDataBase
 import com.example.otusproject_ermoshina.domain.repositories.RepositoryNetwork
@@ -15,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -103,33 +106,46 @@ internal class SearchLoadImpTest {
     }
 
     @Test
+    fun `getResultSearch CallNetworkRepository GetNetWorkException`() = runBlocking {
+       var isWasGetNetworkLoadException = false
+        coEvery {
+            mockNetwork.getResultSearch(any(), any(), any(), any())
+        } throws NetworkLoadException("NetworkLoadException")
+        try{
+            testSearchLoadImp.getResultSearch("query", "token", 1)
+        } catch (e:NetworkLoadException){
+            isWasGetNetworkLoadException = true
+            print(e.sayException())
+        }
+        assertTrue(isWasGetNetworkLoadException)
+    }
+    @Test
+    fun `getResultSearch CallNetworkRepository ThrowsException`() = runBlocking {
+        coEvery {
+            mockNetwork.getResultSearch(any(), any(), any(), any())
+        } throws NetworkLoadException("NetworkLoadException")
+        val networkLoadException = Assert.assertThrows(NetworkLoadException::class.java,) {
+            runBlocking {
+                testSearchLoadImp.getResultSearch("query", "token", 1)
+            }
+        }
+        assertEquals("Ошибка загрузки данных NetworkLoadException",networkLoadException.sayException())
+    }
+
+    @Test
     fun `getLoadMoreResultSearch CallNetworkRepository GetException`() = runBlocking {
         var exceptionThrown: Boolean = false
         coEvery {
-            mockNetwork.getResultSearch(
-                any(),
-                any(),
-                any(),
-                any()
-            )
-        } throws (Exception("Network exception"))
+            mockNetwork.getResultSearch(any(), any(), any(), any())
+        } throws NetworkLoadException("NetworkLoadException")
 
         try {
             testSearchLoadImp.getResultSearch("query", "token", 1)
-        } catch (e: Exception) {
+        } catch (e: NetworkLoadException) {
             exceptionThrown = true
-            print(e.toString())
+            print(e.sayException())
         }
-
-        coVerify(exactly = 1) {
-            mockNetwork.getResultSearch(
-                query = "query",
-                maxResult = 1,
-                token = "token",
-                safeSearch = "strict"
-            )
-        }
-        Assert.assertTrue(exceptionThrown)
+        assertTrue(exceptionThrown)
     }
 
     @Test
@@ -219,5 +235,32 @@ internal class SearchLoadImpTest {
 
         assertEquals(BaseViewModel.ErrorLoadingViewModel, result)
     }
-
+    @Test
+    fun `getMainFragmentPage CallDataBase Get DataBaseLoadException`() = runBlocking {
+        var isThrowDataBaseLoadException = false
+        coEvery {
+            mockDataBase.loadQuery()
+        } throws DataBaseLoadException("DataBaseLoadException")
+        try{
+            testSearchLoadImp.getMainFragmentPage(1)
+        }catch (e: Exception){
+            if(e is DataBaseLoadException){
+                print(e.sayException())
+                isThrowDataBaseLoadException = true
+            }
+        }
+        assertTrue(isThrowDataBaseLoadException)
+    }
+    @Test
+    fun `getMainFragmentPage CallDataBase ThrowsException`() = runBlocking {
+        coEvery {
+            mockDataBase.loadQuery()
+        } throws DataBaseLoadException("DataBaseLoadException")
+        val dataLoadException = Assert.assertThrows(DataBaseLoadException::class.java,) {
+            runBlocking {
+                testSearchLoadImp.getMainFragmentPage(1)
+            }
+        }
+        assertEquals("Ошибка загрузки данных DataBaseLoadException",dataLoadException.sayException())
+    }
 }

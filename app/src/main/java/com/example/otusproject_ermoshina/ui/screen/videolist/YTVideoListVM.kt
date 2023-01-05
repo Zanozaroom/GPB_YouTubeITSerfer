@@ -1,13 +1,11 @@
 package com.example.otusproject_ermoshina.ui.screen.videolist
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.otusproject_ermoshina.R
-import com.example.otusproject_ermoshina.domain.NetworkLoadException
-import com.example.otusproject_ermoshina.domain.DataBaseLoadException
 import com.example.otusproject_ermoshina.domain.helpers.VideoListLoad
 import com.example.otusproject_ermoshina.domain.model.YTVideoListPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
+import com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment.Companion.ARGS_VIDEO_LIST_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -25,19 +23,11 @@ class YTVideoListVM @Inject constructor(
     private val _screenState = MutableLiveData<ViewModelResult<YTVideoListPaging>>()
     val screenState: LiveData<ViewModelResult<YTVideoListPaging>> = _screenState
 
-    private val navArgs: YTVideoListFragmentArgs =
-        YTVideoListFragmentArgs.fromSavedStateHandle(savedStateHandle)
-    private val idVideoList = navArgs.idPlayList
+    private val args = savedStateHandle.get<String>(ARGS_VIDEO_LIST_ID)
+    private val idVideoList = args
 
     init {
-        _screenState.value = LoadingViewModel
-        loadVideoLists(idVideoList)
-    }
-
-    fun addToFavoritePlayList(idVideo: String) {
-        viewModelScope.launch() {
-            showToast(R.string.toastAddFavoritePlayList)
-        }
+        loadVideoLists(idVideoList!!)
     }
 
     fun loadMore(ytVideoListPaging: YTVideoListPaging) {
@@ -46,8 +36,10 @@ class YTVideoListVM @Inject constructor(
                 showToast(R.string.toastAllVideoLoad)
             } else {
                 try {
-                    _screenState.value =
-                        helper.getLoadMoreVideoList(ytVideoListPaging, MAX_RESULT_LOAD_MORE)
+                    val result = helper.getLoadMoreVideoList(ytVideoListPaging, MAX_RESULT_LOAD_MORE)
+                    if(result is ErrorLoadingViewModel)
+                        showToast(R.string.messageNetworkLoadException)
+                    else _screenState.value = result
                 } catch (e: Exception) {
                     catchException(e)
                 }
@@ -56,14 +48,16 @@ class YTVideoListVM @Inject constructor(
     }
 
     fun tryLoad() {
-        loadVideoLists(idVideoList)
+        loadVideoLists(idVideoList!!)
     }
 
     private fun loadVideoLists(idPlayList: String) {
+        _screenState.value = LoadingViewModel
         viewModelScope.launch {
             try {
                 _screenState.value = helper.getVideoList(idPlayList, TOKEN_NULL, MAX_RESULT_LOAD)
             } catch (e: Exception) {
+                _screenState.value = ErrorLoadingViewModel
                 catchException(e)
             }
         }
@@ -82,25 +76,6 @@ class YTVideoListVM @Inject constructor(
             } catch (e: Exception) {
                 catchException(e)
                 showToast(R.string.toastAddFavoriteFail)
-            }
-        }
-    }
-
-    private fun catchException(e: Exception) {
-        when (e) {
-            is NetworkLoadException -> {
-                _screenState.value = ErrorLoadingViewModel
-                showToast(R.string.messageNetworkLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            is DataBaseLoadException -> {
-                _screenState.value = ErrorLoadingViewModel
-                showToast(R.string.messageNetworkLoadException)
-                Log.i("AAA", e.sayException())
-            }
-            else -> {
-                _screenState.value = ErrorLoadingViewModel
-                Log.i("AAA", "Какая-то херобура")
             }
         }
     }

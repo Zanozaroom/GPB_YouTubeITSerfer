@@ -1,20 +1,23 @@
 package com.example.otusproject_ermoshina.ui.screen.playlist
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.databinding.FragmentPlaylistBinding
+import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
-import com.example.otusproject_ermoshina.ui.base.observeEvent
 import com.example.otusproject_ermoshina.ui.base.BasePLFragment
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
+import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.base.observeEvent
+import com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +35,12 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
     private val adapterVideoIdList: AdapterPlayList by lazy {
         AdapterPlayList(this)
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.navigator().setActionBarNavigateBack()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,12 +59,11 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
     }
 
     override fun openPlayList(idPlayList: String) {
-        val actionNav = YTPlayListFragmentDirections.actionPlayListsToVideoList(idPlayList)
-        findNavController().navigate(actionNav)
+        this.navigator().startFragmentMainStack(YTVideoListFragment.newInstance(idPlayList))
     }
 
     override fun addToFavoritePL(list: YTPlayList) {
-      viewModel.addToFavoritePL(list)
+        viewModel.addToFavoritePL(list)
     }
 
     private fun initAdapterSetting() {
@@ -63,7 +71,7 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
             adapter = adapterVideoIdList
             val adapterLayoutManager = GridLayoutManager(requireContext(), 2)
             layoutManager = adapterLayoutManager
-            addItemDecoration(DecoratorParentGrid(adapterVideoIdList.currentList.size,context))
+            addItemDecoration(DecoratorParentGrid(adapterVideoIdList.currentList.size, context))
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -95,4 +103,30 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
         }
     }
 
+    companion object {
+        const val ARGS_ID_CHANNEL = "idChannel"
+        fun newInstance(idChannel: String): YTPlayListFragment {
+            val myFragment = YTPlayListFragment()
+
+            val args = Bundle()
+            args.putString(ARGS_ID_CHANNEL, idChannel)
+            myFragment.arguments = args
+            return myFragment
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("AAA", "onStop YTPlayListFragment")
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.i("AAA", "onStop YTPlayListFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        super.onStop()
+        Log.i("AAA", "onStop YTPlayListFragment")
+    }
 }
