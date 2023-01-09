@@ -17,4 +17,4 @@ YouTubeITSerfer
 
 
 #Использованные технолонии
-Coroutines, Room, Navigator component, Retrofit, Hilt, YouTube Api
+Coroutines, Room, Fragment navigation, Retrofit, Hilt, YouTube Api
