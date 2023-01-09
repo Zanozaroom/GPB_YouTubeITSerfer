@@ -11,10 +11,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * ViewModel, отвечающая за загрузку и отображение всех видео из конкретного плейлиста(загрузка по ID плейлиста)
- */
-
 @HiltViewModel
 class YTVideoListVM @Inject constructor(
     savedStateHandle: SavedStateHandle,

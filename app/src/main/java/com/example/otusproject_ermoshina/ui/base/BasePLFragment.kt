@@ -16,6 +16,7 @@ abstract class BasePLFragment : Fragment() {
             recyclerVideoList.visibility = View.GONE
             buttonErrorLoad.visibility = View.VISIBLE
             messageErrorLoad.visibility = View.VISIBLE
+            imageNotData.visibility = View.GONE
         }
     }
 
@@ -25,6 +26,7 @@ abstract class BasePLFragment : Fragment() {
             recyclerVideoList.visibility = View.VISIBLE
             buttonErrorLoad.visibility = View.GONE
             messageErrorLoad.visibility = View.GONE
+            imageNotData.visibility = View.GONE
         }
     }
 
@@ -34,6 +36,7 @@ abstract class BasePLFragment : Fragment() {
             recyclerVideoList.visibility = View.GONE
             buttonErrorLoad.visibility = View.GONE
             messageErrorLoad.visibility = View.GONE
+            imageNotData.visibility = View.GONE
         }
     }
 

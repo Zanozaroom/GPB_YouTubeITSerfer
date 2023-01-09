@@ -1,7 +1,6 @@
 package com.example.otusproject_ermoshina.domain.helpers
 
 import com.example.otusproject_ermoshina.domain.model.YTVideo
-import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
 import kotlinx.coroutines.flow.Flow
 

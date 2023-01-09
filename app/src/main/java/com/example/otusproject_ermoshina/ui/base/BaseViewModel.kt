@@ -1,7 +1,5 @@
 package com.example.otusproject_ermoshina.ui.base
 
-
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.example.otusproject_ermoshina.R

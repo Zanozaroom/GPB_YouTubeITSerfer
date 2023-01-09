@@ -86,7 +86,6 @@ open class BaseDecorator(private val sizeList: Int):
     }
 
     companion object {
-        const val MARGIN_TOP = 8
         const val MARGIN_BOTTOM = 20
         const val MARGIN_START = 3
         const val PADDING_DRAW = 5

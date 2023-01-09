@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.databinding.ItemPlaylistUserBinding
 
@@ -44,11 +45,14 @@ class AdapterUserPlayList(
                     clickAdapterPlayList.deleteFromFavoritePL(positionVideo.idList)
                 }
             }
-
-            Glide.with(binding.imageVideo)
-                .load(positionVideo.imageList)
-                .centerCrop()
-                .into(binding.imageVideo)
+            when{
+                positionVideo.imageList.isBlank() -> binding.imageVideo.setImageResource(R.drawable.image_no_data)
+                else ->   Glide.with(binding.imageVideo)
+                    .load(positionVideo.imageList)
+                    .centerCrop()
+                    .error(R.drawable.image_no_data)
+                    .into(binding.imageVideo)
+            }
         }
 
     }

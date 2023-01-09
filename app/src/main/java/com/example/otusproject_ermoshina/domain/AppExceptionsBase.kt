@@ -8,4 +8,3 @@ open class AppExceptionsBase(
 
 class DataBaseLoadException(sayMe: String): AppExceptionsBase(sayMe)
 class NetworkLoadException(sayMe: String): AppExceptionsBase(sayMe)
-class StrangeException(sayMe: String): AppExceptionsBase(sayMe)

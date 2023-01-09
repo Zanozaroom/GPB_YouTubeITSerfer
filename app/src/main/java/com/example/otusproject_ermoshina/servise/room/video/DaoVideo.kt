@@ -13,4 +13,10 @@ interface DaoVideo {
 
     @Query("SELECT * FROM video")
     fun loadVideo(): Flow<List<EntityVideo>>
+
+
+
+    //метод для теста
+    @Query("SELECT * FROM video")
+    fun loadVideoTestDebug(): List<EntityVideo>
 }

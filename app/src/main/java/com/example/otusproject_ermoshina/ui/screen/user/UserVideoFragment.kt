@@ -1,6 +1,5 @@
 package com.example.otusproject_ermoshina.ui.screen.user
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,12 +12,11 @@ import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.databinding.FragmentUserVideoBinding
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
-import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
-import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
-import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 interface UserVideoAction {
     fun openVideo(idVideo: String)
@@ -28,6 +26,8 @@ interface UserVideoAction {
 
 @AndroidEntryPoint
 class UserVideoFragment : Fragment(), UserVideoAction {
+    @Inject
+    lateinit var navigator: ContractNavigator
     private val viewModel: UserVideoViewModel by viewModels()
     lateinit var binding: FragmentUserVideoBinding
     private val adapterVideoUser: UserVideoAdapter by lazy {
@@ -55,25 +55,37 @@ class UserVideoFragment : Fragment(), UserVideoAction {
             adapter = adapterVideoUser
             val adapterLayoutManager = LinearLayoutManager(requireContext())
             layoutManager = adapterLayoutManager
-            addItemDecoration(DecoratorParentGrid(adapterVideoUser.currentList.size,context))
+            addItemDecoration(DecoratorParentGrid(adapterVideoUser.currentList.size, context))
         }
+    }
+
+    override fun openVideo(idVideo: String) {
+        navigator.startPageOfVideoFragmentUserStack(idVideo)
+    }
+
+    override fun deleteVideo(video: YTVideo) {
+        viewModel.deleteVideo(video)
+    }
+
+    override fun openChannel(idChannel: String) {
+        navigator.startYTPlayListFragmentUserStack(idChannel)
     }
 
     private fun stateScreen(state: ViewModelResult<List<YTVideo>>) {
         when (state) {
-            is BaseViewModel.EmptyResultViewModel -> {}
-
             is BaseViewModel.ErrorLoadingViewModel -> {
-            binding.progressBar.visibility = View.GONE
-            binding.recyclerVideoList.visibility = View.GONE
-            binding.buttonErrorLoad.visibility = View.VISIBLE
-            binding.messageErrorLoad.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+                binding.recyclerVideoList.visibility = View.GONE
+                binding.buttonErrorLoad.visibility = View.VISIBLE
+                binding.messageErrorLoad.visibility = View.VISIBLE
+                binding.emptyResultImage.visibility = View.GONE
             }
             is BaseViewModel.LoadingViewModel -> {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.recyclerVideoList.visibility = View.GONE
                 binding.buttonErrorLoad.visibility = View.GONE
                 binding.messageErrorLoad.visibility = View.GONE
+                binding.emptyResultImage.visibility = View.GONE
             }
             is BaseViewModel.SuccessViewModel -> {
                 adapterVideoUser.submitList(state.dataViewModelResult)
@@ -81,21 +93,20 @@ class UserVideoFragment : Fragment(), UserVideoAction {
                 binding.recyclerVideoList.visibility = View.VISIBLE
                 binding.buttonErrorLoad.visibility = View.GONE
                 binding.messageErrorLoad.visibility = View.GONE
+                binding.emptyResultImage.visibility = View.GONE
             }
-            else -> {}
+            BaseViewModel.EmptyResultViewModel -> {
+                binding.progressBar.visibility = View.GONE
+                binding.buttonErrorLoad.visibility = View.GONE
+                binding.messageErrorLoad.visibility = View.GONE
+                binding.recyclerVideoList.visibility = View.GONE
+                binding.emptyResultImage.visibility = View.VISIBLE
+
+            }
+            BaseViewModel.NotMoreLoadingViewModel -> {}//нет действия
         }
     }
-    override fun openVideo(idVideo: String) {
-        this.navigator().startFragmentUserStack(PageOfVideoFragment.newInstance(idVideo))
-    }
 
-    override fun deleteVideo(video: YTVideo) {
-     viewModel.deleteVideo(video)
-    }
-
-    override fun openChannel(idChannel: String) {
-        this.navigator().startFragmentUserStack(YTPlayListFragment.newInstance(idChannel))
-    }
 
     companion object {
         fun newInstance() = UserVideoFragment()

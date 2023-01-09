@@ -2,7 +2,6 @@ package com.example.otusproject_ermoshina.ui.screen.playlist
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,11 @@ import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.ui.base.BasePLFragment
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
-import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
-import com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 interface ActionYTPlayList {
     fun openPlayList(idPlayList: String)
@@ -28,6 +27,9 @@ interface ActionYTPlayList {
 
 @AndroidEntryPoint
 class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
+    @Inject
+    lateinit var navigator: ContractNavigator
+
     private val viewModel: YTPlayListsVM by viewModels()
     override lateinit var binding: FragmentPlaylistBinding
     private lateinit var ytChannelAndPlayList: YTPlayListPaging
@@ -38,28 +40,26 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        this.navigator().setActionBarNavigateBack()
+        navigator.setActionBarNavigateBack()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentPlaylistBinding.inflate(inflater, container, false)
 
         viewModel.toastEvent.observeEvent(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-        }
-        initAdapterSetting()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()}
+
         viewModel.screenState.observe(viewLifecycleOwner) {
-            stateScreen(it)
-        }
+            stateScreen(it)}
+        initAdapterSetting()
         return binding.root
     }
 
     override fun openPlayList(idPlayList: String) {
-        this.navigator().startFragmentMainStack(YTVideoListFragment.newInstance(idPlayList))
+        navigator.startYTVideoListFragmentMainStack(idPlayList)
     }
 
     override fun addToFavoritePL(list: YTPlayList) {
@@ -97,6 +97,7 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
             is SuccessViewModel -> {
                 ytChannelAndPlayList = state.dataViewModelResult
                 adapterVideoIdList.submitList(ytChannelAndPlayList.listPlayList)
+                navigator.setTitle(ytChannelAndPlayList.titleChannel)
                 showResult()
                 isLoading = false
             }
@@ -113,20 +114,5 @@ class YTPlayListFragment : BasePLFragment(), ActionYTPlayList {
             myFragment.arguments = args
             return myFragment
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i("AAA", "onStop YTPlayListFragment")
-    }
-    override fun onStop() {
-        super.onStop()
-        Log.i("AAA", "onStop YTPlayListFragment")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        super.onStop()
-        Log.i("AAA", "onStop YTPlayListFragment")
     }
 }

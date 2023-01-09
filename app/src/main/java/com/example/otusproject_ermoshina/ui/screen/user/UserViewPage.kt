@@ -1,7 +1,6 @@
 package com.example.otusproject_ermoshina.ui.screen.user
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,21 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.databinding.FragmentUserViewpageBinding
-import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserViewPage : Fragment() {
+    @Inject
+    lateinit var navigator: ContractNavigator
     private lateinit var binding: FragmentUserViewpageBinding
 
     override fun onStart() {
         super.onStart()
-        this.navigator().removeActionBarNavigateBack()
+        navigator.removeActionBarNavigateBack()
+        navigator.setTitle(getString(R.string.UserAppTitle))
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,

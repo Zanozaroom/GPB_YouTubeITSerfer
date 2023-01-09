@@ -1,13 +1,11 @@
 package com.example.otusproject_ermoshina.ui.screen.video
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.DataBaseLoadException
-import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.domain.helpers.VideoLoad
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
@@ -46,7 +44,6 @@ class PageOfVideoVM @Inject constructor(
             }
         }
     }
-
 
     private fun loadVideo(idVideo:String) {
         _screenState.value = LoadingViewModel

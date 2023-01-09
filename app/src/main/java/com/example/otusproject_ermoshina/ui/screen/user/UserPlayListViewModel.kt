@@ -23,12 +23,13 @@ class UserPlayListViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = LoadingViewModel
             helper.loadFavoritePlayList()
-                .catch { exception ->
+                .catch {
                     _state.value = ErrorLoadingViewModel
                     showToast(R.string.messageNetworkLoadException)
                 }
                 .collect{
-                    _state.value = SuccessViewModel(it)
+                    if(it.isEmpty()) _state.value = EmptyResultViewModel
+                    else _state.value = SuccessViewModel(it)
                 }
         }
     }

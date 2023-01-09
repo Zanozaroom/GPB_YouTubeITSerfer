@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OtusProject_Ermoshina</string>
+    <string name="app_name">IT Surfer</string>
     <string name="btmMenu_home">home</string>
     <string name="btmMenu_person_page">my page</string>
     <string name="btmMenu_settings">settings</string>
@@ -33,7 +33,13 @@
     <string name="iconNameTabVideo">Видео</string>
     <string name="messageErrorDataBaseSave">Не удалось добавить в избранное</string>
     <string name="DscrBackgroundIconOnImage">backgroundPlay</string>
+    <string name="DscrEmptyList">Пока ничего нет для показа</string>
     <string name="DscrIconPlayVideo">IconPlayVideo</string>
+    <string name="mainAppTitle">IT Surfer</string>
+    <string name="searchAppTitle">Все результаты поиска</string>
+    <string name="UserAppTitle">Избранное</string>
+    <string name="descrMenuBottomHome">Главная страница</string>
+    <string name="descrMenuBottomUser">Страница пользователя</string>
 
 
 </resources>

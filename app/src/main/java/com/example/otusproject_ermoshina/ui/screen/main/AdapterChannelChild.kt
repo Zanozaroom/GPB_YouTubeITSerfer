@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.model.YTSearch
 import com.example.otusproject_ermoshina.databinding.ItemYtChannelsBinding
 
@@ -41,10 +42,16 @@ class YTAdapterChild(val onclickChild: OnClickYTListener) :
             }
 
             binding.textTitle.text = positionVideo.title
-            Glide.with(binding.image)
-                .load(positionVideo.image)
-                .centerCrop()
-                .into(binding.image)
+            if(positionVideo.image.isBlank()){
+               // binding.image.setImageResource(R.drawable.image_no_data)
+            }else{
+                Glide.with(binding.image)
+                    .load(positionVideo.image)
+                    .centerCrop()
+                    .error(R.drawable.image_no_data)
+                    .into(binding.image)
+            }
+
         }
     }
 }

@@ -1,18 +1,18 @@
 package com.example.otusproject_ermoshina
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toolbar
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.otusproject_ermoshina.databinding.ActivityMainBinding
 import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.ui.screen.main.FragmentMain
+import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
+import com.example.otusproject_ermoshina.ui.screen.search.SearchFragment
 import com.example.otusproject_ermoshina.ui.screen.user.UserViewPage
+import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
+import com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ContractNavigator {
@@ -34,26 +34,7 @@ class MainActivity : AppCompatActivity(), ContractNavigator {
         }
 
         setBottomNavigation()
-        /*setBackPressedCallback()*/
     }
-
-/*    private fun setBackPressedCallback() {
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Log.d("AAA", "Activity back pressed invoked")
-                    // Do custom work here
-
-                    // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        onBackPressedDispatcher.onBackPressed()
-                    }
-                }
-            }
-        )
-    }*/
 
     private fun setBottomNavigation() {
         binding.bottomNav.setOnItemSelectedListener { item ->
@@ -66,7 +47,6 @@ class MainActivity : AppCompatActivity(), ContractNavigator {
                 R.id.myvideos -> {
                     supportFragmentManager.saveBackStack(MAIN_BS)
                     supportFragmentManager.restoreBackStack(USER_BS)
-                    Log.i("AAA", " R.id.myvideos")
                     startFragmentUserStack(UserViewPage())
                     true
                 }
@@ -81,7 +61,34 @@ class MainActivity : AppCompatActivity(), ContractNavigator {
         const val USER_BS = "user"
     }
 
-    override fun startFragmentMainStack(fragment: Fragment) {
+    override fun startYTPlayListFragmentMainStack(idChannel: String) {
+        startFragmentMainStack(YTPlayListFragment.newInstance(idChannel))
+    }
+
+    override fun startSearchFragmentMainStack(question: String) {
+        startFragmentMainStack(SearchFragment.newInstance(question))
+    }
+
+    override fun startPageOfVideoFragmentMainStack(idVideo: String) {
+        startFragmentMainStack(PageOfVideoFragment.newInstance(idVideo))
+    }
+    override fun startYTVideoListFragmentMainStack(idPlayList: String){
+        startFragmentMainStack(YTVideoListFragment.newInstance(idPlayList))
+    }
+
+    override fun startPageOfVideoFragmentUserStack(idVideo: String) {
+        startFragmentUserStack(PageOfVideoFragment.newInstance(idVideo))
+    }
+
+    override fun startYTVideoListFragmentUserStack(idPlayList: String) {
+        startFragmentUserStack(YTVideoListFragment.newInstance(idPlayList))
+    }
+
+    override fun startYTPlayListFragmentUserStack(idChannel: String) {
+        startFragmentUserStack(YTPlayListFragment.newInstance(idChannel))
+    }
+
+    private fun startFragmentMainStack(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .addToBackStack(MAIN_BS)
@@ -95,7 +102,7 @@ class MainActivity : AppCompatActivity(), ContractNavigator {
             .commit()
     }
 
-    override fun startFragmentUserStack(fragment: Fragment) {
+    private fun startFragmentUserStack(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .addToBackStack(USER_BS)
@@ -110,13 +117,16 @@ class MainActivity : AppCompatActivity(), ContractNavigator {
     }
 
     override fun setActionBarNavigateBack() {
-        Log.i("AAA", "requireActivity().actionBar ${tolbar}")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 
     override fun removeActionBarNavigateBack() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    override fun setTitle(title: String?) {
+        supportActionBar?.title = title ?: getString(R.string.mainAppTitle)
     }
 
     override fun onSupportNavigateUp(): Boolean {

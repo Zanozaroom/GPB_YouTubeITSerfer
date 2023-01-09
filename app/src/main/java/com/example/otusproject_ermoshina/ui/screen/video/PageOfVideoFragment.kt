@@ -2,30 +2,31 @@ package com.example.otusproject_ermoshina.ui.screen.video
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.databinding.FragmentPageVideoBinding
+import com.example.otusproject_ermoshina.domain.model.YTVideo
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
-import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
-import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PageOfVideoFragment : Fragment() {
+    @Inject
+    lateinit var navigator: ContractNavigator
     lateinit var binding: FragmentPageVideoBinding
     private val viewModel: PageOfVideoVM by viewModels()
     private lateinit var ytVideo: YTVideo
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        this.navigator().setActionBarNavigateBack()
+        navigator.setActionBarNavigateBack()
     }
 
     override fun onCreateView(
@@ -33,15 +34,7 @@ class PageOfVideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPageVideoBinding.inflate(inflater, container, false)
-        lifecycle.addObserver(binding.video)
 
-        binding.video.addYouTubePlayerListener(object :
-            AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
-                val videoId = viewModel.idVideo!!
-                youTubePlayer.loadVideo(videoId, 0f)
-            }
-        })
         viewModel.toastEvent.observeEvent(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
@@ -49,7 +42,7 @@ class PageOfVideoFragment : Fragment() {
             stateUI(it)
         }
         binding.titleChannel.setOnClickListener {
-            this.navigator().startFragmentMainStack(YTPlayListFragment.newInstance(ytVideo.channelId))
+            navigator.startYTPlayListFragmentMainStack(ytVideo.channelId)
         }
         binding.addVideoToFavorite.setOnClickListener {
             viewModel.addVideoToFavorite(ytVideo)
@@ -62,6 +55,7 @@ class PageOfVideoFragment : Fragment() {
 
     private fun setUI(data: YTVideo) {
        with(binding){
+           createYTWatcher()
            titleChannel.text = data.channelTitle
            titleVideo.text = data.title
            textAllLiked.text = data.likeCount.toString()
@@ -70,6 +64,16 @@ class PageOfVideoFragment : Fragment() {
        }
     }
 
+    private fun createYTWatcher(){
+        lifecycle.addObserver(binding.video)
+        binding.video.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
+                val videoId = viewModel.idVideo!!
+                youTubePlayer.cueVideo(videoId, 0f)
+            }
+        })
+    }
     private fun stateUI(state: ViewModelResult<YTVideo>) {
         when (state) {
             is ErrorLoadingViewModel -> {
@@ -90,7 +94,7 @@ class PageOfVideoFragment : Fragment() {
                 with(binding) {
                     setUI(state.dataViewModelResult)
                     ytVideo = state.dataViewModelResult
-
+                    navigator.setTitle(ytVideo.title)
                     gropeError.visibility = View.GONE
                     gropeData.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
@@ -109,20 +113,6 @@ class PageOfVideoFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
-    }
-    override fun onStart() {
-        super.onStart()
-        Log.i("AAA", "onStop PageOfVideoFragment")
-    }
-    override fun onStop() {
-        super.onStop()
-        Log.i("AAA", "onStop PageOfVideoFragment")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        super.onStop()
-        Log.i("AAA", "onStop PageOfVideoFragment")
     }
 
 }

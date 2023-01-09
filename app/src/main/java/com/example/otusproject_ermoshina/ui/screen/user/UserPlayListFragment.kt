@@ -1,6 +1,5 @@
 package com.example.otusproject_ermoshina.ui.screen.user
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +12,10 @@ import com.example.otusproject_ermoshina.databinding.FragmentPlaylistBinding
 import com.example.otusproject_ermoshina.ui.base.observeEvent
 import com.example.otusproject_ermoshina.ui.base.BasePLFragment
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
-import com.example.otusproject_ermoshina.ui.base.navigator
-import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
-import com.example.otusproject_ermoshina.ui.screen.videolist.YTVideoListFragment
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 interface ActionUserPlayList {
     fun openPlayList(idPlayList: String)
@@ -27,11 +25,8 @@ interface ActionUserPlayList {
 
 @AndroidEntryPoint
 class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
-
-    companion object {
-        fun newInstance() = UserPlayListFragment()
-    }
-
+    @Inject
+    lateinit var navigator: ContractNavigator
     private val adapterVideoIdList: AdapterUserPlayList by lazy {
         AdapterUserPlayList(this)
     }
@@ -56,7 +51,7 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
     }
 
     override fun openPlayList(idPlayList: String) {
-       this.navigator().startFragmentUserStack(YTVideoListFragment.newInstance(idPlayList))
+       navigator.startYTVideoListFragmentUserStack(idPlayList)
     }
 
     override fun deleteFromFavoritePL(idPlayList: String) {
@@ -64,7 +59,7 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
     }
 
     override fun openChannel(idChannel: String) {
-        this.navigator().startFragmentUserStack(YTPlayListFragment.newInstance(idChannel))
+        navigator.startYTPlayListFragmentUserStack(idChannel)
     }
 
     private fun initAdapterSetting() {
@@ -84,7 +79,12 @@ class UserPlayListFragment : BasePLFragment(),ActionUserPlayList {
                 adapterVideoIdList.submitList(state.dataViewModelResult)
                 showResult()
             }
-            else -> {}
+            EmptyResultViewModel -> showEmpty()
+            NotMoreLoadingViewModel -> {}//нет варианта
         }
+    }
+
+    companion object {
+        fun newInstance() = UserPlayListFragment()
     }
 }

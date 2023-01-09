@@ -1,7 +1,6 @@
 package com.example.otusproject_ermoshina.domain.repositories
 
 import com.example.otusproject_ermoshina.domain.NetworkLoadException
-import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.servise.retrofit.YTApi
 import com.example.otusproject_ermoshina.servise.retrofit.model.ChannelPlayListResponse
 import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
@@ -37,8 +36,6 @@ class RepositoryYouTube @Inject constructor(
                 throw NetworkLoadException("нет подключения к серверу $e")
             }
         }
-
-
 
     override suspend fun getListVideos(
         playListId: String, token: String, maxResult: Int
@@ -105,7 +102,6 @@ class RepositoryYouTube @Inject constructor(
             } catch (e: Exception) {
                 throw NetworkLoadException("нет подключения к серверу $e")
             }
-
         }
 
     companion object {
@@ -117,6 +113,4 @@ class RepositoryYouTube @Inject constructor(
         const val PART_SEARCH_SAFE = "strict"
 
     }
-
-
 }

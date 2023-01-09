@@ -76,7 +76,7 @@ class RepositoryRoom @Inject constructor(
 
     override fun loadVideo(): Flow<List<YTVideo>> =
             videoDao.loadVideo().map {
-                it.map { it.toVideo().toYTVideo() }
+                it.map { entityVideo -> entityVideo.toVideo().toYTVideo() }
             }.flowOn(coroutineDispatcher)
 
 

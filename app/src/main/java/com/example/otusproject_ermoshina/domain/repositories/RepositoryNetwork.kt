@@ -1,6 +1,5 @@
 package com.example.otusproject_ermoshina.domain.repositories
 
-import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.servise.retrofit.model.ChannelPlayListResponse
 import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadListVideosResponse
 import com.example.otusproject_ermoshina.servise.retrofit.model.ModelLoadVideoResponse

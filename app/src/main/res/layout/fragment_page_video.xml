@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="addVideoToFavorite,textAllWatched,iconAllWatched, iconLiked, textAllLiked, video, titleChannel,titleVideo, descriptionVideo"/>
+            app:constraint_referenced_ids="addVideoToFavorite,textAllWatched,iconAllWatched, iconLiked, textAllLiked, titleChannel,titleVideo, descriptionVideo"/>
         <androidx.constraintlayout.widget.Group
             android:id="@+id/gropeError"
             android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/loadErrorText" />
+            android:text="@string/loadErrorText" />
 
         <Button
             android:id="@+id/buttonErrorLoad"

@@ -1,17 +1,15 @@
 package com.example.otusproject_ermoshina.ui.base
 
-import android.os.Parcelable
-import androidx.fragment.app.Fragment
-
-
-fun Fragment.navigator() : ContractNavigator{
-    return requireActivity() as ContractNavigator
-}
-
 interface ContractNavigator {
-    fun startFragmentMainStack(fragment: Fragment)
-    fun startFragmentUserStack(fragment: Fragment)
+    fun startYTPlayListFragmentMainStack(idChannel: String)
+    fun startSearchFragmentMainStack(question: String)
+    fun startPageOfVideoFragmentMainStack(idVideo: String)
+    fun startYTVideoListFragmentMainStack(idPlayList: String)
+    fun startPageOfVideoFragmentUserStack(idVideo: String)
+    fun startYTVideoListFragmentUserStack(idPlayList: String)
+    fun startYTPlayListFragmentUserStack(idChannel: String)
     fun setActionBarNavigateBack()
     fun removeActionBarNavigateBack()
+    fun setTitle(title: String?)
 
 }

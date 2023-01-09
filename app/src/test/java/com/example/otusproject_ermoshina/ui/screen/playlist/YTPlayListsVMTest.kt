@@ -9,7 +9,7 @@ import com.example.otusproject_ermoshina.domain.helpers.PlayListLoad
 import com.example.otusproject_ermoshina.domain.model.YTPlayList
 import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
-import com.example.otusproject_ermoshina.ui.helpers.ViewModelRules
+import com.example.otusproject_ermoshina.ui.rules.ViewModelRules
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule

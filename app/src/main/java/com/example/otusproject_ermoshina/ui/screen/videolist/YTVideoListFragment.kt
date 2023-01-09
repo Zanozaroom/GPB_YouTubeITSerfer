@@ -14,15 +14,16 @@ import com.example.otusproject_ermoshina.databinding.FragmentVideolistBinding
 import com.example.otusproject_ermoshina.domain.model.YTVideoListPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
-import com.example.otusproject_ermoshina.ui.base.navigator
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.ui.base.observeEvent
-import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
-import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import com.example.otusproject_ermoshina.utill.DecoratorParentGrid
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class YTVideoListFragment : Fragment(), OnClickVideoList {
+    @Inject
+    lateinit var navigator: ContractNavigator
     private val viewModel: YTVideoListVM by viewModels()
     lateinit var binding: FragmentVideolistBinding
     private lateinit var yTVideoListPaging: YTVideoListPaging
@@ -33,27 +34,41 @@ class YTVideoListFragment : Fragment(), OnClickVideoList {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        this.navigator().setActionBarNavigateBack()
+        navigator.setActionBarNavigateBack()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentVideolistBinding.inflate(inflater, container, false)
 
         viewModel.toastEvent.observeEvent(this) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-        }
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()}
         viewModel.screenState.observe(viewLifecycleOwner) {
-            stateScreen(it)
-        }
+            stateScreen(it)}
+        binding.buttonErrorLoad.setOnClickListener {
+            viewModel.tryLoad()}
 
         initAdapterSetting()
-        binding.buttonErrorLoad.setOnClickListener {
-            viewModel.tryLoad()
-        }
         return binding.root
+    }
+
+    override fun onClickImage(idVideo: String) {
+        navigator.startPageOfVideoFragmentMainStack(idVideo)
+    }
+
+    override fun onClickIconOpenVideo(idVideo: String) {
+        onClickImage(idVideo)
+    }
+
+    override fun onClickAddVideoToFavorite(idVideo: String) {
+        viewModel.addVideoToFavorite(idVideo)
+    }
+
+    override fun onClickOpenChannel(idChannel: String) {
+        navigator.startYTPlayListFragmentMainStack(idChannel)
     }
 
     private fun initAdapterSetting() {
@@ -92,9 +107,11 @@ class YTVideoListFragment : Fragment(), OnClickVideoList {
                 binding.gropeError.visibility = View.GONE
             }
             BaseViewModel.NotMoreLoadingViewModel -> isLoading = false
+
             is BaseViewModel.SuccessViewModel -> {
                 adapterVideoIdList.submitList(state.dataViewModelResult.listVideoList)
                 yTVideoListPaging = state.dataViewModelResult
+                navigator.setTitle(yTVideoListPaging.listVideoList.first().channelTitle)
                 binding.progressBar.visibility = View.GONE
                 binding.recyclerVideoList.visibility = View.VISIBLE
                 binding.gropeError.visibility = View.GONE
@@ -104,21 +121,6 @@ class YTVideoListFragment : Fragment(), OnClickVideoList {
         }
     }
 
-    override fun onClickImage(idVideo: String) {
-        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(idVideo))
-    }
-
-    override fun onClickIconOpenVideo(idVideo: String) {
-        onClickImage(idVideo)
-    }
-
-    override fun onClickAddVideoToFavorite(idVideo: String) {
-        viewModel.addVideoToFavorite(idVideo)
-    }
-
-    override fun onClickOpenChannel(idChannel: String) {
-        this.navigator().startFragmentMainStack(YTPlayListFragment.newInstance(idChannel))
-    }
 
     companion object {
         const val ARGS_VIDEO_LIST_ID = "idVideoList"

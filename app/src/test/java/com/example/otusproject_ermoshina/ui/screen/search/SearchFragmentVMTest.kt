@@ -7,17 +7,17 @@ import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.helpers.SearchLoad
 import com.example.otusproject_ermoshina.domain.model.YTSearchPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
-import com.example.otusproject_ermoshina.ui.helpers.ViewModelRules
+import com.example.otusproject_ermoshina.ui.rules.ViewModelRules
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 
 class SearchFragmentVMTest {
     @OptIn(ExperimentalCoroutinesApi::class)

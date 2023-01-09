@@ -25,7 +25,6 @@ interface RepositoryModule {
 
     @Binds
     fun bindRepositoryRoom(repositoryYouTubeRoom: RepositoryRoom): RepositoryDataBase
-
 }
 
 @Module
@@ -40,7 +39,6 @@ interface Helpers {
     fun bindHelperVideoLoader(helper: VideoLoadImpl): VideoLoad
     @Binds
     fun bindHelperVideoListLoader(helper: VideoListLoadImpl): VideoListLoad
-
 }
 
 @Module

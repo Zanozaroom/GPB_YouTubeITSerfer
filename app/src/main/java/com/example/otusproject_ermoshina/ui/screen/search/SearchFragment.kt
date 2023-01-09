@@ -2,7 +2,6 @@ package com.example.otusproject_ermoshina.ui.screen.search
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.databinding.FragmentResultSearchBinding
 import com.example.otusproject_ermoshina.domain.model.YTSearchPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
-import com.example.otusproject_ermoshina.ui.base.navigator
-import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
+import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.utill.DecoratorParent
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 interface OnClickSearch{
     fun openChannel(idChannel:String)
@@ -25,7 +25,9 @@ interface OnClickSearch{
 
 @AndroidEntryPoint
 class SearchFragment: Fragment(), OnClickSearch {
-     private val viewModel: SearchFragmentVM by viewModels()
+    @Inject
+    lateinit var navigator: ContractNavigator
+    private val viewModel: SearchFragmentVM by viewModels()
     lateinit var binding: FragmentResultSearchBinding
     lateinit var ytSearchPaging: YTSearchPaging
     private var isLoading = true
@@ -34,7 +36,8 @@ class SearchFragment: Fragment(), OnClickSearch {
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        this.navigator().setActionBarNavigateBack()
+        navigator.setActionBarNavigateBack()
+        navigator.setTitle(getString(R.string.searchAppTitle))
     }
 
     override fun onCreateView(
@@ -42,14 +45,21 @@ class SearchFragment: Fragment(), OnClickSearch {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentResultSearchBinding.inflate(inflater, container, false)
+
         viewModel.state.observe (viewLifecycleOwner) {
-            stateScreen(it)
-        }
+            stateScreen(it)}
         binding.buttonErrorLoad.setOnClickListener {
-            viewModel.load()
-        }
+            viewModel.load()}
         initRecyclerView()
         return binding.root
+    }
+
+    override fun openChannel(idChannel: String) {
+        navigator.startYTPlayListFragmentMainStack(idChannel)
+    }
+
+    override fun openVideo(idVideo: String) {
+        navigator.startPageOfVideoFragmentMainStack(idVideo)
     }
 
     private fun initRecyclerView() {
@@ -71,7 +81,6 @@ class SearchFragment: Fragment(), OnClickSearch {
                         adapterLayoutManager.findLastCompletelyVisibleItemPosition() + 1
                         && !isLoading
                     ) {
-                        Log.i("EEE", "addOnScrollListener сработал")
                         viewModel.loadMore(ytSearchPaging)
                         isLoading = true
                     }
@@ -80,19 +89,23 @@ class SearchFragment: Fragment(), OnClickSearch {
         }
     }
 
+
     private fun stateScreen(state: ViewModelResult<YTSearchPaging>){
         when(state){
+            is NotMoreLoadingViewModel -> isLoading = false
             is ErrorLoadingViewModel -> {
                 binding.progressBar.visibility = View.GONE
                 binding.recyclerVideoList.visibility = View.GONE
                 binding.buttonErrorLoad.visibility = View.VISIBLE
                 binding.messageErrorLoad.visibility = View.VISIBLE
+                binding.emptyResultImage.visibility = View.GONE
             }
             is LoadingViewModel -> {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.recyclerVideoList.visibility = View.GONE
                 binding.buttonErrorLoad.visibility = View.GONE
                 binding.messageErrorLoad.visibility = View.GONE
+                binding.emptyResultImage.visibility = View.GONE
             }
             is SuccessViewModel -> {
                 adapterMainSearch.submitList(state.dataViewModelResult.listSearchVideo)
@@ -101,20 +114,18 @@ class SearchFragment: Fragment(), OnClickSearch {
                 binding.recyclerVideoList.visibility = View.VISIBLE
                 binding.buttonErrorLoad.visibility = View.GONE
                 binding.messageErrorLoad.visibility = View.GONE
+                binding.emptyResultImage.visibility = View.GONE
                 isLoading = false
             }
-            is NotMoreLoadingViewModel -> isLoading = false
-            else -> {}
+
+            EmptyResultViewModel -> {
+                binding.progressBar.visibility = View.GONE
+                binding.recyclerVideoList.visibility = View.GONE
+                binding.buttonErrorLoad.visibility = View.GONE
+                binding.messageErrorLoad.visibility = View.GONE
+                binding.emptyResultImage.visibility = View.VISIBLE
+            }
         }
-    }
-
-
-    override fun openChannel(idChannel: String) {
-        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(idChannel))
-    }
-
-    override fun openVideo(idVideo: String) {
-        this.navigator().startFragmentMainStack(PageOfVideoFragment.newInstance(idVideo))
     }
 
     companion object{
@@ -127,19 +138,5 @@ class SearchFragment: Fragment(), OnClickSearch {
             fragment.arguments = args
             return fragment
         }
-    }
-    override fun onStart() {
-        super.onStart()
-        Log.i("AAA", "onStop SearchFragment")
-    }
-    override fun onStop() {
-        super.onStop()
-        Log.i("AAA", "onStop SearchFragment")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        super.onStop()
-        Log.i("AAA", "onStop SearchFragment")
     }
 }

@@ -1,10 +1,8 @@
 package com.example.otusproject_ermoshina.ui.screen.playlist
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.model.YTPlayList
-import com.example.otusproject_ermoshina.domain.NetworkLoadException
 import com.example.otusproject_ermoshina.domain.DataBaseLoadException
 import com.example.otusproject_ermoshina.domain.helpers.PlayListLoad
 import com.example.otusproject_ermoshina.domain.model.YTPlayListPaging
@@ -21,9 +19,7 @@ class YTPlayListsVM @Inject constructor(
     private val helper: PlayListLoad
 ) : BaseViewModel() {
 
-
-    private val agrs = savedStateHandle.get<String>(ARGS_ID_CHANNEL)
-    val idChannel = agrs
+    val idChannel = savedStateHandle.get<String>(ARGS_ID_CHANNEL)
 
 
     private val _screenState = MutableLiveData<ViewModelResult<YTPlayListPaging>>()
@@ -34,7 +30,7 @@ class YTPlayListsVM @Inject constructor(
     }
 
     fun loadMore(ytChannelAndPlayList: YTPlayListPaging) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             if (ytChannelAndPlayList.nextToken.isBlank()) {
                 _screenState.value = NotMoreLoadingViewModel
                 showToast(R.string.toastAllVideoLoad)
@@ -52,7 +48,7 @@ class YTPlayListsVM @Inject constructor(
         }
     }
     fun firstLoadPlayList(idChannel: String) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             _screenState.value = LoadingViewModel
             try {
                 _screenState.value = helper.firstLoadPlayList(idChannel, EMPTY_TOKEN, MAXRESULT)

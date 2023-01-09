@@ -3,10 +3,12 @@
     <item
         android:title="@string/btmMenu_home"
         android:id="@+id/mhome"
+        android:contentDescription="@string/descrMenuBottomHome"
         android:icon="@drawable/ic_home"/>
     <item
         android:title="@string/btmMenu_person_page"
         android:id="@+id/myvideos"
+        android:contentDescription="@string/descrMenuBottomUser"
         android:icon="@drawable/ic_person"/>
 
 </menu>

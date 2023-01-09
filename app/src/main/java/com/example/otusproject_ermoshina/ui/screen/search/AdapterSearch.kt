@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.domain.model.YTSearch
 import com.example.otusproject_ermoshina.databinding.ItemSearchBinding
 import com.example.otusproject_ermoshina.ui.base.Formatter.Companion.dataFormatter
@@ -48,9 +49,14 @@ class AdapterSearch(private val itemClickListener: OnClickSearch):
                 binding.description.visibility = View.VISIBLE
                 binding.description.text = positionVideo.description
             }
-            Glide.with(binding.imageVideo)
-                .load(positionVideo.image)
-                .into(binding.imageVideo)
+            when{
+                positionVideo.image.isBlank() -> binding.imageVideo.setImageResource(R.drawable.image_no_data)
+                else ->  Glide.with(binding.imageVideo)
+                    .load(positionVideo.image)
+                    .centerCrop()
+                    .error(R.drawable.image_no_data)
+                    .into(binding.imageVideo)
+            }
 
             binding.btnOpenChannel.setOnClickListener {
                 itemClickListener.openChannel(positionVideo.channelId)

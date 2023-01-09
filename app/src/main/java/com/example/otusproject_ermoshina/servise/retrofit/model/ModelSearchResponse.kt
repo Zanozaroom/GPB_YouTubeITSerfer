@@ -1,6 +1,5 @@
 package com.example.otusproject_ermoshina.servise.retrofit.model
 
-
 import com.example.otusproject_ermoshina.domain.model.YTSearch
 import com.google.gson.annotations.SerializedName
 

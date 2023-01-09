@@ -46,7 +46,7 @@ class AdapterMainParent(private val onChannelClick: OnClickYTListener) : ListAda
             binding.childRW.apply {
                 adapter = childAdapter
                 onFlingListener = null
-                addItemDecoration(DecoratorChildChannels(childAdapter.currentList.size,context))
+                addItemDecoration(DecoratorChildChannels(childAdapter.currentList.size))
             }
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(binding.childRW)

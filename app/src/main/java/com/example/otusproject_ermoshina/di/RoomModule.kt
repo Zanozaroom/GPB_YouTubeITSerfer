@@ -21,7 +21,6 @@ object RoomModule {
     ) = Room.databaseBuilder(
         app,
         MyDataBase::class.java,
-
         "room_database"
     )
         .createFromAsset("prjct.db").build() // The reason we can construct a database for the repo
