@@ -104,7 +104,7 @@ class FragmentMainTest: BaseTest() {
             helper.getMainFragmentPage(any())
         } returns BaseViewModel.SuccessViewModel(resultData)
         coEvery {
-            navigator.startSearchFragmentMainStack(any())
+            navigator.startSearchFragmentMainStack(any(), any())
         } just runs
 
         scenario = launchFragment<FragmentMain>()
@@ -116,7 +116,7 @@ class FragmentMainTest: BaseTest() {
                     (2, HelperRecyclerView.clickChildViewWithId(R.id.openMore)))
 
         verify {
-            navigator.startSearchFragmentMainStack("query3")
+            navigator.startSearchFragmentMainStack("query3","title")
         }
     }
 

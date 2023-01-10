@@ -56,7 +56,7 @@ class SearchFragmentTest: BaseTest() {
         } returns BaseViewModel.ErrorLoadingViewModel
 
         scenario = launchFragment {
-            SearchFragment.newInstance("query")
+            SearchFragment.newInstance("query", "title")
         }
 
         Espresso.onView(ViewMatchers.withId(R.id.buttonErrorLoad)).check(
@@ -74,7 +74,7 @@ class SearchFragmentTest: BaseTest() {
         } returns BaseViewModel.LoadingViewModel
 
         scenario = launchFragment {
-            SearchFragment.newInstance("query")
+            SearchFragment.newInstance("query", "title")
         }
 
         Espresso.onView(ViewMatchers.withId(R.id.progressBar))
@@ -88,7 +88,7 @@ class SearchFragmentTest: BaseTest() {
         } returns BaseViewModel.SuccessViewModel(resultData)
 
         scenario = launchFragment {
-            SearchFragment.newInstance("query")
+            SearchFragment.newInstance("query", "title")
         }
 
         Espresso.onView(ViewMatchers.withId(R.id.recyclerVideoList))
@@ -104,7 +104,7 @@ class SearchFragmentTest: BaseTest() {
         } just runs
 
         scenario = launchFragment {
-            SearchFragment.newInstance("query")
+            SearchFragment.newInstance("query", "title")
         }
 
         Espresso.onView(ViewMatchers.withId(R.id.recyclerVideoList))
@@ -130,7 +130,7 @@ class SearchFragmentTest: BaseTest() {
         } just runs
 
         scenario = launchFragment {
-            SearchFragment.newInstance("query")
+            SearchFragment.newInstance("query", "title")
         }
 
         Espresso.onView(ViewMatchers.withId(R.id.recyclerVideoList))
