@@ -50,7 +50,7 @@ object  NetworkModule {
     @Provides
     @Singleton
     fun createInterceptor(): HttpLoggingInterceptor{
-        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
     }
 
     private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"

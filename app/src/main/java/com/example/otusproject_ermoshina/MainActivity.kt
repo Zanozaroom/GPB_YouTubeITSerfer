@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity(), ContractNavigator {
         startFragmentMainStack(YTPlayListFragment.newInstance(idChannel))
     }
 
-    override fun startSearchFragmentMainStack(question: String) {
-        startFragmentMainStack(SearchFragment.newInstance(question))
+    override fun startSearchFragmentMainStack(question: String, title: String) {
+        startFragmentMainStack(SearchFragment.newInstance(question, title))
     }
 
     override fun startPageOfVideoFragmentMainStack(idVideo: String) {

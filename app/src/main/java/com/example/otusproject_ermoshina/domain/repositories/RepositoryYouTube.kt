@@ -105,7 +105,7 @@ class RepositoryYouTube @Inject constructor(
         }
 
     companion object {
-        const val KEY = "AIzaSyCi4u78_AT3dcVbonADzVCJLq1__P5_FeI"
+        const val KEY = "AIzaSyDAgcGjXUNHjjNC4zQgpIgL16Wm2HNxr1I"
         const val PART_CHANNEL = "snippet"
         const val PART_VIDEO_LIST = "snippet,ContentDetails"
         const val PART_ONE_VIDEO = "snippet,statistics"

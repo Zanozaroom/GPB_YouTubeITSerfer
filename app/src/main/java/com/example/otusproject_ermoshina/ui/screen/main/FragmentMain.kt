@@ -16,15 +16,12 @@ import com.example.otusproject_ermoshina.ui.base.BaseViewModel.ViewModelResult
 import com.example.otusproject_ermoshina.ui.base.ContractNavigator
 import com.example.otusproject_ermoshina.utill.DecoratorParent
 import com.example.otusproject_ermoshina.ui.base.observeEvent
-import com.example.otusproject_ermoshina.ui.screen.playlist.YTPlayListFragment
-import com.example.otusproject_ermoshina.ui.screen.search.SearchFragment
-import com.example.otusproject_ermoshina.ui.screen.video.PageOfVideoFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 interface OnClickYTListener{
     fun onClickOpenChannel(idChannel: String)
-    fun onClickOpenMore(question: String)
+    fun onClickOpenMore(question: String, title: String)
     fun onClickOnImage(idVideo:String)
 }
 @AndroidEntryPoint
@@ -70,8 +67,8 @@ class FragmentMain: Fragment(), OnClickYTListener {
         navigator.startYTPlayListFragmentMainStack(idChannel)
     }
 
-    override fun onClickOpenMore(question: String) {
-        navigator.startSearchFragmentMainStack(question)
+    override fun onClickOpenMore(question: String, title: String) {
+        navigator.startSearchFragmentMainStack(question, title)
     }
 
     override fun onClickOnImage(idVideo: String) {

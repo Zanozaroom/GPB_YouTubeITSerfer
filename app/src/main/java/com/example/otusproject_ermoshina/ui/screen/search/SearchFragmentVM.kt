@@ -9,6 +9,7 @@ import com.example.otusproject_ermoshina.domain.helpers.SearchLoad
 import com.example.otusproject_ermoshina.domain.model.YTSearchPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel
 import com.example.otusproject_ermoshina.ui.screen.search.SearchFragment.Companion.ARGS_QUESTION
+import com.example.otusproject_ermoshina.ui.screen.search.SearchFragment.Companion.ARGS_TITLE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class SearchFragmentVM @Inject constructor(
     private val helper: SearchLoad,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
-    private val args = savedStateHandle.get<String>(ARGS_QUESTION)
-    private val query = args
+    val title = savedStateHandle.get<String>(ARGS_TITLE)
+    val query = savedStateHandle.get<String>(ARGS_QUESTION)
 
     private val _state = MutableLiveData<ViewModelResult<YTSearchPaging>>()
     val state: LiveData<ViewModelResult<YTSearchPaging>> = _state

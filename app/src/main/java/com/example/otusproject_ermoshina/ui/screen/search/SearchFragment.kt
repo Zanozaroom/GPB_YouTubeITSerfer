@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.otusproject_ermoshina.R
 import com.example.otusproject_ermoshina.databinding.FragmentResultSearchBinding
 import com.example.otusproject_ermoshina.domain.model.YTSearchPaging
 import com.example.otusproject_ermoshina.ui.base.BaseViewModel.*
@@ -37,7 +36,11 @@ class SearchFragment: Fragment(), OnClickSearch {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator.setActionBarNavigateBack()
-        navigator.setTitle(getString(R.string.searchAppTitle))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        navigator.setTitle(viewModel.title)
     }
 
     override fun onCreateView(
@@ -130,10 +133,12 @@ class SearchFragment: Fragment(), OnClickSearch {
 
     companion object{
         const val ARGS_QUESTION = "question"
+        const val ARGS_TITLE = "title"
 
-        fun newInstance(question: String):SearchFragment {
+        fun newInstance(question: String, title: String):SearchFragment {
             val args = Bundle()
             args.putString(ARGS_QUESTION, question)
+            args.putString(ARGS_TITLE, title)
             val fragment = SearchFragment()
             fragment.arguments = args
             return fragment

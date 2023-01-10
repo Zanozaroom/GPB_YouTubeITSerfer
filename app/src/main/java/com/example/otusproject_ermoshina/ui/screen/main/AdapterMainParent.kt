@@ -34,7 +34,7 @@ class AdapterMainParent(private val onChannelClick: OnClickYTListener) : ListAda
     class ViewHolderMain(private val binding: ItemMainFragmentBinding): RecyclerView.ViewHolder(binding.root){
         fun populate(positionVideo: YTMainFragmentData, itemClickListener: OnClickYTListener){
             binding.openMore.setOnClickListener {
-                itemClickListener.onClickOpenMore(positionVideo.query)
+                itemClickListener.onClickOpenMore(positionVideo.query, positionVideo.title)
             }
 
             binding.textTitle.text = positionVideo.title
