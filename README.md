@@ -28,4 +28,5 @@
 Экран с сохраненными видео
 
 #Использованные технолонии Coroutines, Room, Fragment navigation, Retrofit, Gson, Hilt, YouTube Api, ViewPager
+#Тесты: Espresso, MockK, JUnit
 
